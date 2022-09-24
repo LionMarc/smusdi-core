@@ -1,0 +1,63 @@
+<Project>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SpecFlowVersion>3.9.74</SpecFlowVersion>
+    <EntityFrameworkVersion>6.0.9</EntityFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup Condition="!$(MSBuildProjectFile.Contains('.Specs.')) AND !$(MSBuildProjectFile.Contains('.Testing.'))">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(AssemblyName).Specs</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers"
+                      Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.')) OR $(MSBuildProjectFile.Contains('.Testing.'))">
+    <PackageReference Include="SpecFlow"
+                      Version="$(SpecFlowVersion)" />
+    <PackageReference Include="FluentAssertions"
+                      Version="6.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"
+                      Version="6.0.9" />
+    <PackageReference Include="SystemTextJson.JsonDiffPatch" 
+                      Version="1.3.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"
+                      Version="$(EntityFrameworkVersion)" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3"
+                          Version="2.1.2" />
+  </ItemGroup>
+  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.'))">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)\testing\Smusdi.Testing\Smusdi.Testing.csproj" />
+    <PackageReference Include="xunit"
+                      Version="2.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk"
+                      Version="17.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio"
+                      Version="2.4.5" />
+    <PackageReference Include="SpecFlow.xUnit"
+                      Version="$(SpecFlowVersion)" />
+    <PackageReference Include="coverlet.collector"
+                      Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.'))">
+    <Content Include="$(MSBuildThisFileDirectory)\specs\xunit.runner.json"
+             Link="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\specs\specflow.json"
+         Link="specflow.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
