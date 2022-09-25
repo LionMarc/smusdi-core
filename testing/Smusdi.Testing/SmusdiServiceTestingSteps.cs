@@ -8,7 +8,9 @@ namespace Smusdi.Testing;
 public sealed class SmusdiServiceTestingSteps
 {
     private readonly IObjectContainer objectContainer;
+#pragma warning disable SA1000 // Keywords should be spaced correctly
     private readonly SmusdiTestingService smusdiTestingService = new();
+#pragma warning restore SA1000 // Keywords should be spaced correctly
 
     public SmusdiServiceTestingSteps(IObjectContainer objectContainer)
     {

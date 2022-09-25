@@ -55,11 +55,8 @@ public class SmusdiService : IDisposable
             .AllowAnyMethod()
             .AllowAnyHeader()));
 
-        builder.Services.AddFluentValidation(fluentValidationConfiguration =>
-        {
-            fluentValidationConfiguration.DisableDataAnnotationsValidation = true;
-            fluentValidationConfiguration.RegisterValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>());
-        });
+        builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        builder.Services.AddValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>());
 
         builder.Services.AddApplicationServices<IServicesRegistrator>(builder.Configuration);
 

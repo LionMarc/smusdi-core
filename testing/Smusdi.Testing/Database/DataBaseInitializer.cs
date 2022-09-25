@@ -24,7 +24,13 @@ public sealed class DataBaseInitializer : IDisposable
 
         this.filePath = sqliteDatabase.FilePath;
 
-        using var scope = this.smusdiTestingService.GetService<IServiceProvider>().CreateScope();
+        var provider = this.smusdiTestingService.GetService<IServiceProvider>();
+        if (provider == null)
+        {
+            return;
+        }
+
+        using var scope = provider.CreateScope();
         using var context = sqliteDatabase.GetMigrationContext(scope.ServiceProvider);
         var databaseCreator = context.GetService<IRelationalDatabaseCreator>();
         databaseCreator.CreateTables();
