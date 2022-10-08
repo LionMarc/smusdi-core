@@ -9,6 +9,9 @@
     <PackageId>Smusdi.Testing</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
+    <Authors>LION Marc</Authors>
+    <PackageDescription>Utilities to test .NET services.</PackageDescription>
+    <RepositoryUrl>https://github.com/LionMarc/smusdi-core</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

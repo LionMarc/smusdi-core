@@ -28,7 +28,7 @@ The bootstrapper uses 2 environment variables:
 > - appsettings.{SMUSDI_SERVICE_NAME}.json
 > - appsettings.{SMUSDI_SERVICE_NAME}.{ASPNETCORE_ENVIRONMENT}.json
 
-An default *appsettings.json* file can be found in the *samples* folder.
+A default *appsettings.json* file can be found in the *samples* folder.
 
 ## Tests and coverage
 
