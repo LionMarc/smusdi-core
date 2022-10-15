@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: dotnet build -c Release --no-restore -p:Version=${{ github.event.release.tag_name }}
       - name: Test
-        run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=../../../results/test-results.trx"
+        run: dotnet test --no-build -c Release --verbosity normal --logger "trx;LogFileName=../../../results/test-results.trx"
       - name: Pack
         run: dotnet pack --no-build -c Release -p:PackageVersion=${{ github.event.release.tag_name }} -o publish
       - name: Publish
