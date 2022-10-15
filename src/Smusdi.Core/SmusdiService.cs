@@ -1,10 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.IO.Abstractions;
+using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.HttpLogging;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
+using Smusdi.Core.Info;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Oauth;
 using Smusdi.Core.Swagger;
@@ -41,6 +43,7 @@ public class SmusdiService : IDisposable
             .InitLoggerConfiguration();
 
         builder.Services
+            .AddSingleton<IFileSystem, FileSystem>()
             .AddAllHealthChecks()
             .AddEndpointsApiExplorer()
             .AddSwagger(builder.Configuration)
@@ -85,8 +88,10 @@ public class SmusdiService : IDisposable
         this.WebApplication.UseSwagger();
         this.WebApplication.UseSecurity(this.WebApplication.Configuration);
         this.WebApplication.MapControllers();
-        this.WebApplication.UseSecuredSwaggerUI(this.WebApplication.Configuration);
-        this.WebApplication.UseHealthChecks();
+        this.WebApplication
+            .UseSecuredSwaggerUI(this.WebApplication.Configuration)
+            .UseHealthChecks()
+            .UseInfoEndpoint();
     }
 
     public Task RunAsync() => this.WebApplication?.RunAsync() ?? Task.CompletedTask;

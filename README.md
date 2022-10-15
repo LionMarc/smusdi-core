@@ -28,6 +28,9 @@ The bootstrapper uses 2 environment variables:
 > - appsettings.{SMUSDI_SERVICE_NAME}.json
 > - appsettings.{SMUSDI_SERVICE_NAME}.{ASPNETCORE_ENVIRONMENT}.json
 
+- **SMUSDI_SERVICE_VERSION**: used by the *info* endpoint to send the service version;
+- **SMUSDI_CUSTOM_INFOS_FOLDER** used by the *info* endpoint to send custom informations.
+
 A default *appsettings.json* file can be found in the *samples* folder.
 
 ## Tests and coverage
