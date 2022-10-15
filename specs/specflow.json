@@ -3,5 +3,9 @@
     {
       "assembly": "Smusdi.Testing"
     }
-  ]
+  ],
+  "livingDocGenerator": {
+    "enabled": true,
+    "filePath": "../../TestExecution.json"
+  }
 }

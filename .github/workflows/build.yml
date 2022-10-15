@@ -19,6 +19,8 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Restore tools
+      run: dotnet tool restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
@@ -30,3 +32,10 @@ jobs:
         name: .NET Tests
         path: results/test-results.trx
         reporter: dotnet-trx
+    - name: Specflow Living Doc
+      run: specs/generate-specflow-doc.sh
+    - name: Archive specflow doc
+      uses: actions/upload-artifact@v3
+      with:
+        name: specflow-living-doc
+        path: .specflow_results/LivingDoc.html

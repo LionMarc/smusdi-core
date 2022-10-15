@@ -3,22 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Core", "src\Smusdi.Core\Smusdi.Core.csproj", "{6B54CBD5-CA66-4529-87F4-9DE30045F044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Core", "src\Smusdi.Core\Smusdi.Core.csproj", "{6B54CBD5-CA66-4529-87F4-9DE30045F044}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{BE287E47-6A83-43C2-85CD-BCC63063AA71}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		.config\dotnet-tools.json = .config\dotnet-tools.json
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testing", "testing", "{EBD4B1BE-BE4A-4D2F-9D94-40D95C879B20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Testing", "testing\Smusdi.Testing\Smusdi.Testing.csproj", "{26EB1FAC-8DA4-4E75-85E0-7882E6B07A44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Testing", "testing\Smusdi.Testing\Smusdi.Testing.csproj", "{26EB1FAC-8DA4-4E75-85E0-7882E6B07A44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{FE3DAB11-0EE9-4DFA-8706-E0867AF41942}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Core.Specs", "specs\Smusdi.Core.Specs\Smusdi.Core.Specs.csproj", "{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Core.Specs", "specs\Smusdi.Core.Specs\Smusdi.Core.Specs.csproj", "{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

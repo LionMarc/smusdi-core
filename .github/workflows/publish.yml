@@ -15,14 +15,25 @@ jobs:
           dotnet-version: 6.0.x
       - name: Restore dependencies
         run: dotnet restore
+      - name: Restore tools
+        run: dotnet tool restore
       - name: Build
         run: dotnet build -c Release --no-restore -p:Version=${{ github.event.release.tag_name }}
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=../../../results/test-results.trx"
       - name: Pack
         run: dotnet pack --no-build -c Release -p:PackageVersion=${{ github.event.release.tag_name }} -o publish
       - name: Publish
         run: dotnet nuget push publish/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source "https://nuget.pkg.github.com/LionMarc/index.json"
+      - name: Specflow Living Doc
+        run: specs/generate-specflow-doc.sh
       - name: Archive packages
         uses: actions/upload-artifact@v3
         with:
           name: nuget-packages
           path: publish/*.nupkg
+      - name: Archive specflow doc
+        uses: actions/upload-artifact@v3
+        with:
+          name: specflow-living-doc
+          path: .specflow_results/LivingDoc.html

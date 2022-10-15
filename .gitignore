@@ -33,3 +33,4 @@ packages/
 /coveragereport/
 /results/
 *.feature.cs
+/.specflow_results/
