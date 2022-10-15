@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{FE3DAB11
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Core.Specs", "specs\Smusdi.Core.Specs\Smusdi.Core.Specs.csproj", "{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".samples", ".samples", "{78377929-D731-4FE6-907B-FF312EB2B1D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Sample", "samples\Smusdi.Sample\Smusdi.Sample.csproj", "{4C1924D8-8390-4C20-BC46-9953CA2ED306}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C1924D8-8390-4C20-BC46-9953CA2ED306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C1924D8-8390-4C20-BC46-9953CA2ED306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C1924D8-8390-4C20-BC46-9953CA2ED306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C1924D8-8390-4C20-BC46-9953CA2ED306}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{26EB1FAC-8DA4-4E75-85E0-7882E6B07A44} = {EBD4B1BE-BE4A-4D2F-9D94-40D95C879B20}
 		{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF} = {FE3DAB11-0EE9-4DFA-8706-E0867AF41942}
+		{4C1924D8-8390-4C20-BC46-9953CA2ED306} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E408858C-2BD5-4F48-8375-57CA39A82AF7}

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "settings-from-filesystem": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SMUSDI_SERVICE_NAME": "smusdi-sample",
+        "SMUSDI_OAUTH_URL": "http://host.docker.internal:8080/realms/SMUSDI"
+      }
+    }
+  }
+}
