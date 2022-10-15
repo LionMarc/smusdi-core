@@ -34,7 +34,7 @@ jobs:
         reporter: dotnet-trx
     - name: Specflow Living Doc
       run: specs/generate-specflow-doc.sh
-    - name: Archive packages
+    - name: Archive specflow doc
       uses: actions/upload-artifact@v3
       with:
         name: specflow-living-doc
