@@ -34,6 +34,14 @@ public sealed class HttpSteps
         }
     }
 
+    [When(@"I execute the GET request ""(.*)""")]
+    public async Task WhenIExecuteTheGetRequest(string url)
+    {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        this.responseMessage = await this.smusdiTestingService.TestClient.GetAsync(url);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+    }
+
     [When(@"I execute the POST request ""(.*)"" with content")]
     public async Task WhenIExecuteThePOSTRequestWithContent(string url, string content)
     {
@@ -43,15 +51,15 @@ public sealed class HttpSteps
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 
-    [Then(@"I should receive a ""(.*)"" status")]
-    public void ThenIShouldReceiveAStatus(string expectedStatus)
+    [Then(@"I receive a ""(.*)"" status")]
+    public void ThenIReceiveAStatus(string expectedStatus)
     {
         this.responseMessage.Should().NotBeNull();
         this.responseMessage?.StatusCode.Should().Be(Enum.Parse<HttpStatusCode>(expectedStatus));
     }
 
-    [Then(@"I should receive the validation errors")]
-    public async Task ThenIShouldReceiveTheValidationErrors(string multilineText)
+    [Then(@"I receive the validation errors")]
+    public async Task ThenIReceiveTheValidationErrors(string multilineText)
     {
         var expected = JsonNode.Parse(multilineText);
         var receivedContent = await (this.responseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
@@ -64,8 +72,8 @@ public sealed class HttpSteps
         diff.Should().BeNull();
     }
 
-    [Then(@"I should receive the response")]
-    public async Task ThenIShouldReceiveTheResponse(string multilineText)
+    [Then(@"I receive the response")]
+    public async Task ThenIReceiveTheResponse(string multilineText)
     {
         var expected = JsonNode.Parse(multilineText);
         var receivedContent = await (this.responseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
