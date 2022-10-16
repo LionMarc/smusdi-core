@@ -91,7 +91,8 @@ public class SmusdiService : IDisposable
         this.WebApplication
             .UseSecuredSwaggerUI(this.WebApplication.Configuration)
             .UseHealthChecks()
-            .UseInfoEndpoint();
+            .UseInfoEndpoint()
+            .ApplyCustomConfigurators();
     }
 
     public Task RunAsync() => this.WebApplication?.RunAsync() ?? Task.CompletedTask;
