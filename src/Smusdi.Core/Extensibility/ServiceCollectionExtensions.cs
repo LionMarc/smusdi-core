@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
             .FromApplicationDependencies()
             .AddClasses(c => c.AssignableTo<T>())
             .AsImplementedInterfaces()
-            .WithScopedLifetime());
+            .WithSingletonLifetime());
 
         foreach (var registrator in collection.BuildServiceProvider().GetServices<T>())
         {
