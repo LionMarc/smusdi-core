@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace Smusdi.Core.Info;
 
-internal static class WebApplicationExtensions
+public static class WebApplicationExtensions
 {
     public static WebApplication UseInfoEndpoint(this WebApplication webApplication)
     {

@@ -15,23 +15,26 @@ namespace Smusdi.Core;
 
 public class SmusdiService : IDisposable
 {
-    private const string CorsPolicy = "MyCorsPolicy";
+    public const string CorsPolicy = "MyCorsPolicy";
 
     public WebApplicationBuilder? WebApplicationBuilder { get; private set; }
 
     public WebApplication? WebApplication { get; private set; }
 
-    public static void InitAndRun(string[] args)
-    {
-        var smusdiService = new SmusdiService();
-        smusdiService.CreateAndInitializeBuider(args);
-        smusdiService.Build();
-        smusdiService.ConfigureWebApplication();
+    public static void InitAndRun(string[] args) => InitAndRun<SmusdiService>(args);
 
-        smusdiService.Run();
+    public static void InitAndRun<T>(string[] args)
+        where T : SmusdiService, new()
+    {
+        var service = new T();
+        service.CreateAndInitializeBuider(args);
+        service.Build();
+        service.ConfigureWebApplication();
+
+        service.Run();
     }
 
-    public void CreateAndInitializeBuider(string[] args)
+    public virtual void CreateAndInitializeBuider(string[] args)
     {
         var webApplicationOptions = new WebApplicationOptions
         {
@@ -66,7 +69,7 @@ public class SmusdiService : IDisposable
         this.WebApplicationBuilder = builder;
     }
 
-    public void Build()
+    public virtual void Build()
     {
         if (this.WebApplicationBuilder == null)
         {
@@ -76,7 +79,7 @@ public class SmusdiService : IDisposable
         this.WebApplication = this.WebApplicationBuilder.Build();
     }
 
-    public void ConfigureWebApplication()
+    public virtual void ConfigureWebApplication()
     {
         if (this.WebApplication == null)
         {
@@ -95,14 +98,23 @@ public class SmusdiService : IDisposable
             .ApplyCustomConfigurators();
     }
 
-    public Task RunAsync() => this.WebApplication?.RunAsync() ?? Task.CompletedTask;
+    public virtual Task RunAsync() => this.WebApplication?.RunAsync() ?? Task.CompletedTask;
 
-    public void Run() => this.WebApplication?.Run();
+    public virtual void Run() => this.WebApplication?.Run();
 
     public void Dispose()
     {
-        this.WebApplication?.DisposeAsync().GetAwaiter().GetResult();
-        this.WebApplication = null;
-        this.WebApplicationBuilder = null;
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing && this.WebApplication != null)
+        {
+            this.WebApplication?.DisposeAsync().GetAwaiter().GetResult();
+            this.WebApplication = null;
+            this.WebApplicationBuilder = null;
+        }
     }
 }

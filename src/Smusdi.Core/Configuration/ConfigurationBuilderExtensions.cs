@@ -1,6 +1,6 @@
 ﻿namespace Smusdi.Core.Configuration;
 
-internal static class ConfigurationBuilderExtensions
+public static class ConfigurationBuilderExtensions
 {
     public static IConfigurationBuilder EnableEnvironmentVariablesExpansion(this IConfigurationBuilder configurationBuilder)
     {

@@ -1,6 +1,6 @@
 ﻿namespace Smusdi.Core.Extensibility;
 
-internal static class WebApplicationExtensions
+public static class WebApplicationExtensions
 {
     public static WebApplication ApplyCustomConfigurators(this WebApplication webApplication)
     {
