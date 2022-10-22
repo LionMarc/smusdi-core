@@ -2,7 +2,7 @@
 
 namespace Smusdi.Core.Extensibility;
 
-internal static class MvcBuilderExtensions
+public static class MvcBuilderExtensions
 {
     public static IMvcBuilder AddParts(this IMvcBuilder mvcBuilder)
     {
