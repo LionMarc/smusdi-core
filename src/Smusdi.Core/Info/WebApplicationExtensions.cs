@@ -34,7 +34,7 @@ public static class WebApplicationExtensions
             }
 
             return jsonObject;
-        });
+        }).ExcludeFromDescription();
 
         return webApplication;
     }

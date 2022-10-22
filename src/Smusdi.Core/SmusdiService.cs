@@ -46,6 +46,14 @@ public class SmusdiService : IDisposable
             .InitLoggerConfiguration();
 
         builder.Services
+            .AddApiVersioning()
+            .AddMvc()
+            .AddApiExplorer(options =>
+            {
+                options.SubstituteApiVersionInUrl = true;
+            });
+
+        builder.Services
             .AddSingleton<IFileSystem, FileSystem>()
             .AddAllHealthChecks()
             .AddEndpointsApiExplorer()
@@ -88,11 +96,10 @@ public class SmusdiService : IDisposable
 
         this.WebApplication.UseCors(CorsPolicy);
         this.WebApplication.UseHttpLogging();
-        this.WebApplication.UseSwagger();
         this.WebApplication.UseSecurity(this.WebApplication.Configuration);
         this.WebApplication.MapControllers();
         this.WebApplication
-            .UseSecuredSwaggerUI(this.WebApplication.Configuration)
+            .UseSwagger(this.WebApplication.Configuration)
             .UseHealthChecks()
             .UseInfoEndpoint()
             .ApplyCustomConfigurators();
