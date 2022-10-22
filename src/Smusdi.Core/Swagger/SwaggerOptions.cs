@@ -6,11 +6,13 @@ public class SwaggerOptions
 
     public string Description { get; set; } = "Default SMuSDI service";
 
-    public string Version { get; set; } = "v1";
+    public List<string> Versions { get; set; } = new List<string>();
 
     public string ContactName { get; set; } = "SMuSDI";
 
     public string ContactMail { get; set; } = "SMuSDI@local.fr";
+
+    public string? ReverseProxyBasePath { get; set; }
 
     public static SwaggerOptions GetSwaggerOptions(IConfiguration configuration)
     {

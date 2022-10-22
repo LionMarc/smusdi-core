@@ -15,18 +15,4 @@ public static class WebApplicationExtensions
 
         return webApplication;
     }
-
-    public static WebApplication UseSecuredSwaggerUI(this WebApplication webApplication, IConfiguration configuration)
-    {
-        var oauthOptions = OauthOptions.GetOauthOptions(configuration);
-        if (oauthOptions == null)
-        {
-            webApplication.UseSwaggerUI();
-            return webApplication;
-        }
-
-        webApplication.UseSwaggerUI(options => options.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { { "nonce", "123456" } }));
-
-        return webApplication;
-    }
 }
