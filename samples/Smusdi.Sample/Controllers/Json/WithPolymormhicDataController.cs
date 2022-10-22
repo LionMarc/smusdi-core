@@ -9,18 +9,18 @@ namespace Smusdi.Sample.Controllers.Json;
 [ApiExplorerSettings(GroupName = "v1")]
 public class WithPolymormhicDataController : ControllerBase
 {
-    private static readonly List<Command> commands = new List<Command>();
+    private static readonly List<Command> Commands = new List<Command>();
 
     [HttpPost]
     public ActionResult<Command> Create([FromBody] Command command)
     {
-        commands.Add(command);
+        Commands.Add(command);
         return this.Ok(command);
     }
 
     [HttpGet]
     public ActionResult<IEnumerable<Command>> GetAll()
     {
-        return this.Ok(commands);
+        return this.Ok(Commands);
     }
 }

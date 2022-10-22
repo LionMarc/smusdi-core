@@ -18,5 +18,3 @@ public class ServicesRegistrator : IServicesRegistrator
         return services;
     }
 }
-
-
