@@ -33,6 +33,36 @@ The bootstrapper uses 2 environment variables:
 
 A default *appsettings.json* file can be found in the *samples* folder.
 
+## Extension Points
+
+The project provides two extension points:
+
+- **IServicesRegistrator** used to register custom services
+  ```C#
+  public interface IServicesRegistrator : IBaseServicesRegistrator
+  {
+  }
+  
+  // Used by Smusdi.Testing to allow overriding some services when testing application
+  public interface ITestingServicesRegistrator : IBaseServicesRegistrator
+  {
+  }
+  
+  public interface IBaseServicesRegistrator
+  {
+      IServiceCollection Add(IServiceCollection services, IConfiguration configuration);
+  }
+  ```
+- **IWebApplicationConfigurator** to add some configuration actions to the web application
+  ```C#
+  public interface IWebApplicationConfigurator
+  {
+      WebApplication Configure(WebApplication webApplication);
+  }
+  ```
+   
+> The implementations of these interfaces are automatically executed. There are discovered with [scrutor](https://github.com/khellang/Scrutor).
+
 ## Tests and coverage
 
 ```
