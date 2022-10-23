@@ -1,5 +1,4 @@
 ﻿using Microsoft.OpenApi.Models;
-using Smusdi.Core.Oauth;
 
 namespace Smusdi.Core.Swagger;
 
@@ -11,7 +10,13 @@ public static class ServiceCollectionExtensions
 
         services.AddSwaggerGen(options =>
         {
-            foreach (var version in swaggerOptions.Versions)
+            var apiVersions = new List<string>(swaggerOptions.Versions);
+            if (apiVersions.Count == 0)
+            {
+                apiVersions.Add("v1");
+            }
+
+            foreach (var version in apiVersions)
             {
                 var openApiInfo = new OpenApiInfo()
                 {

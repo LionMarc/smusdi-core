@@ -1,7 +1,8 @@
 ﻿using Microsoft.OpenApi.Models;
+using Smusdi.Core.Oauth;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Smusdi.Core.Oauth;
+namespace Smusdi.Core.Swagger;
 
 public static class SwaggerGenOptionsExtensions
 {
