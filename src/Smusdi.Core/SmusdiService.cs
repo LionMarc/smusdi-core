@@ -45,13 +45,17 @@ public class SmusdiService : IDisposable
             .InitConfiguration()
             .InitLoggerConfiguration();
 
-        builder.Services
-            .AddApiVersioning()
-            .AddMvc()
-            .AddApiExplorer(options =>
-            {
-                options.SubstituteApiVersionInUrl = true;
-            });
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(builder.Configuration);
+        if (smusdiOptions?.NoVersioning != true)
+        {
+            builder.Services
+                .AddApiVersioning()
+                .AddMvc()
+                .AddApiExplorer(options =>
+                {
+                    options.SubstituteApiVersionInUrl = true;
+                });
+        }
 
         builder.Services
             .AddSingleton<IFileSystem, FileSystem>()

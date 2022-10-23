@@ -29,13 +29,16 @@ public static class WebApplicationExtensions
 
         webApplication.UseSwaggerUI(options =>
         {
-            options.RoutePrefix = "swagger";
-            var descriptions = webApplication.DescribeApiVersions();
-            foreach (var desc in descriptions)
+            if (swaggerOptions.Versions.Count > 0)
             {
-                var url = $"v{desc.GroupName}/swagger.json";
-                var name = desc.GroupName.ToUpperInvariant();
-                options.SwaggerEndpoint(url, $"V{name}");
+                options.RoutePrefix = "swagger";
+                var descriptions = webApplication.DescribeApiVersions();
+                foreach (var desc in descriptions)
+                {
+                    var url = $"v{desc.GroupName}/swagger.json";
+                    var name = desc.GroupName.ToUpperInvariant();
+                    options.SwaggerEndpoint(url, $"V{name}");
+                }
             }
 
             if (oauthOptions != null)
