@@ -12,7 +12,7 @@ public class SwaggerOptions
 
     public string ContactMail { get; set; } = "SMuSDI@local.fr";
 
-    public string? ReverseProxyBasePath { get; set; }
+    public string ReverseProxyBasePath { get; set; } = string.Empty;
 
     public static SwaggerOptions GetSwaggerOptions(IConfiguration configuration)
     {

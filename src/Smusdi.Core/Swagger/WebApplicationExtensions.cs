@@ -15,12 +15,18 @@ public static class WebApplicationExtensions
 
             options.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
             {
-                if (!httpRequest.Headers.ContainsKey("X-Forwarded-Host") || string.IsNullOrWhiteSpace(swaggerOptions.ReverseProxyBasePath))
+                if (!httpRequest.Headers.TryGetValue("X-Forwarded-Host", out var forwardedHost))
                 {
                     return;
                 }
 
-                var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["X-Forwarded-Host"]}/{swaggerOptions.ReverseProxyBasePath}";
+                var scheme = httpRequest.Scheme;
+                if (httpRequest.Headers.TryGetValue("X-Forwarded-Proto", out var forwardedScheme))
+                {
+                    scheme = forwardedScheme;
+                }
+
+                var serverUrl = $"{scheme}://{forwardedHost}/{swaggerOptions.ReverseProxyBasePath ?? string.Empty}";
                 swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
             });
         });
