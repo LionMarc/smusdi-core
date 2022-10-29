@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
+using Smusdi.Core.Helpers;
 using Smusdi.Core.Info;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Oauth;
@@ -72,7 +73,9 @@ public class SmusdiService : IDisposable
             .AllowAnyMethod()
             .AllowAnyHeader()));
 
-        builder.Services.AddControllersInputValidation();
+        builder.Services
+            .AddControllersInputValidation()
+            .AddSingleton<IClock, Clock>();
 
         builder.Services.AddApplicationServices<IServicesRegistrator>(builder.Configuration);
 
