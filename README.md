@@ -67,7 +67,7 @@ The project provides two extension points:
 
 ```
 dotnet test --collect:"XPlat Code Coverage" -r results
-dotnet tool run reportgenerator -reports:"results/**/*.xml" -targetdir:coveragereport -reporttypes:htm
+dotnet tool run reportgenerator -reports:"results/**/*.xml" -targetdir:coveragereport -reporttypes:html
 ```
 
 > *reportgenerator* is installed as a local tool
