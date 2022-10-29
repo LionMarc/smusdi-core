@@ -1,7 +1,5 @@
 ﻿using System.IO.Abstractions;
 using System.Text.Json.Serialization;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.HttpLogging;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
@@ -10,6 +8,7 @@ using Smusdi.Core.Info;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Oauth;
 using Smusdi.Core.Swagger;
+using Smusdi.Core.Validation;
 
 namespace Smusdi.Core;
 
@@ -73,8 +72,7 @@ public class SmusdiService : IDisposable
             .AllowAnyMethod()
             .AllowAnyHeader()));
 
-        builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-        builder.Services.AddValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>());
+        builder.Services.AddControllersInputValidation();
 
         builder.Services.AddApplicationServices<IServicesRegistrator>(builder.Configuration);
 
