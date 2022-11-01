@@ -39,17 +39,26 @@ public sealed class SmusdiServiceTestingSteps
     [Given(@"the service initialized")]
     public void GivenTheServiceInitialized()
     {
-        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "SpecFlow");
+        SetEnvironmentIfNotSet();
         this.smusdiTestingService.Initialize();
     }
 
     [Given(@"the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
+        SetEnvironmentIfNotSet();
         this.smusdiTestingService.Initialize();
         await this.smusdiTestingService.StartAsync();
     }
 
     [When(@"I start the service")]
     public Task WhenIStartTheService() => this.smusdiTestingService.StartAsync();
+
+    private static void SetEnvironmentIfNotSet()
+    {
+        if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")))
+        {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "SpecFlow");
+        }
+    }
 }
