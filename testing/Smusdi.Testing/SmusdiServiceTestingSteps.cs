@@ -46,6 +46,7 @@ public sealed class SmusdiServiceTestingSteps
     [Given(@"the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "SpecFlow");
         this.smusdiTestingService.Initialize();
         await this.smusdiTestingService.StartAsync();
     }
