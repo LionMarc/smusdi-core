@@ -73,6 +73,17 @@ public sealed class HttpSteps
         diff.Should().BeNull();
     }
 
+    [Then(@"I receive the problem detail")]
+    public async Task ThenIReceiveTheProblemDetails(string multilineText)
+    {
+        var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
+        var received = JsonNode.Parse(receivedContent);
+
+        var receivedDetail = received?["detail"]?.ToString();
+
+        receivedDetail.Should().Be(multilineText);
+    }
+
     [Then(@"I receive the response")]
     public async Task ThenIReceiveTheResponse(string multilineText)
     {
