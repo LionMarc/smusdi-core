@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using TechTalk.SpecFlow;
@@ -42,6 +43,8 @@ public sealed class DataBaseInitializer : IDisposable
         {
             try
             {
+                // https://github.com/dotnet/efcore/issues/27139
+                SqliteConnection.ClearAllPools();
                 File.Delete(this.filePath);
             }
             catch
