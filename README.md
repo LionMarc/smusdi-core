@@ -2,6 +2,7 @@
 ![build workflow](https://github.com/LionMarc/smusdi-core/actions/workflows/build.yml/badge.svg)
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![HitCount](https://hits.dwyl.com/LionMarc/smusdi-core.svg?style=flat-square)](http://hits.dwyl.com/LionMarc/smusdi-core)
+[![NuGet stable version](https://badgen.net/nuget/v/Smusdi.Core)](https://nuget.org/packages/Smusdi.Core)
 
 This project provides utility libraries for .NET services.
 
