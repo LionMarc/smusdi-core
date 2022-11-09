@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{BE287E
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 		.config\dotnet-tools.json = .config\dotnet-tools.json
 		README.md = README.md
 	EndProjectSection
@@ -25,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".samples", ".samples", "{78
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Sample", "samples\Smusdi.Sample\Smusdi.Sample.csproj", "{4C1924D8-8390-4C20-BC46-9953CA2ED306}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.ApiWithNoVersioning", "samples\Smusdi.ApiWithNoVersioning\Smusdi.ApiWithNoVersioning.csproj", "{D2A0C771-D3AF-4210-B93C-75DEEF36672C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.ApiWithNoVersioning", "samples\Smusdi.ApiWithNoVersioning\Smusdi.ApiWithNoVersioning.csproj", "{D2A0C771-D3AF-4210-B93C-75DEEF36672C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
