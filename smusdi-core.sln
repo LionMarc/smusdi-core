@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{BE287E
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		.config\dotnet-tools.json = .config\dotnet-tools.json
+		NuGet.Config = NuGet.Config
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -27,6 +28,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Sample", "samples\Smusdi.Sample\Smusdi.Sample.csproj", "{4C1924D8-8390-4C20-BC46-9953CA2ED306}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.ApiWithNoVersioning", "samples\Smusdi.ApiWithNoVersioning\Smusdi.ApiWithNoVersioning.csproj", "{D2A0C771-D3AF-4210-B93C-75DEEF36672C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "single-file-publication", "single-file-publication", "{F364CBD7-D47B-4757-916C-DDB7DC562419}"
+	ProjectSection(SolutionItems) = preProject
+		samples\SingleFilePublication\README.md = samples\SingleFilePublication\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleFilePublication.Service", "samples\SingleFilePublication\SingleFilePublication.Service\SingleFilePublication.Service.csproj", "{C11A8270-19A8-40CC-BC86-1BA145CE63CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleFilePublication.SomeFeature", "samples\SingleFilePublication\SingleFilePublication.SomeFeature\SingleFilePublication.SomeFeature.csproj", "{4E858323-E024-453A-81C9-D69ADA3C848E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +64,14 @@ Global
 		{D2A0C771-D3AF-4210-B93C-75DEEF36672C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A0C771-D3AF-4210-B93C-75DEEF36672C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2A0C771-D3AF-4210-B93C-75DEEF36672C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C11A8270-19A8-40CC-BC86-1BA145CE63CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C11A8270-19A8-40CC-BC86-1BA145CE63CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C11A8270-19A8-40CC-BC86-1BA145CE63CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C11A8270-19A8-40CC-BC86-1BA145CE63CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E858323-E024-453A-81C9-D69ADA3C848E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E858323-E024-453A-81C9-D69ADA3C848E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E858323-E024-453A-81C9-D69ADA3C848E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E858323-E024-453A-81C9-D69ADA3C848E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +81,9 @@ Global
 		{E8AD59B5-1E57-401B-A8C0-38A7F2285DBF} = {FE3DAB11-0EE9-4DFA-8706-E0867AF41942}
 		{4C1924D8-8390-4C20-BC46-9953CA2ED306} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
 		{D2A0C771-D3AF-4210-B93C-75DEEF36672C} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
+		{F364CBD7-D47B-4757-916C-DDB7DC562419} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
+		{C11A8270-19A8-40CC-BC86-1BA145CE63CE} = {F364CBD7-D47B-4757-916C-DDB7DC562419}
+		{4E858323-E024-453A-81C9-D69ADA3C848E} = {F364CBD7-D47B-4757-916C-DDB7DC562419}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E408858C-2BD5-4F48-8375-57CA39A82AF7}

@@ -34,3 +34,4 @@ packages/
 /results/
 *.feature.cs
 /.specflow_results/
+/samples/SingleFilePublication/publish/

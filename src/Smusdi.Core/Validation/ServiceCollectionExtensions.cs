@@ -1,17 +1,18 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Smusdi.Core.Extensibility;
 
 namespace Smusdi.Core.Validation;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddControllersInputValidation(this IServiceCollection services)
+    public static IServiceCollection AddControllersInputValidation(this IServiceCollection services, SmusdiOptions smusdiOptions)
     {
         ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName;
         services
             .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
-            .AddValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>());
+            .AddValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>(smusdiOptions));
 
         return services;
     }

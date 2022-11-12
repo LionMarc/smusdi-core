@@ -62,4 +62,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup Condition="$(MSBuildProjectDirectory.Contains('samples'))">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)\src\Smusdi.Core\Smusdi.Core.csproj" />
+  </ItemGroup>
 </Project>

@@ -4,7 +4,12 @@ public class SmusdiOptions
 {
     public bool? NoVersioning { get; set; }
 
-    public static SmusdiOptions? GetSmusdiOptions(IConfiguration configuration)
+    /// <summary>
+    /// Gets or sets a list of assembly names to allow scanning assemblies when publishing app as single file.
+    /// </summary>
+    public ICollection<string> AssemblyNames { get; set; } = new List<string>();
+
+    public static SmusdiOptions GetSmusdiOptions(IConfiguration configuration)
     {
         SmusdiOptions? smusdiOptions = null;
         if (configuration.GetSection("smusdi").Exists())
@@ -13,6 +18,6 @@ public class SmusdiOptions
             configuration.Bind("smusdi", smusdiOptions);
         }
 
-        return smusdiOptions;
+        return smusdiOptions ?? new SmusdiOptions();
     }
 }
