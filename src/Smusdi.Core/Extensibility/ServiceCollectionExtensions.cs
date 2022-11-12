@@ -6,9 +6,9 @@ public static class ServiceCollectionExtensions
         where T : IBaseServicesRegistrator
     {
         var collection = new ServiceCollection();
-
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
         collection.Scan(scan => scan
-            .FromApplicationDependencies()
+            .FromAssembliesOrApplicationDependencies(smusdiOptions)
             .AddClasses(c => c.AssignableTo<T>())
             .AsImplementedInterfaces()
             .WithSingletonLifetime());

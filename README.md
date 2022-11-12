@@ -72,3 +72,23 @@ dotnet tool run reportgenerator -reports:"results/**/*.xml" -targetdir:coverager
 ```
 
 > *reportgenerator* is installed as a local tool
+
+## Publishing as single-file
+
+As reflection is limited when publishing application as a single-file, you have to setup in the appsettings file the list of assemblies in which the controlles or the extensions classes can be found.
+
+See the sample *SingleFilePublication.Service*.
+
+```json
+{
+    "smusdi": {
+        "assemblyNames": [
+          "SingleFilePublication",
+          "SingleFilePublication.SomeFeature"
+        ]
+      }
+}
+```
+
+> If an assembly can not be found, it is ignored.
+

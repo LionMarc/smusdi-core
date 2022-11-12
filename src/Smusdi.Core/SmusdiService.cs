@@ -46,7 +46,7 @@ public class SmusdiService : IDisposable
             .InitLoggerConfiguration();
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(builder.Configuration);
-        if (smusdiOptions?.NoVersioning != true)
+        if (smusdiOptions.NoVersioning != true)
         {
             builder.Services
                 .AddApiVersioning()
@@ -66,7 +66,7 @@ public class SmusdiService : IDisposable
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
 
         var mvcBuilder = builder.Services.AddControllers().AddJsonOptions(j => j.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-        mvcBuilder.AddParts();
+        mvcBuilder.AddParts(smusdiOptions);
 
         builder.Services
             .AddCors(o => o.AddPolicy(CorsPolicy, builder => builder.AllowAnyOrigin()
@@ -74,7 +74,7 @@ public class SmusdiService : IDisposable
             .AllowAnyHeader()));
 
         builder.Services
-            .AddControllersInputValidation()
+            .AddControllersInputValidation(smusdiOptions)
             .AddSingleton<IClock, Clock>();
 
         builder.Services.AddApplicationServices<IServicesRegistrator>(builder.Configuration);
