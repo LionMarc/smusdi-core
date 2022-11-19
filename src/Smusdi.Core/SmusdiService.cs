@@ -1,6 +1,7 @@
 ﻿using System.IO.Abstractions;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.Extensions.FileProviders;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
@@ -99,8 +100,41 @@ public class SmusdiService : IDisposable
             return;
         }
 
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(this.WebApplication.Configuration);
+        if (smusdiOptions.StaticSites.Count > 0)
+        {
+            foreach (var site in smusdiOptions.StaticSites)
+            {
+                var folder = Path.Combine(this.WebApplication.Environment.ContentRootPath, site.Folder);
+                if (Directory.Exists(folder))
+                {
+                    var options = new DefaultFilesOptions
+                    {
+                        RequestPath = new PathString(site.RequestPath),
+                        FileProvider = new PhysicalFileProvider(folder),
+                    };
+
+                    this.WebApplication.UseDefaultFiles(options);
+                }
+            }
+
+            foreach (var site in smusdiOptions.StaticSites)
+            {
+                var folder = Path.Combine(this.WebApplication.Environment.ContentRootPath, site.Folder);
+                if (Directory.Exists(folder))
+                {
+                    this.WebApplication.UseStaticFiles(new StaticFileOptions
+                    {
+                        FileProvider = new PhysicalFileProvider(folder),
+                        RequestPath = site.RequestPath,
+                    });
+                }
+            }
+        }
+
         this.WebApplication.UseCors(CorsPolicy);
         this.WebApplication.UseHttpLogging();
+
         this.WebApplication.UseSecurity(this.WebApplication.Configuration);
         this.WebApplication.MapControllers();
         this.WebApplication
