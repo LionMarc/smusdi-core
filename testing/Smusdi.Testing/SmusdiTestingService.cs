@@ -8,6 +8,13 @@ namespace Smusdi.Testing;
 
 public sealed class SmusdiTestingService : IDisposable
 {
+    public SmusdiTestingService()
+    {
+        this.Id = Guid.NewGuid();
+    }
+
+    public Guid Id { get; }
+
     public SmusdiService? SmusdiService { get; private set; }
 
     public TestServer? TestServer { get; private set; }
