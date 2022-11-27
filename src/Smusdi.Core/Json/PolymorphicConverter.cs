@@ -22,6 +22,11 @@ public class PolymorphicConverter<T> : JsonConverter<T>
         var cloned = reader;
         while (cloned.Read())
         {
+            if (cloned.TokenType == JsonTokenType.StartArray || cloned.TokenType == JsonTokenType.StartObject)
+            {
+                cloned.Skip();
+            }
+
             if (cloned.TokenType != JsonTokenType.PropertyName)
             {
                 continue;

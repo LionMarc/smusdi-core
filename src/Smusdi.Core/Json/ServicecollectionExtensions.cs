@@ -13,4 +13,9 @@ public static class ServicecollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddJsonSerializerWithJsonOptions(this IServiceCollection services)
+    {
+        return services.AddSingleton<IJsonSerializer, JsonSerializerUsingJsonOptions>();
+    }
 }
