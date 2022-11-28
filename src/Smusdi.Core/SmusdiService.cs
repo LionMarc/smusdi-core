@@ -62,6 +62,7 @@ public class SmusdiService : IDisposable
             .AddSingleton<IFileSystem, FileSystem>()
             .AddAllHealthChecks()
             .AddEndpointsApiExplorer()
+            .AddProblemDetails()
             .AddSwagger(builder.Configuration)
             .AddSecurity(builder.Configuration)
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
@@ -132,8 +133,11 @@ public class SmusdiService : IDisposable
             }
         }
 
-        this.WebApplication.UseCors(CorsPolicy);
-        this.WebApplication.UseHttpLogging();
+        this.WebApplication
+            .UseCors(CorsPolicy)
+            .UseHttpLogging()
+            .UseExceptionHandler()
+            .UseStatusCodePages();
 
         this.WebApplication.UseSecurity(this.WebApplication.Configuration);
         this.WebApplication.MapControllers();
