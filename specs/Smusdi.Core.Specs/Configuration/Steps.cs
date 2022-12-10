@@ -22,6 +22,12 @@ public sealed class Steps
         File.WriteAllText(Path.Combine(p0, "appsettings.json"), multilineText);
     }
 
+    [Given(@"the configuration file ""(.*)""")]
+    public void GivenTheConfigurationFile(string appsettingsFilename, string multilineText)
+    {
+        File.WriteAllText(appsettingsFilename, multilineText);
+    }
+
     [Then(@"the read folder parameter is ""(.*)""")]
     public void ThenTheReadFolderParameterIs(string expectedFolder)
     {

@@ -92,3 +92,9 @@ See the sample *SingleFilePublication.Service*.
 
 > If an assembly can not be found, it is ignored.
 
+## Documentation
+
+- [mkdocs](https://www.mkdocs.org/);
+- [mkdocs-material](https://squidfunk.github.io/mkdocs-material/);
+- [mkdocs-include-markdown-plugin](https://github.com/mondeja/mkdocs-include-markdown-plugin);
+- [mkdocs-glightbox](https://github.com/blueswen/mkdocs-glightbox).
