@@ -5,9 +5,8 @@ using Smusdi.Core.Helpers;
 namespace Smusdi.Sample.Controllers.V2;
 
 [ApiController]
-[ApiVersion("2")]
+[ApiVersion(2.0)]
 [Route("v{version:apiVersion}/sample")]
-[ApiExplorerSettings(GroupName = "v2")]
 public class SampleController : ControllerBase
 {
     private readonly IClock clock;

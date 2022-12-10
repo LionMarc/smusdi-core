@@ -15,6 +15,7 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - tables
 plugins:
   - search
   - glightbox
@@ -23,3 +24,5 @@ nav:
   - index.md
   - Smusdi Web API:
     - webapi-config.md
+    - api-versioning.md
+    - swagger.md

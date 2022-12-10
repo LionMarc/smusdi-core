@@ -6,8 +6,6 @@ public class SwaggerOptions
 
     public string Description { get; set; } = "Default Smusdi service";
 
-    public List<string> Versions { get; set; } = new List<string>();
-
     public string ContactName { get; set; } = "Smusdi";
 
     public string ContactMail { get; set; } = "Smusdi@local.fr";

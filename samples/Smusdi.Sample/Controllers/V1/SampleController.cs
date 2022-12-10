@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Smusdi.Sample.Controllers.V1;
 
 [ApiController]
-[ApiVersion("1")]
+[ApiVersion(1.0)]
 [Route("v{version:apiVersion}/sample")]
-[ApiExplorerSettings(GroupName = "v1")]
 public class SampleController : ControllerBase
 {
     [HttpGet]

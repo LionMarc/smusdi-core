@@ -32,18 +32,19 @@ public static class WebApplicationExtensions
         });
 
         var oauthOptions = OauthOptions.GetOauthOptions(configuration);
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
 
         webApplication.UseSwaggerUI(options =>
         {
-            if (swaggerOptions.Versions.Count > 0)
+            if (smusdiOptions.NoVersioning != true)
             {
                 options.RoutePrefix = "swagger";
                 var descriptions = webApplication.DescribeApiVersions();
                 foreach (var desc in descriptions)
                 {
-                    var url = $"v{desc.GroupName}/swagger.json";
+                    var url = $"{desc.GroupName}/swagger.json";
                     var name = desc.GroupName.ToUpperInvariant();
-                    options.SwaggerEndpoint(url, $"V{name}");
+                    options.SwaggerEndpoint(url, name);
                 }
             }
 
