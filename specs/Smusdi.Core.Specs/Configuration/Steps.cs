@@ -9,6 +9,20 @@ public sealed class Steps
 
     public Steps(SmusdiTestingService smusdiTestingService) => this.smusdiTestingService = smusdiTestingService;
 
+    [AfterScenario]
+    public static void Cleanup()
+    {
+        Environment.SetEnvironmentVariable("SMUSDI_APPSETTINGS_FOLDER", null);
+
+        foreach (var file in new[] { "appsettings.json", "appsettings.myservice.json" })
+        {
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+        }
+    }
+
     [Given(@"the configuration in current folder")]
     public void GivenTheConfigurationInCurrentFolder(string multilineText)
     {
