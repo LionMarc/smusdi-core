@@ -2,15 +2,15 @@
 
 public class SwaggerOptions
 {
-    public string Title { get; set; } = "SMuSDI Service";
+    public string Title { get; set; } = "Smusdi Service";
 
-    public string Description { get; set; } = "Default SMuSDI service";
+    public string Description { get; set; } = "Default Smusdi service";
 
     public List<string> Versions { get; set; } = new List<string>();
 
-    public string ContactName { get; set; } = "SMuSDI";
+    public string ContactName { get; set; } = "Smusdi";
 
-    public string ContactMail { get; set; } = "SMuSDI@local.fr";
+    public string ContactMail { get; set; } = "Smusdi@local.fr";
 
     public string ReverseProxyBasePath { get; set; } = string.Empty;
 

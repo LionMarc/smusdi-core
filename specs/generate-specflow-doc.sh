@@ -14,4 +14,4 @@ for f in $DIR/*; do
     fi
 done
 
-dotnet livingdoc feature-folder $DIR --title "SMuSDI core" -o $RESULTS_FOLDER -t $RESULTS_FOLDER/TestExecution*.json
+dotnet livingdoc feature-folder $DIR --title "Smusdi core" -o $RESULTS_FOLDER -t $RESULTS_FOLDER/TestExecution*.json
