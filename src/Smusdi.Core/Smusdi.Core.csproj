@@ -12,6 +12,7 @@
     <Authors>LION Marc</Authors>
     <PackageDescription>Bootstrapper for .NET service.</PackageDescription>
     <RepositoryUrl>https://github.com/LionMarc/smusdi-core</RepositoryUrl>
+    <PackageProjectUrl>https://lionmarc.github.io/smusdi-core/</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
