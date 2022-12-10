@@ -1,6 +1,8 @@
-﻿Feature: EnvironmentVariablesExpansion
+﻿Feature: Environment variables expansion in configuration settings
 
-Scenario: Should expand the environment variables used in appsettings file
+When a property uses an environement variable, the variable must be expanded before being sent to the application.
+
+Scenario: Starting service with an property in appsettings.json using an environment variable
     Given the configuration in current folder
         """
         {

@@ -18,3 +18,8 @@ markdown_extensions:
 plugins:
   - search
   - glightbox
+  - include-markdown
+nav:
+  - index.md
+  - Smusdi Web API:
+    - webapi-config.md

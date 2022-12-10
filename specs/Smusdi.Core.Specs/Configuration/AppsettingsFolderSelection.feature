@@ -1,26 +1,29 @@
-﻿Feature: AppsettingsFolderSelection
+﻿Feature: Application settings folder selection
 
-    Background:
-        Given the configuration in current folder
-            """
-            {
-                "folder": "current"
-            }
-            """
-        And the configuration in folder 'sub-folder'
-            """
-            {
-                "folder": "sub-folder"
-            }
-            """
+The application must load appsettings file either from local folder, or from folder defined by the environment variable
+SMUSDI_APPSETTINGS_FOLDER.
 
-    Scenario: Should load from the current working directory when SMUSDI_APPSETTINGS_FOLDER is not set
-        Given the service initialized
-        When I start the service
-        Then the read folder parameter is "current"
+Background:
+    Given the configuration in current folder
+        """
+        {
+            "folder": "current"
+        }
+        """
+    And the configuration in folder 'sub-folder'
+        """
+        {
+            "folder": "sub-folder"
+        }
+        """
+
+Scenario: Starting the service with variable SMUSDI_APPSETTINGS_FOLDER not set
+    Given the service initialized
+    When I start the service
+    Then the read folder parameter is "current"
     
-    Scenario: Should load from the sub-folder directory when SMUSDI_APPSETTINGS_FOLDER is set to sub-folder
-        Given the environment variable "SMUSDI_APPSETTINGS_FOLDER" set to "sub-folder"
-        And the service initialized
-        When I start the service
-        Then the read folder parameter is "sub-folder"
+Scenario: Starting the service with variable SMUSDI_APPSETTINGS_FOLDER set to sub-folder
+    Given the environment variable "SMUSDI_APPSETTINGS_FOLDER" set to "sub-folder"
+    And the service initialized
+    When I start the service
+    Then the read folder parameter is "sub-folder"
