@@ -50,10 +50,14 @@ public class SmusdiService : IDisposable
         if (smusdiOptions.NoVersioning != true)
         {
             builder.Services
-                .AddApiVersioning()
+                .AddApiVersioning(options =>
+                {
+                    options.ReportApiVersions = true;
+                })
                 .AddMvc()
                 .AddApiExplorer(options =>
                 {
+                    options.GroupNameFormat = "'v'VVV";
                     options.SubstituteApiVersionInUrl = true;
                 });
         }

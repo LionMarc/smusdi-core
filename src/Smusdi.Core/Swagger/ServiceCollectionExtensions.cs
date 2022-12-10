@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Smusdi.Core.Swagger;
 
@@ -6,30 +8,29 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
     {
-        var swaggerOptions = SwaggerOptions.GetSwaggerOptions(configuration);
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
+        if (smusdiOptions.NoVersioning != true)
+        {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+        }
 
         services.AddSwaggerGen(options =>
         {
-            var apiVersions = new List<string>(swaggerOptions.Versions);
-            if (apiVersions.Count == 0)
+            if (smusdiOptions.NoVersioning == true)
             {
-                apiVersions.Add("v1");
-            }
-
-            foreach (var version in apiVersions)
-            {
+                var swaggerOptions = SwaggerOptions.GetSwaggerOptions(configuration);
                 var openApiInfo = new OpenApiInfo()
                 {
                     Title = swaggerOptions.Title,
                     Description = swaggerOptions.Description,
-                    Version = version,
+                    Version = "v1",
                     Contact = new OpenApiContact()
                     {
                         Name = swaggerOptions.ContactName,
                         Email = swaggerOptions.ContactMail,
                     },
                 };
-                options.SwaggerDoc(version, openApiInfo);
+                options.SwaggerDoc("v1", openApiInfo);
             }
 
             options.AddSecurity(configuration);
