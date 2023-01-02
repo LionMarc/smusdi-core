@@ -51,6 +51,7 @@ public static class WebApplicationExtensions
             if (oauthOptions != null)
             {
                 options.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { { "nonce", "123456" } });
+                options.OAuthUsePkce();
             }
         });
 

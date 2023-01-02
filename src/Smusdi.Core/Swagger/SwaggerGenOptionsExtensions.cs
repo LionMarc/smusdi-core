@@ -21,7 +21,7 @@ public static class SwaggerGenOptionsExtensions
                 Type = SecuritySchemeType.OAuth2,
                 Flows = new OpenApiOAuthFlows
                 {
-                    Implicit = new OpenApiOAuthFlow
+                    AuthorizationCode = new OpenApiOAuthFlow
                     {
                         AuthorizationUrl = new Uri($"{oauthOptions.Authority}/protocol/openid-connect/auth"),
                         TokenUrl = new Uri($"{oauthOptions.Authority}/protocol/openid-connect/token"),
