@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.FileProviders;
+using Smusdi.Core.Compression;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
@@ -66,6 +67,7 @@ public class SmusdiService : IDisposable
             .AddSingleton<IFileSystem, FileSystem>()
             .AddAllHealthChecks()
             .AddEndpointsApiExplorer()
+            .AddResponseCompression(smusdiOptions)
             .AddProblemDetails()
             .AddSwagger(builder.Configuration)
             .AddSecurity(builder.Configuration)
@@ -146,6 +148,7 @@ public class SmusdiService : IDisposable
         this.WebApplication.UseSecurity(this.WebApplication.Configuration);
         this.WebApplication.MapControllers();
         this.WebApplication
+            .UseResponseCompression(smusdiOptions)
             .UseSwagger(this.WebApplication.Configuration)
             .UseHealthChecks()
             .UseInfoEndpoint()

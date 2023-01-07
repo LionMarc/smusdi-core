@@ -1,4 +1,6 @@
-﻿namespace Smusdi.Core;
+﻿using System.IO.Compression;
+
+namespace Smusdi.Core;
 
 public sealed class SmusdiOptions
 {
@@ -13,6 +15,24 @@ public sealed class SmusdiOptions
     /// Gets or sets the list of static sites to be served by the service.
     /// </summary>
     public ICollection<StaticSite> StaticSites { get; set; } = new List<StaticSite>();
+
+    /// <summary>
+    /// Gets or sets a value indicating whether or not the response compression is disabled.
+    /// </summary>
+    /// <remarks>By default, compression is enabled.</remarks>
+    public bool CompressionDisabled { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether or not the response compression is disabled for https call.
+    /// </summary>
+    /// <remarks>By default, compression is enabled.</remarks>
+    public bool CompressionDisabledForHttps { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the compression level for BrotliCompressionProvider and GzipCompressionProvider.
+    /// </summary>
+    /// <remarks>Default value is <see cref="CompressionLevel.Fastest"/>.</remarks>
+    public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Fastest;
 
     public static SmusdiOptions GetSmusdiOptions(IConfiguration configuration)
     {
