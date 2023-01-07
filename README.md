@@ -98,3 +98,12 @@ See the sample *SingleFilePublication.Service*.
 - [mkdocs-material](https://squidfunk.github.io/mkdocs-material/);
 - [mkdocs-include-markdown-plugin](https://github.com/mondeja/mkdocs-include-markdown-plugin);
 - [mkdocs-glightbox](https://github.com/blueswen/mkdocs-glightbox).
+
+
+## Response compression
+
+| appsettings parameter | description | default value |
+| --------------------- | ----------- | ------------- |
+| compressionDisabled | Response compression is active only when false | false |
+| compressionDisabledForHttps | If true, the compression is not active for HTTPS call | false |
+| compressionLevel | Enum defining the applied compression level | Fastest |
