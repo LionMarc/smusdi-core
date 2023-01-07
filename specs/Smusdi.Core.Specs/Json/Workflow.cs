@@ -11,5 +11,6 @@ public abstract class Workflow
     public WorkflowType Type { get; }
 
     public ICollection<Stage> Stages { get; }
+
     public WorkflowType Standard { get; }
 }

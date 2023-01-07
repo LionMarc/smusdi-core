@@ -8,7 +8,7 @@ public class EnvironmentVariablesExpanderProvider : ConfigurationProvider, IDisp
     {
         this.configurationRoot = new Lazy<ConfigurationRoot>(() =>
         {
-            var filteredProviders = builder.Build().Providers?
+            var filteredProviders = (builder.Build().Providers ?? Enumerable.Empty<IConfigurationProvider>())
                 .Where(p => p.GetType() != typeof(EnvironmentVariablesExpanderProvider))
                 .ToList();
             return new ConfigurationRoot(filteredProviders);

@@ -27,13 +27,17 @@ public sealed class CustomWebHostBuilder : IWebHostBuilder
 
     public IWebHostBuilder ConfigureServices(Action<IServiceCollection> configureServices)
     {
+#pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
         this.smusdiService.WebApplicationBuilder?.WebHost.ConfigureServices(configureServices);
+#pragma warning restore ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
         return this;
     }
 
     public IWebHostBuilder ConfigureServices(Action<WebHostBuilderContext, IServiceCollection> configureServices)
     {
+#pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
         this.smusdiService.WebApplicationBuilder?.WebHost.ConfigureServices(configureServices);
+#pragma warning restore ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
         return this;
     }
 
