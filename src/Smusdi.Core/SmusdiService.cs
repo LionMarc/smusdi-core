@@ -8,7 +8,9 @@ using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
 using Smusdi.Core.Helpers;
 using Smusdi.Core.Info;
+using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
+using Smusdi.Core.Multipart;
 using Smusdi.Core.Oauth;
 using Smusdi.Core.Swagger;
 using Smusdi.Core.Validation;
@@ -83,7 +85,9 @@ public class SmusdiService : IDisposable
 
         builder.Services
             .AddControllersInputValidation(smusdiOptions)
-            .AddSingleton<IClock, Clock>();
+            .AddSingleton<IClock, Clock>()
+            .SetupMultipartMaxSizes(smusdiOptions)
+            .AddJsonSerializerWithJsonOptions();
 
         builder.Services.AddApplicationServices<IServicesRegistrator>(builder.Configuration);
 

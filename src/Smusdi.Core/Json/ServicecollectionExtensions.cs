@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Smusdi.Core.Json;
 
@@ -16,6 +17,8 @@ public static class ServicecollectionExtensions
 
     public static IServiceCollection AddJsonSerializerWithJsonOptions(this IServiceCollection services)
     {
-        return services.AddSingleton<IJsonSerializer, JsonSerializerUsingJsonOptions>();
+        services.TryAddSingleton<IJsonSerializer, JsonSerializerUsingJsonOptions>();
+
+        return services;
     }
 }

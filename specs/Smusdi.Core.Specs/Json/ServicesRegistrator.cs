@@ -20,8 +20,6 @@ public class ServicesRegistrator : IServicesRegistrator
         options.SubTypes.Add(StageType.Test.ToString(), typeof(TestStage));
         services.AddPolymorphicConverter<Stage>(options);
 
-        services.AddJsonSerializerWithJsonOptions();
-
         return services;
     }
 }
