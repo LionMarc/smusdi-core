@@ -4,6 +4,10 @@ namespace Smusdi.Core;
 
 public sealed class SmusdiOptions
 {
+    public const int MaxSizeOf1Giga = 1024 * 1024 * 1024;
+
+    public const int MaxSizeOf1Mega = 1024 * 1024;
+
     public bool? NoVersioning { get; set; }
 
     /// <summary>
@@ -33,6 +37,14 @@ public sealed class SmusdiOptions
     /// </summary>
     /// <remarks>Default value is <see cref="CompressionLevel.Fastest"/>.</remarks>
     public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Fastest;
+
+    public int MaxRequestBodySize { get; set; } = MaxSizeOf1Giga;
+
+    public int MaxMultipartBodySize { get; set; } = MaxSizeOf1Giga;
+
+    public int MaxMultipartValueSize { get; set; } = MaxSizeOf1Mega;
+
+    public int MaxMultipartHeadersSize { get; set; } = MaxSizeOf1Mega;
 
     public static SmusdiOptions GetSmusdiOptions(IConfiguration configuration)
     {
