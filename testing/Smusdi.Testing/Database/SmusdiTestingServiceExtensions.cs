@@ -28,4 +28,18 @@ public static class SmusdiTestingServiceExtensions
         await dbContext.Set<TDao>().AddRangeAsync(items);
         await dbContext.SaveChangesAsync();
     }
+
+    public static async Task Execute<TContext>(this SmusdiTestingService smusdiTestingService, Func<TContext, Task> action)
+        where TContext : DbContext
+    {
+        var provider = smusdiTestingService.GetService<IServiceProvider>();
+        if (provider == null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        using var scope = provider.CreateScope();
+        using var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
+        await action(dbContext);
+    }
 }
