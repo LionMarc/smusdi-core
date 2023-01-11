@@ -9,4 +9,6 @@ public static class SmusdiConstants
     public const string SmusdiAppsettingsFolderEnvVar = "SMUSDI_APPSETTINGS_FOLDER";
 
     public const string SmusdiCustomInfoEnvVar = "SMUSDI_CUSTOM_INFOS_FOLDER";
+
+    public const string SmusdiExpandEnvTwiceEnvVar = "SMUSDI_EXPAND_ENV_TWICE";
 }
