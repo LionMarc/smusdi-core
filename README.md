@@ -18,7 +18,7 @@ using Smusdi.Core;
 SmusdiService.InitAndRun(args);
 ```
 
-The bootstrapper uses 2 environment variables:
+The bootstrapper uses the following environment variables:
 
 - **SMUSDI_SERVICE_NAME**: the name of the service which will be used for the appsettings files, the logs files...
 - **SMUSDI_APPSETTINGS_FOLDER**: this variable setup the folder in which the service can find the appsettings files. If not set, the appsettings files are supposed to be in the working directory.
@@ -30,7 +30,8 @@ The bootstrapper uses 2 environment variables:
 > - appsettings.{SMUSDI_SERVICE_NAME}.{ASPNETCORE_ENVIRONMENT}.json
 
 - **SMUSDI_SERVICE_VERSION**: used by the *info* endpoint to send the service version;
-- **SMUSDI_CUSTOM_INFOS_FOLDER** used by the *info* endpoint to send custom informations.
+- **SMUSDI_CUSTOM_INFOS_FOLDER** used by the *info* endpoint to send custom informations;
+- **SMUSDI_EXPAND_ENV_TWICE**: if set to true, when reading appsettings variable, we try to expand twice the environment variables in case a variable is set by using another one.
 
 A default *appsettings.json* file can be found in the *samples* folder.
 

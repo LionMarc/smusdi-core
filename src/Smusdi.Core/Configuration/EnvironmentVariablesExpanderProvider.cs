@@ -1,6 +1,6 @@
 ﻿namespace Smusdi.Core.Configuration;
 
-public class EnvironmentVariablesExpanderProvider : ConfigurationProvider, IDisposable
+public sealed class EnvironmentVariablesExpanderProvider : ConfigurationProvider, IDisposable
 {
     private readonly Lazy<ConfigurationRoot> configurationRoot;
 
@@ -18,7 +18,20 @@ public class EnvironmentVariablesExpanderProvider : ConfigurationProvider, IDisp
     public override bool TryGet(string key, out string value)
     {
         var rootValue = this.configurationRoot.Value[key];
-        value = !string.IsNullOrWhiteSpace(rootValue) ? Environment.ExpandEnvironmentVariables(rootValue) : string.Empty;
+        if (string.IsNullOrEmpty(rootValue))
+        {
+            value = string.Empty;
+            return false;
+        }
+
+        value = Environment.ExpandEnvironmentVariables(rootValue);
+        if (value != rootValue && value.IndexOf("%") != -1)
+        {
+            if (bool.TryParse(Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiExpandEnvTwiceEnvVar), out var mustTryExpandingAgain) && mustTryExpandingAgain)
+            {
+                value = Environment.ExpandEnvironmentVariables(value);
+            }
+        }
 
         return !string.IsNullOrEmpty(value);
     }
