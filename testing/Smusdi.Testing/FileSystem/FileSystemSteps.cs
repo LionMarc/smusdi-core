@@ -15,7 +15,12 @@ public sealed class FileSystemSteps
     [When(@"I create the file ""(.*)"" with content")]
     public void GivenTheFileWithContent(string p0, string multilineText)
     {
-        this.fileSystem.Directory.CreateDirectory(Path.GetDirectoryName(p0));
+        var path = Path.GetDirectoryName(p0);
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            this.fileSystem.Directory.CreateDirectory(path);
+        }
+
         this.fileSystem.File.WriteAllText(p0, multilineText);
     }
 
