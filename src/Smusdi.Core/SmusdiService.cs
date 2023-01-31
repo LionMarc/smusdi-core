@@ -34,6 +34,30 @@ public class SmusdiService : IDisposable
         service.CreateAndInitializeBuider(args);
         service.Build();
         service.ConfigureWebApplication();
+        service.Run();
+    }
+
+    public static Task InitAndRunAsync(string[] args) => InitAndRunAsync<SmusdiService>(args);
+
+    public static async Task InitAndRunAsync<T>(string[] args)
+        where T : SmusdiService, new()
+    {
+        var service = new T();
+        service.CreateAndInitializeBuider(args);
+        service.Build();
+        service.ConfigureWebApplication();
+
+        if (service.WebApplication != null)
+        {
+            using (var scope = service.WebApplication.Services.CreateScope())
+            {
+                var beforeRunImplementations = scope.ServiceProvider.GetServices<IBeforeRun>();
+                foreach (var beforeRunImplementation in beforeRunImplementations)
+                {
+                    await beforeRunImplementation.Execute();
+                }
+            }
+        }
 
         service.Run();
     }
@@ -87,9 +111,9 @@ public class SmusdiService : IDisposable
             .AddControllersInputValidation(smusdiOptions)
             .AddSingleton<IClock, Clock>()
             .SetupMultipartMaxSizes(smusdiOptions)
-            .AddJsonSerializerWithJsonOptions();
-
-        builder.Services.AddApplicationServices<IServicesRegistrator>(builder.Configuration);
+            .AddJsonSerializerWithJsonOptions()
+            .AddApplicationServices<IServicesRegistrator>(builder.Configuration)
+            .AddBeforeRunImplementations(builder.Configuration);
 
         this.WebApplicationBuilder = builder;
     }

@@ -20,4 +20,16 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddBeforeRunImplementations(this IServiceCollection services, IConfiguration configuration)
+    {
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
+        services.Scan(scan => scan
+            .FromAssembliesOrApplicationDependencies(smusdiOptions)
+            .AddClasses(c => c.AssignableTo<IBeforeRun>())
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
+        return services;
+    }
 }

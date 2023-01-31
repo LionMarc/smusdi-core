@@ -62,7 +62,15 @@ The project provides two extension points:
       WebApplication Configure(WebApplication webApplication);
   }
   ```
-   
+- **IBeforeRun** to execute some actions after the initialization of the host and before it is started
+  ```C#
+  public interface IBeforeRun
+  {
+      Task Execute();
+  }
+  ```
+  The implementations of **IBeforeRun** are registered as *scoped* and executed in a scope. They are only executed when calling the static method *SmusdiService.InitAndRunAsync(args)*, not when calling the method *SmusdiService.InitAndRun(args)*.
+
 > The implementations of these interfaces are automatically executed. There are discovered with [scrutor](https://github.com/khellang/Scrutor).
 
 ## Tests and coverage
