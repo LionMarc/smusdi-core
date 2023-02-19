@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using System.Text;
+using Microsoft.OpenApi.Models;
 using Smusdi.Core.Oauth;
 
 namespace Smusdi.Core.Swagger;
@@ -52,6 +53,22 @@ public static class WebApplicationExtensions
             {
                 options.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { { "nonce", "123456" } });
                 options.OAuthUsePkce();
+
+                // https://github.com/swagger-api/swagger-ui/pull/8268 => client secret is now always visible in ui
+                if (!swaggerOptions.DisplayClientSecretInput)
+                {
+                    var builder = new StringBuilder(options.HeadContent);
+                    builder.Append(@"
+<style>
+label[for=""client_secret""] {
+    display: none;
+}
+#client_secret {
+    display: none
+}
+</style>");
+                    options.HeadContent = builder.ToString();
+                }
             }
         });
 
