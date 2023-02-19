@@ -12,7 +12,6 @@ public class SwaggerOptions
 
     public string ReverseProxyBasePath { get; set; } = string.Empty;
 
-
     public bool DisplayClientSecretInput { get; set; } = false;
 
     public static SwaggerOptions GetSwaggerOptions(IConfiguration configuration)
