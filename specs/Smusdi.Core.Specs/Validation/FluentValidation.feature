@@ -84,3 +84,24 @@
             ]
         }
         """
+
+    Scenario: Should not return a 404 when calling a controller with wrong parameters and automatic validation is disabled
+        Given the configuration in current folder
+        """
+        {
+            "smusdi": {
+                "disableAutomaticFluentValidation" : true
+            }
+        }
+        """ 
+        And the service initialized and started
+        When I execute the POST request "/v1/projects" with content
+        """
+        {
+            "name":"",
+            "target": {
+                "environment":"dev"
+            }
+        }
+        """
+        Then I receive a "OK" status
