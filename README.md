@@ -116,3 +116,16 @@ See the sample *SingleFilePublication.Service*.
 | compressionDisabled | Response compression is active only when false | false |
 | compressionDisabledForHttps | If true, the compression is not active for HTTPS call | false |
 | compressionLevel | Enum defining the applied compression level | Fastest |
+
+
+## Fluent Validation
+
+By default, automatic fluent validation is activated. To disable this feature, set in **appsettings** the *disableAutomaticFluentValidation* option to true.
+
+```json
+{
+    "smusdi": {
+        "disableAutomaticFluentValidation": true
+    }
+}
+```

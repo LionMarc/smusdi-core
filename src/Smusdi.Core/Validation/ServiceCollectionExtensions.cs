@@ -9,8 +9,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddControllersInputValidation(this IServiceCollection services, SmusdiOptions smusdiOptions)
     {
         ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName;
+
+        if (!smusdiOptions.DisableAutomaticFluentValidation)
+        {
+            services.AddFluentValidationAutoValidation();
+        }
+
         services
-            .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
             .AddValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>(smusdiOptions));
 

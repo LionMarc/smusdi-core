@@ -46,6 +46,8 @@ public sealed class SmusdiOptions
 
     public int MaxMultipartHeadersSize { get; set; } = MaxSizeOf1Mega;
 
+    public bool DisableAutomaticFluentValidation { get; set; } = false;
+
     public static SmusdiOptions GetSmusdiOptions(IConfiguration configuration)
     {
         SmusdiOptions? smusdiOptions = null;
