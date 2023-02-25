@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleFilePublication.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleFilePublication.SomeFeature", "samples\SingleFilePublication\SingleFilePublication.SomeFeature\SingleFilePublication.SomeFeature.csproj", "{4E858323-E024-453A-81C9-D69ADA3C848E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Worker.Sample", "samples\Smusdi.Worker.Sample\Smusdi.Worker.Sample.csproj", "{01C2F805-7007-4973-BA63-A26F4595B001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{4E858323-E024-453A-81C9-D69ADA3C848E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E858323-E024-453A-81C9-D69ADA3C848E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E858323-E024-453A-81C9-D69ADA3C848E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C2F805-7007-4973-BA63-A26F4595B001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C2F805-7007-4973-BA63-A26F4595B001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C2F805-7007-4973-BA63-A26F4595B001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C2F805-7007-4973-BA63-A26F4595B001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{F364CBD7-D47B-4757-916C-DDB7DC562419} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
 		{C11A8270-19A8-40CC-BC86-1BA145CE63CE} = {F364CBD7-D47B-4757-916C-DDB7DC562419}
 		{4E858323-E024-453A-81C9-D69ADA3C848E} = {F364CBD7-D47B-4757-916C-DDB7DC562419}
+		{01C2F805-7007-4973-BA63-A26F4595B001} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E408858C-2BD5-4F48-8375-57CA39A82AF7}

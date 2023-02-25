@@ -4,27 +4,36 @@ public static class ConfigurationBuilding
 {
     public static WebApplicationBuilder InitConfiguration(this WebApplicationBuilder webApplicationBuilder)
     {
+        webApplicationBuilder.Configuration.InitConfiguration(webApplicationBuilder.Environment.EnvironmentName);
+        return webApplicationBuilder;
+    }
+
+    public static HostApplicationBuilder InitConfiguration(this HostApplicationBuilder hostApplicationBuilder)
+    {
+        hostApplicationBuilder.Configuration.InitConfiguration(hostApplicationBuilder.Environment.EnvironmentName);
+        return hostApplicationBuilder;
+    }
+
+    public static void InitConfiguration(this ConfigurationManager configuration, string environmentName)
+    {
         // Cleanup already registered file config sources as the reset of the base path does not affect the sources, the associated provider is not reset!
-        foreach (var fileSource in (webApplicationBuilder.Configuration as IConfigurationBuilder).Sources.OfType<FileConfigurationSource>())
+        foreach (var fileSource in configuration.Sources.OfType<FileConfigurationSource>())
         {
             fileSource.FileProvider = null;
         }
 
-        webApplicationBuilder.Configuration
-            .SetBasePath(GetConfigFilesFolder());
+        configuration.SetBasePath(GetConfigFilesFolder());
 
         var serviceName = Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiServiceNameEnvVar);
         if (!string.IsNullOrWhiteSpace(serviceName))
         {
-            webApplicationBuilder.Configuration
+            configuration
                 .AddJsonFile($"appsettings.{serviceName}.json", true, true)
-                .AddJsonFile($"appsettings.{serviceName}.{webApplicationBuilder.Environment.EnvironmentName}.json", true, true);
+                .AddJsonFile($"appsettings.{serviceName}.{environmentName}.json", true, true);
         }
 
-        webApplicationBuilder.Configuration
+        configuration
             .EnableEnvironmentVariablesExpansion();
-
-        return webApplicationBuilder;
     }
 
     public static string GetConfigFilesFolder()

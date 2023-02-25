@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "settings-from-filesystem": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SMUSDI_SERVICE_NAME": "smusdi-worker-sample"
+      }
+    }
+  }
+}
