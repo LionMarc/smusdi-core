@@ -12,7 +12,7 @@ public static class LoggerConfigurationBuilding
             .CreateLogger();
 
         logger.Information($"Configuration loaded from folder {ConfigurationBuilding.GetConfigFilesFolder()}.");
-
+        Log.Logger = logger;
         webApplicationBuilder.Services.AddSingleton(logger);
         webApplicationBuilder.Services.AddSingleton<Serilog.ILogger>(logger);
         webApplicationBuilder.Host.UseSerilog(logger);
@@ -27,7 +27,7 @@ public static class LoggerConfigurationBuilding
             .CreateLogger();
 
         logger.Information($"Configuration loaded from folder {ConfigurationBuilding.GetConfigFilesFolder()}.");
-
+        Log.Logger = logger;
         hostApplicationBuilder.Services.AddSingleton(logger);
         hostApplicationBuilder.Services.AddSingleton<Serilog.ILogger>(logger);
         hostApplicationBuilder.Logging.ClearProviders();
