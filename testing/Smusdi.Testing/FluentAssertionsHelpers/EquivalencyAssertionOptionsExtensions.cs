@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Equivalency;
+using Smusdi.Core.Helpers;
 using TechTalk.SpecFlow;
 
 namespace Smusdi.Testing.FluentAssertionsHelpers;
@@ -11,4 +12,7 @@ public static class EquivalencyAssertionOptionsExtensions
 
     public static EquivalencyAssertionOptions<T> CheckOnlyTableHeaders<T>(this EquivalencyAssertionOptions<T> options, Table table)
        => options.Excluding(a => !table.Header.Contains(a.Name));
+
+    public static EquivalencyAssertionOptions<T> CompareDateTimeAsUtc<T>(this EquivalencyAssertionOptions<T> options)
+       => options.Using<DateTime>(ctx => ctx.Subject.ToUtc().Should().Be(ctx.Expectation.ToUtc())).WhenTypeIs<DateTime>();
 }
