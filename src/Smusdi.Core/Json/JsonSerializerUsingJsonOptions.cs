@@ -20,6 +20,11 @@ public class JsonSerializerUsingJsonOptions : IJsonSerializer
         return JsonSerializer.Deserialize<T>(value, this.JsonSerializerOptions);
     }
 
+    public ValueTask<T?> DeserializeAsync<T>(Stream stream)
+    {
+        return JsonSerializer.DeserializeAsync<T>(stream, this.JsonSerializerOptions);
+    }
+
     public T? Deserialize<T>(Stream stream)
     {
         return JsonSerializer.Deserialize<T>(stream, this.JsonSerializerOptions);
@@ -28,4 +33,6 @@ public class JsonSerializerUsingJsonOptions : IJsonSerializer
     public string Serialize<T>(T value) => JsonSerializer.Serialize(value, this.JsonSerializerOptions);
 
     public void Serialize<T>(T value, Stream stream) => JsonSerializer.Serialize(stream, value, this.JsonSerializerOptions);
+
+    public Task SerializeAsync<T>(T value, Stream stream) => JsonSerializer.SerializeAsync(stream, value, this.JsonSerializerOptions);
 }
