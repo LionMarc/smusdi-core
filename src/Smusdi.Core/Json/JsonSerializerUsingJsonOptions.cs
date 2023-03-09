@@ -6,12 +6,9 @@ namespace Smusdi.Core.Json;
 
 public class JsonSerializerUsingJsonOptions : IJsonSerializer
 {
-    private readonly JsonSerializerOptions jsonSerializerOptions;
+    public JsonSerializerUsingJsonOptions(IOptions<JsonOptions> jsonOptions) => this.JsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
 
-    public JsonSerializerUsingJsonOptions(IOptions<JsonOptions> jsonOptions)
-    {
-        this.jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
-    }
+    public JsonSerializerOptions JsonSerializerOptions { get; }
 
     public T? Deserialize<T>(string value)
     {
@@ -20,8 +17,22 @@ public class JsonSerializerUsingJsonOptions : IJsonSerializer
             return default;
         }
 
-        return System.Text.Json.JsonSerializer.Deserialize<T>(value, this.jsonSerializerOptions);
+        return JsonSerializer.Deserialize<T>(value, this.JsonSerializerOptions);
     }
 
-    public string Serialize<T>(T value) => System.Text.Json.JsonSerializer.Serialize(value, this.jsonSerializerOptions);
+    public ValueTask<T?> DeserializeAsync<T>(Stream stream)
+    {
+        return JsonSerializer.DeserializeAsync<T>(stream, this.JsonSerializerOptions);
+    }
+
+    public T? Deserialize<T>(Stream stream)
+    {
+        return JsonSerializer.Deserialize<T>(stream, this.JsonSerializerOptions);
+    }
+
+    public string Serialize<T>(T value) => JsonSerializer.Serialize(value, this.JsonSerializerOptions);
+
+    public void Serialize<T>(T value, Stream stream) => JsonSerializer.Serialize(stream, value, this.JsonSerializerOptions);
+
+    public Task SerializeAsync<T>(T value, Stream stream) => JsonSerializer.SerializeAsync(stream, value, this.JsonSerializerOptions);
 }

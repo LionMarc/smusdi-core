@@ -1,4 +1,5 @@
-﻿using Smusdi.Core.Json;
+﻿using System.IO.Abstractions;
+using Smusdi.Core.Json;
 using Smusdi.Testing;
 
 namespace Smusdi.Core.Specs.Json;
@@ -7,12 +8,14 @@ namespace Smusdi.Core.Specs.Json;
 public class Steps
 {
     private readonly IJsonSerializer jsonSerializer;
+    private readonly IFileSystem fileSystem;
     private Workflow? workflow;
     private List<Workflow>? workflows;
 
     public Steps(SmusdiTestingService smusdiTestingService)
     {
         this.jsonSerializer = smusdiTestingService.GetService<IJsonSerializer>()!;
+        this.fileSystem = smusdiTestingService.GetService<IFileSystem>()!;
     }
 
     [When(@"I deserialize the workflow")]
@@ -37,5 +40,28 @@ public class Steps
     public void ThenIGetAValidListOfWorkflow()
     {
         this.workflows.Should().NotBeNull();
+    }
+
+    [When(@"I deserialize the workflow from the file ""(.*)""")]
+    public async Task WhenIDeserializeTheWorkflowFromTheFile(string path)
+    {
+        using var stream = this.fileSystem.File.OpenRead(path);
+        this.workflow = await this.jsonSerializer.DeserializeAsync<Workflow>(stream);
+    }
+
+    [Then(@"I get the right workflow")]
+    public void ThenIGetTheRightWorkflow()
+    {
+        var expected = new StandardWorklflow(new List<Stage> { new BuildStage(), new TestStage() });
+        this.workflow.Should().BeEquivalentTo(expected);
+    }
+
+    [When(@"I serialize a standard workflow with a build stage to the file ""(.*)""")]
+    public async Task WhenISerializeAStandardWorkflowWithABuildStageToTheFile(string filePath)
+    {
+        this.fileSystem.Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        this.workflow = new StandardWorklflow(new List<Stage> { new BuildStage() });
+        using var stream = this.fileSystem.File.OpenWrite(filePath);
+        await this.jsonSerializer.SerializeAsync(this.workflow, stream);
     }
 }
