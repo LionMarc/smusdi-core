@@ -35,3 +35,4 @@ packages/
 *.feature.cs
 /.specflow_results/
 /samples/SingleFilePublication/publish/
+/coverage
