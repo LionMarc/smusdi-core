@@ -12,6 +12,7 @@ using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Multipart;
 using Smusdi.Core.Oauth;
+using Smusdi.Core.Pipeline;
 using Smusdi.Core.Swagger;
 using Smusdi.Core.Validation;
 
@@ -110,6 +111,7 @@ public class SmusdiService : IDisposable
         builder.Services
             .AddControllersInputValidation(smusdiOptions)
             .AddSingleton<IClock, Clock>()
+            .AddScoped(typeof(IPipelineBuilder<>), typeof(PipelineBuilder<>))
             .SetupMultipartMaxSizes(smusdiOptions)
             .AddJsonSerializerWithJsonOptions()
             .AddApplicationServices<IServicesRegistrator>(builder.Configuration)

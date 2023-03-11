@@ -11,17 +11,8 @@ public static class SmusdiTestingServiceExtensions
         where TContext : DbContext
         where TDao : class
     {
-        var items = itemsCreator?.Invoke(table) ?? table.CreateSet<TDao>();
-        if (items == null)
-        {
-            throw new InvalidOperationException();
-        }
-
-        var provider = smusdiTestingService.GetService<IServiceProvider>();
-        if (provider == null)
-        {
-            throw new InvalidOperationException();
-        }
+        var items = itemsCreator?.Invoke(table) ?? table.CreateSet<TDao>() ?? throw new InvalidOperationException();
+        var provider = smusdiTestingService.GetService<IServiceProvider>() ?? throw new InvalidOperationException();
 
         using var scope = provider.CreateScope();
         using var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
@@ -32,12 +23,7 @@ public static class SmusdiTestingServiceExtensions
     public static async Task Execute<TContext>(this SmusdiTestingService smusdiTestingService, Func<TContext, Task> action)
         where TContext : DbContext
     {
-        var provider = smusdiTestingService.GetService<IServiceProvider>();
-        if (provider == null)
-        {
-            throw new InvalidOperationException();
-        }
-
+        var provider = smusdiTestingService.GetService<IServiceProvider>() ?? throw new InvalidOperationException();
         using var scope = provider.CreateScope();
         using var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
         await action(dbContext);

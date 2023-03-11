@@ -15,4 +15,8 @@
     <PackageProjectUrl>https://lionmarc.github.io/smusdi-core/</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Using Remove="Microsoft.Extensions.Logging"/>
+  </ItemGroup>
+
 </Project>
