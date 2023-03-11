@@ -33,6 +33,19 @@ public static class ServiceCollectionExtension
                 }
             });
 
+        if (oauthOptions.Client != null)
+        {
+            services.AddDistributedMemoryCache()
+                .AddClientCredentialsTokenManagement()
+                .AddClient(SmusdiOptions.ServiceName, client =>
+                {
+                    client.TokenEndpoint = $"{oauthOptions.Authority}/protocol/openid-connect/token";
+                    client.ClientId = oauthOptions.Client.ClientId;
+                    client.ClientSecret = oauthOptions.Client.ClientSecret;
+                    client.Scope = oauthOptions.Client.Scopes;
+                });
+        }
+
         return services;
     }
 }

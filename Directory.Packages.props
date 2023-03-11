@@ -26,5 +26,8 @@
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageVersion Include="System.IO.Abstractions" Version="19.1.18" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers" Version="19.1.18" />
+    <PackageVersion Include="Duende.AccessTokenManagement" Version="1.1.0"/>
+    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="7.0.3"/>
+    <PackageVersion Include="RichardSzalay.MockHttp" Version="6.0.0" />
   </ItemGroup>
 </Project>

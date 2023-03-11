@@ -8,6 +8,8 @@ public sealed class SmusdiOptions
 
     public const int MaxSizeOf1Mega = 1024 * 1024;
 
+    public static string ServiceName => Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiServiceNameEnvVar) ?? "smusdi";
+
     public bool? NoVersioning { get; set; }
 
     /// <summary>
