@@ -1,10 +1,12 @@
 ﻿namespace Smusdi.Core.Oauth;
 
-public class OauthOptions
+public sealed class OauthOptions
 {
     public string? Authority { get; set; }
 
     public List<string>? Scopes { get; set; }
+
+    public ClientOptions? Client { get; set; }
 
     public static OauthOptions? GetOauthOptions(IConfiguration configuration)
     {

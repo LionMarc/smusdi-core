@@ -3,8 +3,9 @@
     "settings-from-filesystem": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "SMUSDI_SERVICE_NAME": "smusdi-worker-sample"
+        "DOTNET_ENVIRONMENT": "Development",
+        "SMUSDI_SERVICE_NAME": "smusdi-worker-sample",
+        "SMUSDI_OAUTH_URL": "http://host.docker.internal:5200/realms/SMUSDI"
       }
     }
   }

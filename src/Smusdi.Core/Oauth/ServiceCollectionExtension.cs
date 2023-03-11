@@ -35,4 +35,25 @@ public static class ServiceCollectionExtension
 
         return services;
     }
+
+    public static IServiceCollection AddClientSecurity(this IServiceCollection services, IConfiguration configuration)
+    {
+        var oauthOptions = OauthOptions.GetOauthOptions(configuration);
+        if (oauthOptions?.Client == null)
+        {
+            return services;
+        }
+
+        services.AddDistributedMemoryCache()
+            .AddClientCredentialsTokenManagement()
+            .AddClient(SmusdiOptions.ServiceName, client =>
+            {
+                client.TokenEndpoint = $"{oauthOptions.Authority}/protocol/openid-connect/token";
+                client.ClientId = oauthOptions.Client.ClientId;
+                client.ClientSecret = oauthOptions.Client.ClientSecret;
+                client.Scope = oauthOptions.Client.Scopes;
+            });
+
+        return services;
+    }
 }
