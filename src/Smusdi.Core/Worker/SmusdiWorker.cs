@@ -6,6 +6,7 @@ using Smusdi.Core.Extensibility;
 using Smusdi.Core.Helpers;
 using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
+using Smusdi.Core.Oauth;
 using Smusdi.Core.Pipeline;
 
 namespace Smusdi.Core.Worker;
@@ -44,6 +45,7 @@ public class SmusdiWorker
             .Configure<JsonOptions>(j => j.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
             .AddJsonSerializerWithJsonOptions()
             .AddScoped(typeof(IPipelineBuilder<>), typeof(PipelineBuilder<>))
+            .AddClientSecurity(builder.Configuration)
             .AddApplicationServices<IServicesRegistrator>(builder.Configuration)
             .AddWorkerTasks(builder.Configuration)
             .AddHostedService<WorkerTasksRunner>();

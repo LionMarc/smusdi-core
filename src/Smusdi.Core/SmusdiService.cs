@@ -98,6 +98,7 @@ public class SmusdiService : IDisposable
             .AddProblemDetails()
             .AddSwagger(builder.Configuration)
             .AddSecurity(builder.Configuration)
+            .AddClientSecurity(builder.Configuration)
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
 
         var mvcBuilder = builder.Services.AddControllers().AddJsonOptions(j => j.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
