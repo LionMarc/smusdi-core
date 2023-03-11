@@ -2,7 +2,7 @@
 
 public static class HttpClientHelpers
 {
-    public static IServiceCollection AddSecuredHttpClient<TClient, TImplementation>(this IServiceCollection services, Action<HttpClient> configureClient)
+    public static IServiceCollection AddHttpClientWithClientCredentials<TClient, TImplementation>(this IServiceCollection services, Action<HttpClient> configureClient)
         where TClient : class
         where TImplementation : class, TClient
     {
