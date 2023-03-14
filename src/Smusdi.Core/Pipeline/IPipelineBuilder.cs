@@ -8,5 +8,7 @@ public interface IPipelineBuilder<TContext>
 
     IPipelineBuilder<TContext> Finally(Func<PipelineContext<TContext>, Task> action);
 
+    IPipelineBuilder<TContext> AddStepDecorator(Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task> decorator);
+
     Pipeline<TContext> Build();
 }

@@ -9,17 +9,20 @@ public sealed class Pipeline<TContext>
     private readonly IEnumerable<PipelineStep<TContext>> steps;
     private readonly Func<PipelineContext<TContext>, Task>? catchAction;
     private Func<PipelineContext<TContext>, Task>? finallyAction;
+    private Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator;
 
     internal Pipeline(
         ILogger logger,
         IEnumerable<PipelineStep<TContext>> steps,
         Func<PipelineContext<TContext>, Task>? catchAction,
-        Func<PipelineContext<TContext>, Task>? finallyAction)
+        Func<PipelineContext<TContext>, Task>? finallyAction,
+        Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator)
     {
         this.logger = logger;
         this.steps = steps;
         this.catchAction = catchAction;
         this.finallyAction = finallyAction;
+        this.stepDecorator = stepDecorator;
     }
 
     public async Task Run(PipelineContext<TContext> context)
@@ -87,7 +90,14 @@ public sealed class Pipeline<TContext>
         {
             this.logger.Information($"Executing step {step.Name}");
             context.CurrentStep = step.Name;
-            await step.Action(context);
+            if (this.stepDecorator != null)
+            {
+                await this.stepDecorator(step.Action, context);
+            }
+            else
+            {
+                await step.Action(context);
+            }
         }
     }
 }
