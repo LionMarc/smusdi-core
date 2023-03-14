@@ -11,6 +11,7 @@ public sealed class Steps : IDisposable
     private readonly IServiceScope serviceScope;
     private readonly IPipelineBuilder<PipelineTestingContext> pipelineBuilder;
     private readonly List<string> calledSteps = new();
+    private readonly List<string> decoratorResult = new();
     private bool catchCalled;
     private bool finallyCalled;
     private PipelineContext<PipelineTestingContext>? context;
@@ -64,6 +65,16 @@ public sealed class Steps : IDisposable
         });
     }
 
+    [Given(@"the attached decorator")]
+    public void GivenTheAttachedDecorator()
+    {
+        this.pipelineBuilder.AddStepDecorator(async (step, context) =>
+        {
+            this.decoratorResult.Add(context.CurrentStep);
+            await step(context);
+        });
+    }
+
     [When(@"I run the pipeline")]
     public Task WhenIRunThePipeline()
     {
@@ -105,6 +116,12 @@ public sealed class Steps : IDisposable
     public void ThenTheFinallyActionHasBeenCalled()
     {
         this.finallyCalled.Should().BeTrue();
+    }
+
+    [Then(@"the decorator result is ""(.*)""")]
+    public void ThenTheDecoratorResultIs(string p0)
+    {
+        string.Join('-', this.decoratorResult).Should().Be(p0);
     }
 
     public void Dispose()

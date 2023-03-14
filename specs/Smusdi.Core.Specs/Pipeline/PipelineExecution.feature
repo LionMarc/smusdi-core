@@ -18,6 +18,23 @@ Scenario: Execute all steps of the pipeline
     And the pipeline is in state "Done"
     And the finally action has been called
 
+Scenario: Execute the decorator for each step 
+    Given the pipeline with the steps
+        | Name  |
+        | step1 |
+        | step2 |
+        | step3 |
+    And the attached decorator
+    When I run the pipeline
+    Then the steps have been executed
+        | Name  |
+        | step1 |
+        | step2 |
+        | step3 |
+    And the pipeline is in state "Done"
+    And the finally action has been called
+    And the decorator result is "step1-step2-step3"
+
 Scenario: Running a pipeline with a step throwing an expection and no catch action defined 
     Given the pipeline with the steps
         | Name  | Throw |
