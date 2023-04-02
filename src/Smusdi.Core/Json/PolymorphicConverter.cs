@@ -10,7 +10,7 @@ public class PolymorphicConverter<T> : JsonConverter<T>
     public PolymorphicConverter(PolymorphicConverterOptions options) => this.options = options;
 
     public override bool CanConvert(Type typeToConvert) =>
-            typeof(T).IsAssignableFrom(typeToConvert);
+            typeof(T).IsAssignableFrom(typeToConvert) && (typeToConvert.IsAbstract || typeof(T) == typeToConvert);
 
     public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -45,10 +45,7 @@ public class PolymorphicConverter<T> : JsonConverter<T>
                 throw new JsonException($"No sub type defined with discrimator value {value} for base type {typeof(T)}");
             }
 
-            var clonedOptions = new JsonSerializerOptions(options);
-            clonedOptions.Converters.Remove(this);
-
-            return (T?)JsonSerializer.Deserialize(ref reader, subType, clonedOptions);
+            return (T?)JsonSerializer.Deserialize(ref reader, subType, options);
         }
 
         throw new JsonException($"Discriminator {this.options.Discriminator} not found");

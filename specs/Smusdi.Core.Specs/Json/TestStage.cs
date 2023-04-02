@@ -2,8 +2,8 @@
 
 public class TestStage : Stage
 {
-    public TestStage()
-        : base(StageType.Test)
+    public TestStage(string name)
+        : base(StageType.Test, name)
     {
     }
 }

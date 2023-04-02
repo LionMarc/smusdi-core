@@ -7,10 +7,12 @@ Scenario: Deserialization from a stream
     {
         "stages": [
             {
-                "type": "Build"
+                "type": "Build",
+                "name": "first"
             },
             {
-                "type": "Test"
+                "type": "Test",
+                "name": "second"
             }
         ],
         "type" : "Standard"
@@ -24,5 +26,5 @@ Scenario: Serialization to a stream
     When I serialize a standard workflow with a build stage to the file "K:/content.json"
     Then the file "K:/content.json" has content
     """
-    {"type":"Standard","stages":[{"type":"Build"}]}
+    {"type":"Standard","stages":[{"stages":[],"name":"first","type":"Build"}]}
     """

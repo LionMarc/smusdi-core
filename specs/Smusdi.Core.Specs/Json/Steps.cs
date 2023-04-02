@@ -1,4 +1,6 @@
 ﻿using System.IO.Abstractions;
+using System.Text.Json.JsonDiffPatch;
+using System.Text.Json.Nodes;
 using Smusdi.Core.Json;
 using Smusdi.Testing;
 
@@ -34,6 +36,16 @@ public class Steps
     public void ThenIGetAValidWorkflow()
     {
         this.workflow.Should().NotBeNull();
+        var expected = new StandardWorklflow(new Stage[]
+        {
+            new BuildStage("first", new[] { new TestStage("Third") }),
+            new TestStage("second"),
+        });
+
+        var actual = JsonNode.Parse(this.jsonSerializer.Serialize(this.workflow));
+        var expectedNode = JsonNode.Parse(this.jsonSerializer.Serialize(expected));
+
+        actual.Diff(expectedNode).Should().BeNull();
     }
 
     [Then(@"I get a valid list of workflow")]
@@ -52,7 +64,7 @@ public class Steps
     [Then(@"I get the right workflow")]
     public void ThenIGetTheRightWorkflow()
     {
-        var expected = new StandardWorklflow(new List<Stage> { new BuildStage(), new TestStage() });
+        var expected = new StandardWorklflow(new List<Stage> { new BuildStage("first"), new TestStage("second") });
         this.workflow.Should().BeEquivalentTo(expected);
     }
 
@@ -60,7 +72,7 @@ public class Steps
     public async Task WhenISerializeAStandardWorkflowWithABuildStageToTheFile(string filePath)
     {
         this.fileSystem.Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-        this.workflow = new StandardWorklflow(new List<Stage> { new BuildStage() });
+        this.workflow = new StandardWorklflow(new List<Stage> { new BuildStage("first") });
         using var stream = this.fileSystem.File.OpenWrite(filePath);
         await this.jsonSerializer.SerializeAsync(this.workflow, stream);
     }
