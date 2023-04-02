@@ -1,8 +1,8 @@
 ﻿namespace Smusdi.Core.Specs.Json;
 
-public abstract class Workflow
+public class Workflow
 {
-    protected Workflow(WorkflowType type, ICollection<Stage> stages)
+    public Workflow(WorkflowType type, ICollection<Stage> stages)
     {
         this.Type = type;
         this.Stages = stages;

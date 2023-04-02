@@ -2,8 +2,17 @@
 
 public class BuildStage : Stage
 {
-    public BuildStage()
-        : base(StageType.Build)
+    private readonly List<Stage> stages = new();
+
+    public BuildStage(string name, ICollection<Stage>? stages = null)
+
+        : base(StageType.Build, name)
     {
+        if (stages != null)
+        {
+            this.stages.AddRange(stages);
+        }
     }
+
+    public ICollection<Stage> Stages => this.stages;
 }

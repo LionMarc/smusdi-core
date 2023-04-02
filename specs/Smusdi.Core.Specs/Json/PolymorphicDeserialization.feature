@@ -7,10 +7,18 @@ Scenario: Deserialization of polymorphic object with children using same discrim
     {
         "stages": [
             {
-                "type": "Build"
+                "type": "Build",
+                "name": "first",
+                "stages": [
+                    {
+                        "type": "Test",
+                        "name": "Third"
+                    }
+                ]
             },
             {
-                "type": "Test"
+                "type": "Test",
+                "name": "second"
             }
         ],
         "type" : "Standard"
