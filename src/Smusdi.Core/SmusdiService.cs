@@ -165,6 +165,7 @@ public class SmusdiService : IDisposable
                     {
                         FileProvider = new PhysicalFileProvider(folder),
                         RequestPath = site.RequestPath,
+                        ServeUnknownFileTypes = site.ServeUnknownFileTypes,
                     });
                 }
             }
