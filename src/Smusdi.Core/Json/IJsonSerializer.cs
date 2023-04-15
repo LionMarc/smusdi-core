@@ -12,7 +12,7 @@ public interface IJsonSerializer
 
     ValueTask<T?> DeserializeAsync<T>(Stream stream);
 
-    T? Deserialize<T>(string value);
+    T? Deserialize<T>(string? value);
 
     T? Deserialize<T>(Stream stream);
 

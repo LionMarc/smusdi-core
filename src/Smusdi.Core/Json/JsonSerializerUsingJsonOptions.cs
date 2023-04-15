@@ -10,7 +10,7 @@ public class JsonSerializerUsingJsonOptions : IJsonSerializer
 
     public JsonSerializerOptions JsonSerializerOptions { get; }
 
-    public T? Deserialize<T>(string value)
+    public T? Deserialize<T>(string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Smusdi.PosgreSQL.Audit;
 
 namespace PostgreSqlMigration;
 
@@ -18,5 +19,7 @@ public class MigrationDbContext : DbContext
         modelBuilder.Entity<JobDao>()
             .ToTable("jobs")
             .HasKey(j => j.Id);
+
+        AuditDbContext.CreateTables(modelBuilder);
     }
 }
