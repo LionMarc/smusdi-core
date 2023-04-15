@@ -48,17 +48,7 @@ public class SmusdiService : IDisposable
         service.Build();
         service.ConfigureWebApplication();
 
-        if (service.WebApplication != null)
-        {
-            using (var scope = service.WebApplication.Services.CreateScope())
-            {
-                var beforeRunImplementations = scope.ServiceProvider.GetServices<IBeforeRun>();
-                foreach (var beforeRunImplementation in beforeRunImplementations)
-                {
-                    await beforeRunImplementation.Execute();
-                }
-            }
-        }
+        await service.ExecuteBeforeRunImplementations();
 
         service.Run();
     }
@@ -190,6 +180,21 @@ public class SmusdiService : IDisposable
     public virtual Task RunAsync() => this.WebApplication?.RunAsync() ?? Task.CompletedTask;
 
     public virtual void Run() => this.WebApplication?.Run();
+
+    public async Task ExecuteBeforeRunImplementations()
+    {
+        if (this.WebApplication != null)
+        {
+            using (var scope = this.WebApplication.Services.CreateScope())
+            {
+                var beforeRunImplementations = scope.ServiceProvider.GetServices<IBeforeRun>();
+                foreach (var beforeRunImplementation in beforeRunImplementations)
+                {
+                    await beforeRunImplementation.Execute();
+                }
+            }
+        }
+    }
 
     public void Dispose()
     {

@@ -8,8 +8,8 @@ public sealed class Pipeline<TContext>
     private readonly ILogger logger;
     private readonly IEnumerable<PipelineStep<TContext>> steps;
     private readonly Func<PipelineContext<TContext>, Task>? catchAction;
-    private Func<PipelineContext<TContext>, Task>? finallyAction;
-    private Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator;
+    private readonly Func<PipelineContext<TContext>, Task>? finallyAction;
+    private readonly Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator;
 
     internal Pipeline(
         ILogger logger,

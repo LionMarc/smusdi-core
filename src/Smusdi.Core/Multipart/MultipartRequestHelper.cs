@@ -31,17 +31,18 @@ public static class MultipartRequestHelper
     public static bool IsMultipartContentType(string contentType)
     {
         return !string.IsNullOrEmpty(contentType)
-               && contentType.IndexOf("multipart/", StringComparison.OrdinalIgnoreCase) >= 0;
+               && contentType.Contains("multipart/", StringComparison.OrdinalIgnoreCase);
     }
 
-    public static bool HasFormDataContentDisposition(ContentDispositionHeaderValue contentDisposition)
-    {
-        // Content-Disposition: form-data; name="key";
-        return contentDisposition != null
+    /// <summary>
+    /// Checks if content if of type form data.
+    /// </summary>
+    /// <param name="contentDisposition">Content to check.</param>
+    /// <returns>True if header is of the form "Content-Disposition: form-data; name="key";".</returns>
+    public static bool HasFormDataContentDisposition(ContentDispositionHeaderValue contentDisposition) => contentDisposition != null
             && contentDisposition.DispositionType.Equals("form-data")
             && string.IsNullOrEmpty(contentDisposition.FileName.Value)
             && string.IsNullOrEmpty(contentDisposition.FileNameStar.Value);
-    }
 
     public static bool HasFileContentDisposition(ContentDispositionHeaderValue contentDisposition)
     {

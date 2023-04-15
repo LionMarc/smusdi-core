@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Smusdi.PostgreSQL.Testing</RootNamespace>
+    <PackageId>Smusdi.PostgreSQL.Testing</PackageId>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <Authors>LION Marc</Authors>
+    <PackageDescription>Utilities for testing projects using postgreSQL.</PackageDescription>
+    <RepositoryUrl>https://github.com/LionMarc/smusdi-core</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Smusdi.PostgreSQL\Smusdi.PostgreSQL.csproj" />
+  </ItemGroup>
+
+</Project>

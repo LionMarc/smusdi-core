@@ -4,7 +4,7 @@ using TechTalk.SpecFlow.Assist;
 namespace Smusdi.Testing.SpecFlowHelpers;
 
 [Binding]
-public sealed class HelpersHook
+public static class HelpersHook
 {
     [BeforeTestRun]
     public static void RegisterRetrievers()

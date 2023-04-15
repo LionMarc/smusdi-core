@@ -71,7 +71,12 @@ public class Steps
     [When(@"I serialize a standard workflow with a build stage to the file ""(.*)""")]
     public async Task WhenISerializeAStandardWorkflowWithABuildStageToTheFile(string filePath)
     {
-        this.fileSystem.Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        var directory = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrEmpty(directory))
+        {
+            this.fileSystem.Directory.CreateDirectory(directory);
+        }
+
         this.workflow = new StandardWorklflow(new List<Stage> { new BuildStage("first") });
         using var stream = this.fileSystem.File.OpenWrite(filePath);
         await this.jsonSerializer.SerializeAsync(this.workflow, stream);

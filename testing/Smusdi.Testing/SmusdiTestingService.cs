@@ -50,7 +50,12 @@ public sealed class SmusdiTestingService : IDisposable
 
     public async Task StartAsync()
     {
-        await (this.SmusdiService?.WebApplication?.StartAsync() ?? Task.CompletedTask);
+        if (this.SmusdiService != null && this.SmusdiService.WebApplication != null)
+        {
+            await this.SmusdiService.ExecuteBeforeRunImplementations();
+            await this.SmusdiService.WebApplication.StartAsync();
+        }
+
         this.TestClient = this.TestServer?.CreateClient();
     }
 

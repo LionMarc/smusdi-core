@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <SMUSDI_SERVICE_NAME>smusdi</SMUSDI_SERVICE_NAME>
+      <MIGRATE_DATABASE>true</MIGRATE_DATABASE>
+      <POSTGRES_HOST>localhost</POSTGRES_HOST>
+      <POSTGRES_PORT>5432</POSTGRES_PORT>
+      <POSTGRES_USER>postgres</POSTGRES_USER>
+      <POSTGRES_PASSWORD>postgrespw</POSTGRES_PASSWORD>
+    </EnvironmentVariables>
+  </RunConfiguration>
+</RunSettings>
