@@ -8,7 +8,7 @@ public sealed class ClockSteps
 {
     private readonly ClockMock? clockMock;
 
-    public ClockSteps(SmusdiTestingService smusdiTestingService) => this.clockMock = smusdiTestingService.GetService<IClock>() as ClockMock;
+    public ClockSteps(SmusdiServiceTestingSteps steps) => this.clockMock = steps.SmusdiTestingService.GetService<IClock>() as ClockMock;
 
     [Given(@"the system clock ""(.*)""")]
     public void GivenTheSystemClock(string p0)

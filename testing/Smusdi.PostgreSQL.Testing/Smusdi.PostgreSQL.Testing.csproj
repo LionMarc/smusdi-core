@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Smusdi.PostgreSQL\Smusdi.PostgreSQL.csproj" />
+    <ProjectReference Include="..\Smusdi.Testing\Smusdi.Testing.csproj" />
   </ItemGroup>
 
 </Project>
