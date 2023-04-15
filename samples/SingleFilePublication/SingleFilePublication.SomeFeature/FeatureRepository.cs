@@ -2,12 +2,15 @@
 
 internal class FeatureRepository : IFeatureRepository
 {
-    private static readonly List<Feature> Features = new List<Feature>();
-    private static int nextId = 1;
+    private static readonly List<Feature> Features = new();
+    private static int nextId = 0;
 
     public Feature Add(FeatureCreationCommand command)
     {
-        var feature = new Feature(nextId++, command.Name);
+#pragma warning disable S2696 // Instance members should not write to "static" fields
+        var id = nextId++;
+#pragma warning restore S2696 // Instance members should not write to "static" fields
+        var feature = new Feature(id, command.Name);
         Features.Add(feature);
         return feature;
     }

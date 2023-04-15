@@ -4,21 +4,29 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <ItemGroup Condition="!$(MSBuildProjectFile.Contains('.Specs.')) AND !$(MSBuildProjectFile.Contains('.Testing.'))">
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>$(AssemblyName).Specs</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.')) OR $(MSBuildProjectFile.Contains('.Testing.'))">
-    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-  </ItemGroup>
+  
+  <!-- Analyzers -->
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
-  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.')) OR $(MSBuildProjectFile.Contains('.Testing.'))">
+  
+  
+  <ItemGroup Condition="!$(MSBuildProjectFile.Contains('.Specs.')) AND !$(MSBuildProjectFile.Contains('.Testing.'))">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(AssemblyName).Specs</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Testing.'))">
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Testing.'))">
     <PackageReference Include="SpecFlow"/>
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation"/>
     <PackageReference Include="SpecFlow.Plus.LivingDocPlugin"/>
@@ -29,17 +37,6 @@
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3"/>
     <PackageReference Include="System.IO.Abstractions.TestingHelpers"/>
     <PackageReference Include="RichardSzalay.MockHttp" />
-  </ItemGroup>
-  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.'))">
-    <ProjectReference Include="$(MSBuildThisFileDirectory)\testing\Smusdi.Testing\Smusdi.Testing.csproj" />
-    <PackageReference Include="xunit"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-    <PackageReference Include="xunit.runner.visualstudio"/>
-    <PackageReference Include="SpecFlow.xUnit"/>
-    <PackageReference Include="coverlet.collector">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectFile) == 'Smusdi.Core.csproj'">
@@ -53,17 +50,6 @@
     <PackageReference Include="System.IO.Abstractions"/>
     <PackageReference Include="Duende.AccessTokenManagement"/>
     <PackageReference Include="Microsoft.Extensions.Http.Polly"/>
-  </ItemGroup>
-  
-  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Specs.'))">
-    <Content Include="$(MSBuildThisFileDirectory)\specs\xunit.runner.json"
-             Link="xunit.runner.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)\specs\specflow.json"
-         Link="specflow.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectDirectory.Contains('samples'))">

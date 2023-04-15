@@ -41,10 +41,10 @@ public static class WebApplicationExtensions
             {
                 options.RoutePrefix = "swagger";
                 var descriptions = webApplication.DescribeApiVersions();
-                foreach (var desc in descriptions)
+                foreach (var desc in descriptions.Select(d => d.GroupName))
                 {
-                    var url = $"{desc.GroupName}/swagger.json";
-                    var name = desc.GroupName.ToUpperInvariant();
+                    var url = $"{desc}/swagger.json";
+                    var name = desc.ToUpperInvariant();
                     options.SwaggerEndpoint(url, name);
                 }
             }

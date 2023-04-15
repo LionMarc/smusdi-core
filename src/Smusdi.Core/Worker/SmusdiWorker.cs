@@ -65,9 +65,6 @@ public class SmusdiWorker
 
     public virtual void ConfigureHost()
     {
-        if (this.WorkerHost == null)
-        {
-            return;
-        }
+        // Nothing for now
     }
 }

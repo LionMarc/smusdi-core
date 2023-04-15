@@ -8,6 +8,12 @@
         "reportgenerator"
       ]
     },
+    "dotnet-ef": {
+      "version": "7.0.5",
+      "commands": [
+        "dotnet-ef"
+      ]
+    },
     "specflow.plus.livingdoc.cli": {
       "version": "3.9.57",
       "commands": [

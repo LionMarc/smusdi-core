@@ -9,7 +9,7 @@ public sealed class EnvironmentVariablesExpanderProvider : ConfigurationProvider
         this.configurationRoot = new Lazy<ConfigurationRoot>(() =>
         {
             var filteredProviders = (builder.Build().Providers ?? Enumerable.Empty<IConfigurationProvider>())
-                .Where(p => p.GetType() != typeof(EnvironmentVariablesExpanderProvider))
+                .Where(p => p is not EnvironmentVariablesExpanderProvider)
                 .ToList();
             return new ConfigurationRoot(filteredProviders);
         });

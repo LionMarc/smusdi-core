@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
         services.Scan(scan => scan
             .FromAssembliesOrApplicationDependencies(smusdiOptions)
-            .AddClasses(c => c.AssignableTo<IBeforeRun>())
+            .AddClasses(c => c.AssignableTo<IBeforeRun>().Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 

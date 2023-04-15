@@ -2,6 +2,9 @@
   "stepAssemblies": [
     {
       "assembly": "Smusdi.Testing"
+    },
+    {
+      "assembly": "Smusdi.PostgreSQL.Testing"
     }
   ],
   "livingDocGenerator": {

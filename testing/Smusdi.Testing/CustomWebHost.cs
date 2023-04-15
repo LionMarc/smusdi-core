@@ -19,6 +19,7 @@ public sealed class CustomWebHost : IWebHost
 
     public void Dispose()
     {
+        // nothing here
     }
 
     public void Start()

@@ -36,3 +36,4 @@ packages/
 /.specflow_results/
 /samples/SingleFilePublication/publish/
 /coverage
+/samples/Smusdi.Sample/logs/
