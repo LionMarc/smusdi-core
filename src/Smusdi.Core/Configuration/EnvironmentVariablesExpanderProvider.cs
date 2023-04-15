@@ -25,12 +25,9 @@ public sealed class EnvironmentVariablesExpanderProvider : ConfigurationProvider
         }
 
         value = Environment.ExpandEnvironmentVariables(rootValue);
-        if (value != rootValue && value.IndexOf("%") != -1)
+        if (value != rootValue && value.IndexOf("%") != -1 && bool.TryParse(Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiExpandEnvTwiceEnvVar), out var mustTryExpandingAgain) && mustTryExpandingAgain)
         {
-            if (bool.TryParse(Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiExpandEnvTwiceEnvVar), out var mustTryExpandingAgain) && mustTryExpandingAgain)
-            {
-                value = Environment.ExpandEnvironmentVariables(value);
-            }
+            value = Environment.ExpandEnvironmentVariables(value);
         }
 
         return !string.IsNullOrEmpty(value);
