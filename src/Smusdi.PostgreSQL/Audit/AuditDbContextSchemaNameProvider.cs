@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Smusdi.PosgreSQL.ValueConverters;
-
-namespace Smusdi.PosgreSQL.Audit;
+﻿namespace Smusdi.PostgreSQL.Audit;
 
 public sealed class AuditDbContextSchemaNameProvider : IAuditDbContextSchemaNameProvider
 {

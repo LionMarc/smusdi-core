@@ -1,5 +1,5 @@
 ﻿using Smusdi.Core.Json;
-using Smusdi.PosgreSQL.Audit;
+using Smusdi.PostgreSQL.Audit;
 using Smusdi.Testing;
 using TechTalk.SpecFlow;
 

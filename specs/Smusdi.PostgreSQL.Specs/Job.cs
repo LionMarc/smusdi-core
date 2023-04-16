@@ -1,8 +1,4 @@
-﻿using Smusdi.PosgreSQL.Audit;
-using Smusdi.Testing;
-using TechTalk.SpecFlow;
-
-namespace Smusdi.PostgreSQL.Specs;
+﻿namespace Smusdi.PostgreSQL.Specs;
 
 public sealed class Job
 {

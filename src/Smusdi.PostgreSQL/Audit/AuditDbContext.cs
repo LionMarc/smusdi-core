@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Smusdi.PosgreSQL.ValueConverters;
+using Smusdi.PostgreSQL.ValueConverters;
 
-namespace Smusdi.PosgreSQL.Audit;
+namespace Smusdi.PostgreSQL.Audit;
 
 public class AuditDbContext : DbContext
 {

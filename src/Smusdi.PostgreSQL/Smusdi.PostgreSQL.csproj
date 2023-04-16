@@ -5,8 +5,8 @@
     <ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
-    <RootNamespace>Smusdi.PosgreSQL</RootNamespace>
-    <PackageId>Smusdi.PosgreSQL</PackageId>
+    <RootNamespace>Smusdi.PostgreSQL</RootNamespace>
+    <PackageId>Smusdi.PostgreSQL</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <Authors>LION Marc</Authors>

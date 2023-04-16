@@ -1,4 +1,4 @@
-﻿namespace Smusdi.PosgreSQL.Audit;
+﻿namespace Smusdi.PostgreSQL.Audit;
 
 public interface IAuditDbContextSchemaNameProvider
 {
