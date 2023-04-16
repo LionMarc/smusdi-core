@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Smusdi.PosgreSQL.Audit;
+using Smusdi.PostgreSQL.Audit;
 
 namespace PostgreSqlMigration;
 

@@ -2,7 +2,7 @@
 using Smusdi.Core.Helpers;
 using Smusdi.Core.Json;
 
-namespace Smusdi.PosgreSQL.Audit;
+namespace Smusdi.PostgreSQL.Audit;
 
 public sealed class AuditRecord<TPayload, TUser>
     where TPayload : class

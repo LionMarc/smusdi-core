@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PostgreSqlMigration;
-using Smusdi.PosgreSQL.Audit;
+using Smusdi.PostgreSQL.Audit;
 using Smusdi.Testing;
 using Smusdi.Testing.Clock;
 

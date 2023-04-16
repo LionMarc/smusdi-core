@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Smusdi.PosgreSQL.Audit;
+namespace Smusdi.PostgreSQL.Audit;
 
 public static class ServiceCollectionExtensions
 {
