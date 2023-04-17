@@ -11,8 +11,10 @@ public class Steps
 {
     private readonly IJsonSerializer jsonSerializer;
     private readonly IFileSystem fileSystem;
+    private readonly Dictionary<string, Workflow> workflowByName = new();
     private Workflow? workflow;
     private List<Workflow>? workflows;
+    private string? serializedWorkflow;
 
     public Steps(SmusdiTestingService smusdiTestingService)
     {
@@ -38,8 +40,8 @@ public class Steps
         this.workflow.Should().NotBeNull();
         var expected = new StandardWorklflow(new Stage[]
         {
-            new BuildStage("first", new[] { new TestStage("Third") }),
-            new TestStage("second"),
+            new BuildStage("first", new[] { new TestStage("Third", 1) }),
+            new TestStage("second", 2),
         });
 
         var actual = JsonNode.Parse(this.jsonSerializer.Serialize(this.workflow));
@@ -64,7 +66,7 @@ public class Steps
     [Then(@"I get the right workflow")]
     public void ThenIGetTheRightWorkflow()
     {
-        var expected = new StandardWorklflow(new List<Stage> { new BuildStage("first"), new TestStage("second") });
+        var expected = new StandardWorklflow(new List<Stage> { new BuildStage("first"), new TestStage("second", 1) });
         this.workflow.Should().BeEquivalentTo(expected);
     }
 
@@ -80,5 +82,28 @@ public class Steps
         this.workflow = new StandardWorklflow(new List<Stage> { new BuildStage("first") });
         using var stream = this.fileSystem.File.OpenWrite(filePath);
         await this.jsonSerializer.SerializeAsync(this.workflow, stream);
+    }
+
+    [Given(@"the deserialized workflow ""(.*)""")]
+    public void GivenTheDeserializedWorkflow(string name, string multilineText)
+    {
+        var workflow = this.jsonSerializer.Deserialize<Workflow>(multilineText) ?? throw new InvalidOperationException("unable to deserialize input text to Wrokflow."); ;
+        this.workflowByName[name] = workflow;
+    }
+
+    [When(@"I serialized the workflow ""(.*)""")]
+    public void WhenISerializedTheWorkflow(string name)
+    {
+        this.serializedWorkflow = this.jsonSerializer.Serialize(this.workflowByName[name]);
+    }
+
+    [Then(@"I get the result")]
+    public void ThenIGetTheResult(string multilineText)
+    {
+        var expected = JsonNode.Parse(multilineText);
+        var serialized = JsonNode.Parse(this.serializedWorkflow!);
+        var diff = serialized.Diff(expected);
+
+        diff.Should().BeNull();
     }
 }

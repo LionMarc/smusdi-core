@@ -18,6 +18,7 @@ public class ServicesRegistrator : IServicesRegistrator
         options = new PolymorphicConverterOptions(nameof(Stage.Type).ToCamelCase(), new Dictionary<string, Type>());
         options.SubTypes.Add(StageType.Build.ToString(), typeof(BuildStage));
         options.SubTypes.Add(StageType.Test.ToString(), typeof(TestStage));
+        options.SubTypes.Add(StageType.List.ToString(), typeof(ListStage));
         services.AddPolymorphicConverter<Stage>(options);
 
         return services;
