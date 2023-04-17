@@ -4,4 +4,5 @@ public enum StageType
 {
     Build,
     Test,
+    List,
 }

@@ -11,12 +11,14 @@ Scenario: Deserialization of polymorphic object with children using same discrim
                 "name": "first",
                 "stages": [
                     {
+                        "order" : 1,
                         "type": "Test",
                         "name": "Third"
                     }
                 ]
             },
             {
+                "order" : 2,
                 "type": "Test",
                 "name": "second"
             }

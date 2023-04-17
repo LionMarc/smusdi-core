@@ -53,8 +53,6 @@ public class PolymorphicConverter<T> : JsonConverter<T>
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        var clonedOptions = new JsonSerializerOptions(options);
-        clonedOptions.Converters.Remove(this);
-        JsonSerializer.Serialize(writer, value, value?.GetType() ?? typeof(T), clonedOptions);
+        JsonSerializer.Serialize(writer, value, value?.GetType() ?? typeof(T), options);
     }
 }
