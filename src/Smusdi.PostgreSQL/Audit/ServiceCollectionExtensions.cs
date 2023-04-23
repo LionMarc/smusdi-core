@@ -5,10 +5,9 @@ namespace Smusdi.PostgreSQL.Audit;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAudit(this IServiceCollection services, string databaseSchema, string? connectionString)
+    public static IServiceCollection AddAudit(this IServiceCollection services, string? connectionString)
     {
         services
-            .AddSingleton<IAuditDbContextSchemaNameProvider>(new AuditDbContextSchemaNameProvider(databaseSchema))
             .AddDbContext<AuditDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention())
             .AddScoped<IAuditService, AuditService>();
 

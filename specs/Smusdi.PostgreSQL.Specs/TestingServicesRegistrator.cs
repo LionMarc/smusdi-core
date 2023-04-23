@@ -14,11 +14,11 @@ internal class TestingServicesRegistrator : ITestingServicesRegistrator
     {
         var connectionString = configuration.GetConnectionString("postgresql");
         services.AddDbContext<MigrationDbContext>(optionsBuilder => optionsBuilder
-            .UseNpgsql(connectionString, x => x.MigrationsHistoryTable("__ef_migrations_history", MigrationDbContext.Schema))
+            .UseNpgsql(connectionString, x => x.MigrationsHistoryTable("__ef_migrations_history", configuration.GetPostgreSqlSchema()))
             .UseSnakeCaseNamingConvention());
         services.AddDatabaseMigrator<MigrationDbContext>();
 
-        services.AddAudit(MigrationDbContext.Schema, connectionString);
+        services.AddAudit(connectionString);
 
         services.AddClockMock();
 
