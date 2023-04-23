@@ -10,7 +10,7 @@ internal class ServicesRegistrator : IServicesRegistrator
     public IServiceCollection Add(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<MigrationDbContext>(optionsBuilder => optionsBuilder
-            .UseNpgsql(configuration.GetConnectionString("postgresql"), x => x.MigrationsHistoryTable("__ef_migrations_history", MigrationDbContext.Schema))
+            .UseNpgsql(configuration.GetConnectionString("postgresql"), x => x.MigrationsHistoryTable("__ef_migrations_history", "test"))
             .UseSnakeCaseNamingConvention());
 
         return services;

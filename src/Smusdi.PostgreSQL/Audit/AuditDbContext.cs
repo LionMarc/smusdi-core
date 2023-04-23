@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Smusdi.PostgreSQL.ValueConverters;
 
 namespace Smusdi.PostgreSQL.Audit;
 
 public class AuditDbContext : DbContext
 {
-    private readonly IAuditDbContextSchemaNameProvider schemaNameProvider;
+    private readonly IConfiguration configuration;
 
-    public AuditDbContext(DbContextOptions<AuditDbContext> options, IAuditDbContextSchemaNameProvider schemaNameProvider)
+    public AuditDbContext(DbContextOptions<AuditDbContext> options, IConfiguration configuration)
     : base(options)
     {
-        this.schemaNameProvider = schemaNameProvider;
+        this.configuration = configuration;
     }
 
     public static void CreateTables(ModelBuilder modelBuilder)
@@ -32,7 +33,7 @@ public class AuditDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema(this.schemaNameProvider.SchemaName);
+        modelBuilder.HasDefaultSchema(this.configuration.GetPostgreSqlSchema());
         CreateTables(modelBuilder);
     }
 }
