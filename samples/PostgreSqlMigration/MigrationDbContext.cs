@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Smusdi.PostgreSQL.Audit;
+using Smusdi.PostgreSQL.ValueConverters;
 
 namespace PostgreSqlMigration;
 
@@ -19,6 +20,14 @@ public class MigrationDbContext : DbContext
         modelBuilder.Entity<JobDao>()
             .ToTable("jobs")
             .HasKey(j => j.Id);
+
+        modelBuilder.Entity<JobDao>()
+            .Property(j => j.UtcStartTimestamp)
+            .HasConversion<UtcDateTimeConverter>();
+
+        modelBuilder.Entity<JobDao>()
+            .Property(j => j.UtcEndTimestamp)
+            .HasConversion<NullableUtcDateTimeConverter>();
 
         AuditDbContext.CreateTables(modelBuilder);
     }
