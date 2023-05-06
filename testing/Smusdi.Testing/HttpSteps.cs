@@ -13,9 +13,9 @@ public sealed class HttpSteps
 {
     private readonly SmusdiTestingService smusdiTestingService;
 
-    public HttpSteps(SmusdiTestingService smusdiTestingService)
+    public HttpSteps(SmusdiServiceTestingSteps steps)
     {
-        this.smusdiTestingService = smusdiTestingService;
+        this.smusdiTestingService = steps.SmusdiTestingService;
     }
 
     public HttpResponseMessage? ResponseMessage { get; set; }
@@ -40,6 +40,14 @@ public sealed class HttpSteps
     {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         this.ResponseMessage = await this.smusdiTestingService.TestClient.GetAsync(url);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+    }
+
+    [When(@"I execute the DELETE request ""(.*)""")]
+    public async Task WhenIExecuteTheDeleteRequest(string url)
+    {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        this.ResponseMessage = await this.smusdiTestingService.TestClient.DeleteAsync(url);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 

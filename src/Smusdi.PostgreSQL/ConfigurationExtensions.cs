@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.Configuration;
 using Smusdi.Core;
-using Smusdi.Core.Extensibility;
 
 namespace Smusdi.PostgreSQL;
 
@@ -16,4 +12,3 @@ public static class ConfigurationExtensions
         return configuration.GetValue<string>(PostgreSqlSchemaProperty) ?? Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiServiceNameEnvVar) ?? "public";
     }
 }
-
