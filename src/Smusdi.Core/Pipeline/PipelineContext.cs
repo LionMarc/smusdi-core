@@ -13,4 +13,8 @@ public sealed class PipelineContext<TContext>
     public Exception? CaughtException { get; internal set; }
 
     public Exception? FinallyException { get; internal set; }
+
+    public bool IsCancelled { get; private set; }
+
+    public void CancelPipeline() => this.IsCancelled = true;
 }

@@ -65,7 +65,7 @@ Scenario: Running a pipeline with a step throwing an expection and a catch actio
     And the catch action has been called
     And the finally action has been called
 
-Scenario: Running a pipeline with a step cancelling the pipeline and a catch action defined 
+Scenario: Running a pipeline with a step cancelling the pipeline by throwing and a catch action defined 
     Given the pipeline with the steps
         | Name  | Cancel |
         | step1 | false  |
@@ -79,4 +79,18 @@ Scenario: Running a pipeline with a step cancelling the pipeline and a catch act
         | step2 |
     And the pipeline is in state "Cancelled"
     And the catch action has not been called
+    And the finally action has been called
+
+Scenario: Running a pipeline with a step cancelling the pipeline by calling the CancelPipeline method 
+    Given the pipeline with the steps
+        | Name  | Cancel | CallCancelMethod |
+        | step1 | false  | false            |
+        | step2 | false  | true             |
+        | step3 | false  | false            |
+    When I run the pipeline
+    Then the steps have been executed
+        | Name  |
+        | step1 |
+        | step2 |
+    And the pipeline is in state "Cancelled"
     And the finally action has been called

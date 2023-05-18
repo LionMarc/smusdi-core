@@ -44,6 +44,11 @@ public sealed class Steps : IDisposable
                         throw new PipelineCancelledException();
                     }
 
+                    if (step.CallCancelMethod)
+                    {
+                        context.CancelPipeline();
+                    }
+
                     return Task.CompletedTask;
                 });
         }
@@ -136,5 +141,7 @@ public sealed class Steps : IDisposable
         public bool Throw { get; set; }
 
         public bool Cancel { get; set; }
+
+        public bool CallCancelMethod { get; set; }
     }
 }

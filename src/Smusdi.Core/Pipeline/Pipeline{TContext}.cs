@@ -34,9 +34,14 @@ public sealed class Pipeline<TContext>
             foreach (var step in this.steps)
             {
                 await this.ProcessStep(step, context);
+                if (context.IsCancelled)
+                {
+                    this.logger.Information($"Pipeline has been cancelled by step {context.CurrentStep}.");
+                    break;
+                }
             }
 
-            context.State = PipelineState.Done;
+            context.State = context.IsCancelled ? PipelineState.Cancelled : PipelineState.Done;
         }
         catch (PipelineCancelledException)
         {
