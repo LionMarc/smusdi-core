@@ -1,20 +1,18 @@
 ﻿using System.Net.Mime;
 using System.Text;
 using Smusdi.Core.Json;
-using TechTalk.SpecFlow;
 
 namespace Smusdi.Testing.Http;
 
-[Binding]
 public sealed class ApiTesting
 {
     private readonly HttpSteps httpSteps;
     private readonly IJsonSerializer jsonSerializer;
 
-    public ApiTesting(HttpSteps httpSteps, IJsonSerializer jsonSerializer)
+    public ApiTesting(HttpSteps httpSteps, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
     {
         this.httpSteps = httpSteps;
-        this.jsonSerializer = jsonSerializer;
+        this.jsonSerializer = smusdiServiceTestingSteps.SmusdiTestingService.GetService<IJsonSerializer>() ?? throw new InvalidOperationException($"No implementation of {nameof(IJsonSerializer)} registered.");
     }
 
     public Task Get(string uri) => this.httpSteps.WhenIExecuteTheGetRequest(uri);

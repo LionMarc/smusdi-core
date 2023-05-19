@@ -1,14 +1,14 @@
-﻿using Smusdi.Testing;
+﻿using Smusdi.Testing.Http;
 
 namespace Smusdi.Core.Specs.InfoEndpoint;
 
 [Binding]
 public sealed class Steps
 {
-    private readonly HttpSteps httpSteps;
+    private readonly ApiTesting apiTesting;
 
-    public Steps(HttpSteps httpSteps) => this.httpSteps = httpSteps;
+    public Steps(ApiTesting apiTesting) => this.apiTesting = apiTesting;
 
     [When(@"I request the info endpoint")]
-    public Task WhenIRequestTheInfoEndpoint() => this.httpSteps.WhenIExecuteTheGetRequest("info");
+    public Task WhenIRequestTheInfoEndpoint() => this.apiTesting.Get("info");
 }
