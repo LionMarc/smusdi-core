@@ -2,6 +2,8 @@
 
 public sealed class OauthOptions
 {
+    public const string ConfigurationSection = "oauth";
+
     public string? Authority { get; set; }
 
     public List<string>? Scopes { get; set; }
@@ -11,10 +13,10 @@ public sealed class OauthOptions
     public static OauthOptions? GetOauthOptions(IConfiguration configuration)
     {
         OauthOptions? oauthOptions = null;
-        if (configuration.GetSection("oauth").Exists())
+        if (configuration.GetSection(ConfigurationSection).Exists())
         {
             oauthOptions = new OauthOptions();
-            configuration.Bind("oauth", oauthOptions);
+            configuration.Bind(ConfigurationSection, oauthOptions);
         }
 
         if (oauthOptions == null || string.IsNullOrWhiteSpace(oauthOptions.Authority))

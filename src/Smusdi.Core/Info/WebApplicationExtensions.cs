@@ -23,7 +23,7 @@ public static class WebApplicationExtensions
                 { "environment", webApplication.Environment.EnvironmentName },
             };
 
-            var customInfosFolder = Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiCustomInfoEnvVar);
+            var customInfosFolder = CustomInfoHelpers.GetInfoFolder();
 
             if (!string.IsNullOrWhiteSpace(customInfosFolder) && fileSystem.Directory.Exists(customInfosFolder))
             {
