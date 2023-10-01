@@ -1,12 +1,6 @@
 ﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using Smusdi.PostgreSQL.Audit;
-using Smusdi.Testing;
-using Smusdi.Testing.Database;
-using Smusdi.Testing.FluentAssertionsHelpers;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
 namespace Smusdi.PostgreSQL.Testing;
 
@@ -33,24 +27,5 @@ public sealed class PostgreSQLSteps
         command.CommandText = $"SELECT EXISTS(SELECT FROM pg_tables WHERE tablename='{tableName}')";
         var res = await command.ExecuteScalarAsync();
         res.Should().Be(false);
-    }
-}
-
-[Binding]
-public sealed class AuditTesting
-{
-    private readonly SmusdiTestingService smusdiTestingService;
-
-    public AuditTesting(SmusdiServiceTestingSteps smusdiServiceTestingSteps) => this.smusdiTestingService = smusdiServiceTestingSteps.SmusdiTestingService;
-
-    [Then(@"the audit records are registered")]
-    public async Task ThenTheAuditRecordsAreRegistered(Table table)
-    {
-        await this.smusdiTestingService.Execute<AuditDbContext>(async (AuditDbContext context) =>
-        {
-            var records = await context.Set<AuditRecordDao>().ToListAsync();
-            var expected = table.CreateSet<AuditRecordDao>().ToList();
-            records.Should().BeEquivalentTo(expected, options => options.CheckOnlyTableHeaders(table).CompareDateTimeAsUtc());
-        });
     }
 }
