@@ -17,8 +17,14 @@ public class ClaimsProvider
         }
     }
 
-    public void AddClaim(string type, string value)
+    public void AddClaim(string type, string value, bool append)
     {
+        if (!append)
+        {
+            this.claims.Add(new Claim(type, value));
+            return;
+        }
+
         var claim = this.claims.Find(c => c.Type == type);
         if (claim != null)
         {
