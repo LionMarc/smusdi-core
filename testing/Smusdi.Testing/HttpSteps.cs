@@ -31,7 +31,13 @@ public sealed class HttpSteps
 
         foreach (var row in table.Rows)
         {
-            claimsProvider.AddClaim(row["Type"], row["Value"]);
+            var appendToExistingClaim = true;
+            if (row.TryGetValue("append", out var append) && !string.IsNullOrWhiteSpace(append))
+            {
+                appendToExistingClaim = bool.Parse(append);
+            }
+
+            claimsProvider.AddClaim(row["Type"], row["Value"], appendToExistingClaim);
         }
     }
 
