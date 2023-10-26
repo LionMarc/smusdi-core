@@ -10,7 +10,14 @@ internal sealed class PipelineBuilder<TContext> : IPipelineBuilder<TContext>
     private Func<PipelineContext<TContext>, Task>? finallyAction;
     private Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator;
 
-    public PipelineBuilder(ILogger logger) => this.logger = logger;
+    public PipelineBuilder(ILogger logger, IEnumerable<IPipelineStepProcessor<TContext>> stepProcessors)
+    {
+        this.logger = logger;
+        foreach (var processor in stepProcessors.OrderBy(p => p.Order))
+        {
+            this.Pipe(processor.Name, processor.Process);
+        }
+    }
 
     public Pipeline<TContext> Build()
     {
