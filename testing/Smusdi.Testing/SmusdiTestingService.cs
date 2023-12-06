@@ -77,4 +77,16 @@ public sealed class SmusdiTestingService : IDisposable
 
         return serviceProvider.GetService<T>();
     }
+
+    public T GetRequiredService<T>()
+        where T : notnull
+    {
+        var serviceProvider = this.SmusdiService?.WebApplication?.Services;
+        if (serviceProvider == null)
+        {
+            throw new InvalidOperationException("SmusdiService is not initialized");
+        }
+
+        return serviceProvider.GetRequiredService<T>();
+    }
 }
