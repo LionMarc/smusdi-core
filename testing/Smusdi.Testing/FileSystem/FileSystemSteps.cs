@@ -51,4 +51,18 @@ public sealed class FileSystemSteps
         var content = reader.ReadToEnd();
         content.Should().Be(multilineText);
     }
+
+    [Then(@"the folder ""(.*)"" is empty")]
+    public void ThenTheFolderIsEmpty(string folder)
+    {
+        this.fileSystem.Directory.Exists(folder).Should().BeTrue();
+        this.fileSystem.Directory.EnumerateFileSystemEntries(folder).Count().Should().Be(0);
+    }
+
+    [Then(@"the folder ""(.*)"" is not empty")]
+    public void ThenTheFolderIsNotEmpty(string folder)
+    {
+        this.fileSystem.Directory.Exists(folder).Should().BeTrue();
+        this.fileSystem.Directory.EnumerateFileSystemEntries(folder).Any().Should().BeTrue();
+    }
 }

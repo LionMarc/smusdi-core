@@ -24,3 +24,18 @@ Scenario: Removing a file and testing that it exists
     """
     When I delete the file "K:/subfolder/test.txt"
     Then the file "K:/subfolder/test.txt" does not exist
+
+Scenario: Testing that a folder is empty
+    Given the file "K:/subfolder/test.txt" with content
+    """
+    Content of the file
+    """
+    When I delete the file "K:/subfolder/test.txt"
+    Then the folder "K:/subfolder" is empty
+
+Scenario: Testing that a folder is not empty
+    When I create the file "K:/subfolder/test.txt" with content
+    """
+    Content of the file
+    """
+    Then the folder "K:/subfolder" is not empty
