@@ -5,7 +5,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "SMUSDI_SERVICE_NAME": "smusdi-api-with-no-versioning",
-        "SMUSDI_OAUTH_URL": "http://host.docker.internal:8080/realms/SMUSDI"
+        "SMUSDI_OAUTH_URL": "http://localhost:8080/realms/SMUSDI"
       }
     }
   }
