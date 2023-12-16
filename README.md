@@ -3,6 +3,7 @@
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![HitCount](https://hits.dwyl.com/LionMarc/smusdi-core.svg?style=flat-square)](http://hits.dwyl.com/LionMarc/smusdi-core)
 [![NuGet stable version](https://badgen.net/nuget/v/Smusdi.Core)](https://nuget.org/packages/Smusdi.Core)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Smusdi.Core.svg)](https://www.nuget.org/packages/Smusdi.Core/)
 
 This project provides utility libraries for .NET services.
 
@@ -15,13 +16,14 @@ Just add the package as reference and set the following code in *program.cs* fil
 ```cs
 using Smusdi.Core;
 
-SmusdiService.InitAndRun(args);
+await SmusdiService.InitAndRunAsync(args);
 ```
 
 The bootstrapper uses the following environment variables:
 
 - **SMUSDI_SERVICE_NAME**: the name of the service which will be used for the appsettings files, the logs files...
-- **SMUSDI_APPSETTINGS_FOLDER**: this variable setup the folder in which the service can find the appsettings files. If not set, the appsettings files are supposed to be in the working directory.
+- **SMUSDI_APPSETTINGS_FOLDER**: this variable setup the folder in which the service can find the appsettings files. If not set, the appsettings files are supposed to be in the working directory;
+- **SMUSDI_ENV_FILE**: path of *.env* file used to setup a list of environment variables. If not set, the service try to load variables from file **.env**. If file does exist, the service does nothing.
 
 > The bootstrapper load the following appsettings files:
 > - appsettings.json
