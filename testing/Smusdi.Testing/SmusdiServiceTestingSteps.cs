@@ -22,12 +22,6 @@ public sealed class SmusdiServiceTestingSteps
         Environment.SetEnvironmentVariable(SmusdiConstants.SmusdiAppsettingsFolderEnvVar, string.Empty);
     }
 
-    [Given(@"the environment variable ""(.*)"" set to ""(.*)""")]
-    public void GivenTheEnvironmentVariableSetTo(string p0, string p1)
-    {
-        Environment.SetEnvironmentVariable(p0, p1);
-    }
-
     [Given(@"the service initialized")]
     public void GivenTheServiceInitialized()
     {

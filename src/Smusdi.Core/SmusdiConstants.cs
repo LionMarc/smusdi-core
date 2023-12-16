@@ -11,4 +11,8 @@ public static class SmusdiConstants
     public const string SmusdiCustomInfoEnvVar = "SMUSDI_CUSTOM_INFOS_FOLDER";
 
     public const string SmusdiExpandEnvTwiceEnvVar = "SMUSDI_EXPAND_ENV_TWICE";
+
+    public const string SmusdiEnvFilePath = "SMUSDI_ENV_FILE";
+
+    public const string DefaultEnvFile = ".env";
 }

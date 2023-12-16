@@ -26,8 +26,10 @@ public class SmusdiService : IDisposable
 
     public WebApplication? WebApplication { get; private set; }
 
+    [Obsolete($"Use {nameof(InitAndRunAsync)} instead")]
     public static void InitAndRun(string[] args) => InitAndRun<SmusdiService>(args);
 
+    [Obsolete($"Use {nameof(InitAndRunAsync)} instead")]
     public static void InitAndRun<T>(string[] args)
         where T : SmusdiService, new()
     {
@@ -53,8 +55,26 @@ public class SmusdiService : IDisposable
         service.Run();
     }
 
+    public static void ReadEnvFileIfExists()
+    {
+        var envFile = Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiEnvFilePath) ?? SmusdiConstants.DefaultEnvFile;
+        if (!string.IsNullOrWhiteSpace(envFile) && File.Exists(envFile))
+        {
+            foreach (var line in File.ReadAllLines(envFile))
+            {
+                var parts = line.Split('=');
+                if (parts.Length == 2)
+                {
+                    var value = Environment.ExpandEnvironmentVariables(parts[1]);
+                    Environment.SetEnvironmentVariable(parts[0], value);
+                }
+            }
+        }
+    }
+
     public virtual void CreateAndInitializeBuider(string[] args)
     {
+        ReadEnvFileIfExists();
         var webApplicationOptions = new WebApplicationOptions
         {
             Args = args,
