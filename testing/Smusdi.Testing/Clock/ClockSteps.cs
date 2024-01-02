@@ -1,4 +1,5 @@
-﻿using Smusdi.Core.Helpers;
+﻿using System.Globalization;
+using Microsoft.Extensions.Time.Testing;
 using TechTalk.SpecFlow;
 
 namespace Smusdi.Testing.Clock;
@@ -6,16 +7,16 @@ namespace Smusdi.Testing.Clock;
 [Binding]
 public sealed class ClockSteps
 {
-    private readonly ClockMock? clockMock;
+    private readonly FakeTimeProvider? fakeTimeProvider;
 
-    public ClockSteps(SmusdiServiceTestingSteps steps) => this.clockMock = steps.SmusdiTestingService.GetService<IClock>() as ClockMock;
+    public ClockSteps(SmusdiServiceTestingSteps steps) => this.fakeTimeProvider = steps.SmusdiTestingService.GetService<TimeProvider>() as FakeTimeProvider;
 
     [Given(@"the system clock ""(.*)""")]
     public void GivenTheSystemClock(string p0)
     {
-        if (this.clockMock != null)
+        if (this.fakeTimeProvider != null)
         {
-            this.clockMock.UtcNow = DateTimeOffset.Parse(p0);
+            this.fakeTimeProvider.SetUtcNow(DateTimeOffset.Parse(p0, CultureInfo.InvariantCulture));
         }
     }
 }
