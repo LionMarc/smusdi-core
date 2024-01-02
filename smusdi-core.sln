@@ -40,11 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleFilePublication.SomeF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Worker.Sample", "samples\Smusdi.Worker.Sample\Smusdi.Worker.Sample.csproj", "{01C2F805-7007-4973-BA63-A26F4595B001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.PostgreSQL", "src\Smusdi.PostgreSQL\Smusdi.PostgreSQL.csproj", "{6CBFCB59-F5FB-42A4-9A03-F092DCBA9E97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.PostgreSQL", "src\Smusdi.PostgreSQL\Smusdi.PostgreSQL.csproj", "{6CBFCB59-F5FB-42A4-9A03-F092DCBA9E97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.PostgreSQL.Specs", "specs\Smusdi.PostgreSQL.Specs\Smusdi.PostgreSQL.Specs.csproj", "{7A1F569F-81C6-41D5-B75F-3C0668CD1AA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.PostgreSQL.Specs", "specs\Smusdi.PostgreSQL.Specs\Smusdi.PostgreSQL.Specs.csproj", "{7A1F569F-81C6-41D5-B75F-3C0668CD1AA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.PostgreSQL.Testing", "testing\Smusdi.PostgreSQL.Testing\Smusdi.PostgreSQL.Testing.csproj", "{B5D6A0DE-CB7D-4AE5-973B-34C3CBA2A4EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.PostgreSQL.Testing", "testing\Smusdi.PostgreSQL.Testing\Smusdi.PostgreSQL.Testing.csproj", "{B5D6A0DE-CB7D-4AE5-973B-34C3CBA2A4EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{C32D90C3-140A-4BBE-8A59-4A0A90A9314A}"
 	ProjectSection(SolutionItems) = preProject
@@ -56,6 +56,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{C32D90C3
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgreSqlMigration", "samples\PostgreSqlMigration\PostgreSqlMigration.csproj", "{BF377F76-AAED-4CCE-A820-8AD41A12D23C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C11885E1-0B86-4166-8F16-8147AB9BD97D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{EAFCDA1E-66E8-4BB2-9024-7B15ED3A48B1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.github\workflows\publish_doc.yml = .github\workflows\publish_doc.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +137,7 @@ Global
 		{B5D6A0DE-CB7D-4AE5-973B-34C3CBA2A4EE} = {EBD4B1BE-BE4A-4D2F-9D94-40D95C879B20}
 		{C32D90C3-140A-4BBE-8A59-4A0A90A9314A} = {BE287E47-6A83-43C2-85CD-BCC63063AA71}
 		{BF377F76-AAED-4CCE-A820-8AD41A12D23C} = {FE3DAB11-0EE9-4DFA-8706-E0867AF41942}
+		{EAFCDA1E-66E8-4BB2-9024-7B15ED3A48B1} = {C11885E1-0B86-4166-8F16-8147AB9BD97D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E408858C-2BD5-4F48-8375-57CA39A82AF7}
