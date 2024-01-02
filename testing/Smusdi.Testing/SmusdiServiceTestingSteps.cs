@@ -15,6 +15,8 @@ public sealed class SmusdiServiceTestingSteps
 
     public SmusdiTestingService SmusdiTestingService => this.smusdiTestingService;
 
+    public List<string> Args { get; } = new();
+
     [AfterScenario]
     public void DisposeSmusdiTestingService()
     {
@@ -26,14 +28,14 @@ public sealed class SmusdiServiceTestingSteps
     public void GivenTheServiceInitialized()
     {
         SetEnvironmentIfNotSet();
-        this.smusdiTestingService.Initialize();
+        this.smusdiTestingService.Initialize(this.Args.ToArray());
     }
 
     [Given(@"the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
         SetEnvironmentIfNotSet();
-        this.smusdiTestingService.Initialize();
+        this.smusdiTestingService.Initialize(this.Args.ToArray());
         await this.smusdiTestingService.StartAsync();
     }
 

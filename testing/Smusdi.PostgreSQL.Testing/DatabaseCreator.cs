@@ -1,21 +1,21 @@
 ﻿using Npgsql;
+using Smusdi.Testing;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 
 namespace Smusdi.PostgreSQL.Testing;
 
 [Binding]
-public sealed class DatabaseCreator
+public sealed class DatabaseCreator(ISpecFlowOutputHelper specFlowOutputHelper, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
     public const int DatabaseCreatorHookOrder = HookAttribute.DefaultOrder - 1000;
     public const string TargetTag = "postgresql";
 
     private readonly string databaseName = $"smusdi_{Guid.NewGuid()}";
-    private readonly ISpecFlowOutputHelper specFlowOutputHelper;
+    private readonly ISpecFlowOutputHelper specFlowOutputHelper = specFlowOutputHelper;
+    private readonly SmusdiServiceTestingSteps smusdiServiceTestingSteps = smusdiServiceTestingSteps;
 
     private string? connectionString;
-
-    public DatabaseCreator(ISpecFlowOutputHelper specFlowOutputHelper) => this.specFlowOutputHelper = specFlowOutputHelper;
 
     [BeforeScenario(TargetTag, Order = DatabaseCreatorHookOrder)]
     public async Task DatabaseCreation()
@@ -37,11 +37,8 @@ public sealed class DatabaseCreator
         connection.Close();
         this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} created.");
 
-        Environment.SetEnvironmentVariable(EnvironmentVariableNames.Db, this.databaseName);
-        Environment.SetEnvironmentVariable(EnvironmentVariableNames.Host, host);
-        Environment.SetEnvironmentVariable(EnvironmentVariableNames.Port, port);
-        Environment.SetEnvironmentVariable(EnvironmentVariableNames.User, user);
-        Environment.SetEnvironmentVariable(EnvironmentVariableNames.Password, password);
+        var targetConnectionString = $"server={host};Port={port};Database={this.databaseName};UserId={user};Password={password};Trust Server Certificate=true;";
+        this.smusdiServiceTestingSteps.Args.Add($"--{Constants.ConnectionStringSettingsPath}={targetConnectionString}");
     }
 
     [AfterScenario(TargetTag)]

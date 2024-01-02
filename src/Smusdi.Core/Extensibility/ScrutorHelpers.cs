@@ -11,4 +11,16 @@ public static class ScrutorHelpers
 
         return collection.Select(t => t.ServiceType.Assembly).Distinct();
     }
+
+    public static IEnumerable<T> GetImplementationsOf<T>(IConfiguration configuration)
+    {
+        var collection = new ServiceCollection();
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
+        collection.Scan(scan => scan
+            .FromAssembliesOrApplicationDependencies(smusdiOptions)
+            .AddClasses(c => c.AssignableTo<T>())
+            .AsImplementedInterfaces()
+            .WithSingletonLifetime());
+        return collection.BuildServiceProvider().GetServices<T>();
+    }
 }

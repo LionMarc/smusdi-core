@@ -12,7 +12,7 @@ internal class TestingServicesRegistrator : ITestingServicesRegistrator
 {
     public IServiceCollection Add(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("postgresql");
+        var connectionString = configuration.GetConnectionString(Constants.ConnectionStringName);
         services.AddDbContext<MigrationDbContext>(optionsBuilder => optionsBuilder
             .UseNpgsql(connectionString, x => x.MigrationsHistoryTable("__ef_migrations_history", configuration.GetPostgreSqlSchema()))
             .UseSnakeCaseNamingConvention());
