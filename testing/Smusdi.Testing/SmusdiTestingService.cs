@@ -21,10 +21,10 @@ public sealed class SmusdiTestingService : IDisposable
 
     public HttpClient? TestClient { get; private set; }
 
-    public void Initialize()
+    public void Initialize(string[] args)
     {
         this.SmusdiService = new SmusdiService();
-        this.SmusdiService.CreateAndInitializeBuider(Array.Empty<string>());
+        this.SmusdiService.CreateAndInitializeBuider(args);
 
         var builder = this.SmusdiService.WebApplicationBuilder;
         if (builder != null)
