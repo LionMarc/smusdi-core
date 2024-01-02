@@ -8,11 +8,11 @@ internal class WebApplicationConfigurator : IWebApplicationConfigurator
 {
     public WebApplication Configure(WebApplication webApplication)
     {
-        webApplication.MapGet("/testing-clock", (IClock clock) =>
+        webApplication.MapGet("/testing-clock", (TimeProvider timeProvider) =>
         {
             return new Result
             {
-                UtcNow = clock.UtcNow.UtcDateTime,
+                UtcNow = timeProvider.GetUtcNow().UtcDateTime,
             };
         });
 

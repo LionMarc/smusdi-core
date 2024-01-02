@@ -121,7 +121,7 @@ public class SmusdiService : IDisposable
 
         builder.Services
             .AddControllersInputValidation(smusdiOptions)
-            .AddSingleton<IClock, Clock>()
+            .AddSingleton(TimeProvider.System)
             .AddScoped(typeof(IPipelineBuilder<>), typeof(PipelineBuilder<>))
             .SetupMultipartMaxSizes(smusdiOptions)
             .AddJsonSerializerWithJsonOptions()

@@ -41,7 +41,7 @@ public class SmusdiWorker
 
         builder.Services
             .AddSingleton<IFileSystem, FileSystem>()
-            .AddSingleton<IClock, Clock>()
+            .AddSingleton(TimeProvider.System)
             .Configure<JsonOptions>(j => j.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
             .AddJsonSerializerWithJsonOptions()
             .AddScoped(typeof(IPipelineBuilder<>), typeof(PipelineBuilder<>))

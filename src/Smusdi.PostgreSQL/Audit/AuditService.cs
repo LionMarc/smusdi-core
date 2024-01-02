@@ -4,19 +4,12 @@ using Smusdi.Core.Json;
 
 namespace Smusdi.PostgreSQL.Audit;
 
-public sealed class AuditService : IAuditService
+public sealed class AuditService(AuditDbContext context, TimeProvider timeProvider, IJsonSerializer jsonSerializer) : IAuditService
 {
     private const int MaxResultsPerQuery = 10000;
-    private readonly AuditDbContext context;
-    private readonly IClock clock;
-    private readonly IJsonSerializer jsonSerializer;
-
-    public AuditService(AuditDbContext context, IClock clock, IJsonSerializer jsonSerializer)
-    {
-        this.context = context;
-        this.clock = clock;
-        this.jsonSerializer = jsonSerializer;
-    }
+    private readonly AuditDbContext context = context;
+    private readonly TimeProvider timeProvider = timeProvider;
+    private readonly IJsonSerializer jsonSerializer = jsonSerializer;
 
     public async Task<AuditRecord<TPayload, TUser>> AddRecord<TPayload, TUser>(string type, string objectType, string objectId, TPayload? payload, TUser? user)
         where TPayload : class
@@ -24,7 +17,7 @@ public sealed class AuditService : IAuditService
     {
         var item = new AuditRecordDao
         {
-            UtcCreationTimestamp = this.clock.UtcNow.UtcDateTime,
+            UtcCreationTimestamp = this.timeProvider.GetUtcNow().DateTime,
             Type = type,
             ObjectType = objectType,
             ObjectId = objectId,
