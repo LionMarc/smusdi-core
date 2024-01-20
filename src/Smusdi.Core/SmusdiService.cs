@@ -26,20 +26,6 @@ public class SmusdiService : IDisposable
 
     public WebApplication? WebApplication { get; private set; }
 
-    [Obsolete($"Use {nameof(InitAndRunAsync)} instead")]
-    public static void InitAndRun(string[] args) => InitAndRun<SmusdiService>(args);
-
-    [Obsolete($"Use {nameof(InitAndRunAsync)} instead")]
-    public static void InitAndRun<T>(string[] args)
-        where T : SmusdiService, new()
-    {
-        var service = new T();
-        service.CreateAndInitializeBuider(args);
-        service.Build();
-        service.ConfigureWebApplication();
-        service.Run();
-    }
-
     public static Task InitAndRunAsync(string[] args) => InitAndRunAsync<SmusdiService>(args);
 
     public static async Task InitAndRunAsync<T>(string[] args)

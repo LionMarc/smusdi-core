@@ -16,7 +16,7 @@ internal sealed class SampleService : ISampleService
         var response = await this.httpClient.GetAsync($"with-authorization/requires-{scope}");
         if (!response.IsSuccessStatusCode)
         {
-            // TODO
+            // Nothing to do here => test purpose
         }
     }
 }
