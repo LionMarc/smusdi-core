@@ -149,6 +149,10 @@ public class SmusdiService : IDisposable
         }
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(this.WebApplication.Configuration);
+
+        this.WebApplication
+            .UseResponseCompression(smusdiOptions);
+
         if (smusdiOptions.StaticSites.Count > 0)
         {
             foreach (var site in smusdiOptions.StaticSites)
@@ -190,7 +194,6 @@ public class SmusdiService : IDisposable
         this.WebApplication.UseSecurity(this.WebApplication.Configuration);
         this.WebApplication.MapControllers();
         this.WebApplication
-            .UseResponseCompression(smusdiOptions)
             .UseSwagger(this.WebApplication.Configuration)
             .UseHealthChecks()
             .UseInfoEndpoint()
