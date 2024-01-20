@@ -14,9 +14,8 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
         IOptionsMonitor<AuthenticationSchemeOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
-        ISystemClock clock,
         ClaimsProvider claimsProvider)
-        : base(options, logger, encoder, clock)
+        : base(options, logger, encoder)
     {
         this.claimsProvider = claimsProvider;
     }

@@ -1,3 +1,3 @@
 ﻿using Smusdi.Core;
 
-SmusdiService.InitAndRun(args);
+await SmusdiService.InitAndRunAsync(args);
