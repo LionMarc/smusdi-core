@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 
-namespace Smusdi.Testing;
+namespace Smusdi.Testing.Http;
 
 [Binding]
 public sealed class HttpSteps
