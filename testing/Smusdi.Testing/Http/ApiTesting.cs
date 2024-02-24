@@ -4,15 +4,17 @@ using Smusdi.Core.Json;
 
 namespace Smusdi.Testing.Http;
 
-public sealed class ApiTesting
+public sealed class ApiTesting(HttpSteps httpSteps, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
-    private readonly HttpSteps httpSteps;
-    private readonly IJsonSerializer jsonSerializer;
+    private readonly HttpSteps httpSteps = httpSteps;
+    private readonly IJsonSerializer jsonSerializer = smusdiServiceTestingSteps.SmusdiTestingService.GetRequiredService<IJsonSerializer>();
 
-    public ApiTesting(HttpSteps httpSteps, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
+    public HttpResponseMessage? ResponseMessage
     {
-        this.httpSteps = httpSteps;
-        this.jsonSerializer = smusdiServiceTestingSteps.SmusdiTestingService.GetService<IJsonSerializer>() ?? throw new InvalidOperationException($"No implementation of {nameof(IJsonSerializer)} registered.");
+        get
+        {
+            return this.httpSteps.ResponseMessage;
+        }
     }
 
     public Task Get(string uri) => this.httpSteps.WhenIExecuteTheGetRequest(uri);
