@@ -9,13 +9,7 @@ public sealed class ApiTesting(HttpSteps httpSteps, SmusdiServiceTestingSteps sm
     private readonly HttpSteps httpSteps = httpSteps;
     private readonly IJsonSerializer jsonSerializer = smusdiServiceTestingSteps.SmusdiTestingService.GetRequiredService<IJsonSerializer>();
 
-    public HttpResponseMessage? ResponseMessage
-    {
-        get
-        {
-            return this.httpSteps.ResponseMessage;
-        }
-    }
+    public HttpResponseMessage? ResponseMessage => this.httpSteps.ResponseMessage;
 
     public Task Get(string uri) => this.httpSteps.WhenIExecuteTheGetRequest(uri);
 

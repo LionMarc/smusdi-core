@@ -87,8 +87,8 @@ public class Steps
     [Given(@"the deserialized workflow ""(.*)""")]
     public void GivenTheDeserializedWorkflow(string name, string multilineText)
     {
-        var workflow = this.jsonSerializer.Deserialize<Workflow>(multilineText) ?? throw new InvalidOperationException("unable to deserialize input text to Wrokflow."); ;
-        this.workflowByName[name] = workflow;
+        var expectedWorkflow = this.jsonSerializer.Deserialize<Workflow>(multilineText) ?? throw new InvalidOperationException("unable to deserialize input text to Wrokflow.");
+        this.workflowByName[name] = expectedWorkflow;
     }
 
     [When(@"I serialized the workflow ""(.*)""")]

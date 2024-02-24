@@ -7,7 +7,7 @@ using TechTalk.SpecFlow;
 namespace Smusdi.PostgreSQL.Testing;
 
 [Binding]
-public sealed class PostgreSQLSteps(SmusdiServiceTestingSteps steps)
+public sealed class PostgreSqlSteps(SmusdiServiceTestingSteps steps)
 {
     private readonly IConfiguration configuration = steps.SmusdiTestingService.GetRequiredService<IConfiguration>();
 
