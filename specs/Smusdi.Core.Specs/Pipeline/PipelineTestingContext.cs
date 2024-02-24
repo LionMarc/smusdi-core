@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Smusdi.Core.Pipeline;
-using Smusdi.Testing;
-using TechTalk.SpecFlow.Assist;
+﻿namespace Smusdi.Core.Specs.Pipeline;
 
-namespace Smusdi.Core.Specs.Pipeline;
+#pragma warning disable S2094 // Classes should not be empty
 
 public sealed class PipelineTestingContext
+#pragma warning restore S2094 // Classes should not be empty
 {
 }
