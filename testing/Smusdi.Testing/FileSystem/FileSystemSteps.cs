@@ -1,15 +1,13 @@
 ﻿using System.IO.Abstractions;
 using FluentAssertions;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace Smusdi.Testing.FileSystem;
 
 [Binding]
-public sealed class FileSystemSteps
+public sealed class FileSystemSteps(SmusdiTestingService smusdiTestingService)
 {
-    private readonly IFileSystem fileSystem;
-
-    public FileSystemSteps(SmusdiTestingService smusdiTestingService) => this.fileSystem = smusdiTestingService.GetService<IFileSystem>() ?? throw new NullReferenceException("IFileSystem");
+    private readonly IFileSystem fileSystem = smusdiTestingService.GetService<IFileSystem>() ?? throw new NullReferenceException("IFileSystem");
 
     [Given(@"the file ""(.*)"" with content")]
     [When(@"I create the file ""(.*)"" with content")]

@@ -1,18 +1,17 @@
 ﻿using Npgsql;
+using Reqnroll;
 using Smusdi.Testing;
-using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Infrastructure;
 
 namespace Smusdi.PostgreSQL.Testing;
 
 [Binding]
-public sealed class DatabaseCreator(ISpecFlowOutputHelper specFlowOutputHelper, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
+public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
     public const int DatabaseCreatorHookOrder = HookAttribute.DefaultOrder - 1000;
     public const string TargetTag = "postgresql";
 
     private readonly string databaseName = $"smusdi_{Guid.NewGuid()}";
-    private readonly ISpecFlowOutputHelper specFlowOutputHelper = specFlowOutputHelper;
+    private readonly IReqnrollOutputHelper specFlowOutputHelper = specFlowOutputHelper;
     private readonly SmusdiServiceTestingSteps smusdiServiceTestingSteps = smusdiServiceTestingSteps;
 
     private string? connectionString;

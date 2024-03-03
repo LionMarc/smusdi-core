@@ -1,13 +1,12 @@
-﻿using Smusdi.Testing;
+﻿using Reqnroll;
+using Smusdi.Testing;
 
 namespace Smusdi.Core.Specs.Configuration;
 
 [Binding]
-public sealed class Steps
+public sealed class Steps(SmusdiTestingService smusdiTestingService)
 {
-    private readonly SmusdiTestingService smusdiTestingService;
-
-    public Steps(SmusdiTestingService smusdiTestingService) => this.smusdiTestingService = smusdiTestingService;
+    private readonly SmusdiTestingService smusdiTestingService = smusdiTestingService;
 
     [AfterScenario]
     public static void Cleanup()

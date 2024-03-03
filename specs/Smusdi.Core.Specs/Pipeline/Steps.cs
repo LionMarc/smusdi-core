@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Reqnroll;
 using Smusdi.Core.Pipeline;
 using Smusdi.Testing;
-using TechTalk.SpecFlow.Assist;
 
 namespace Smusdi.Core.Specs.Pipeline;
 

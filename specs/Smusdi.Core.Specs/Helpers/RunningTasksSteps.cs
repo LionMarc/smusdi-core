@@ -1,17 +1,16 @@
-﻿using Smusdi.Core.Helpers;
-using TechTalk.SpecFlow.Assist;
-using TechTalk.SpecFlow.Infrastructure;
+﻿using Reqnroll;
+using Smusdi.Core.Helpers;
 
 namespace Smusdi.Core.Specs.Helpers;
 
 [Binding]
 public sealed class RunningTasksSteps
 {
-    private readonly ISpecFlowOutputHelper specFlowOutputHelper;
+    private readonly IReqnrollOutputHelper specFlowOutputHelper;
     private readonly List<int> inputs = new();
     private readonly List<string> logs = new();
 
-    public RunningTasksSteps(ISpecFlowOutputHelper specFlowOutputHelper)
+    public RunningTasksSteps(IReqnrollOutputHelper specFlowOutputHelper)
     {
         this.specFlowOutputHelper = specFlowOutputHelper;
     }

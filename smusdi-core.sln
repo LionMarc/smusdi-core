@@ -51,7 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{C32D90C3
 		specs\.runsettings = specs\.runsettings
 		specs\appsettings.json = specs\appsettings.json
 		specs\Directory.Build.props = specs\Directory.Build.props
-		specs\specflow.json = specs\specflow.json
+		specs\reqnroll.json = specs\reqnroll.json
 		specs\xunit.runner.json = specs\xunit.runner.json
 	EndProjectSection
 EndProject

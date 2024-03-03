@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using FluentAssertions;
+using Reqnroll;
 using Smusdi.Core;
-using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Infrastructure;
 
 namespace Smusdi.Testing;
 
@@ -10,9 +9,9 @@ namespace Smusdi.Testing;
 public sealed class EnvironmentVariablesSteps
 {
     private readonly HashSet<string> files = new HashSet<string>();
-    private readonly ISpecFlowOutputHelper specFlowOutputHelper;
+    private readonly IReqnrollOutputHelper specFlowOutputHelper;
 
-    public EnvironmentVariablesSteps(ISpecFlowOutputHelper specFlowOutputHelper) => this.specFlowOutputHelper = specFlowOutputHelper;
+    public EnvironmentVariablesSteps(IReqnrollOutputHelper specFlowOutputHelper) => this.specFlowOutputHelper = specFlowOutputHelper;
 
     [Given(@"the environment variable ""(.*)"" set to ""(.*)""")]
     public void GivenTheEnvironmentVariableSetTo(string p0, string p1)

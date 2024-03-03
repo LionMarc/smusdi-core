@@ -27,9 +27,8 @@
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Testing.'))">
-    <PackageReference Include="SpecFlow"/>
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation"/>
-    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin"/>
+    <PackageReference Include="Reqnroll"/>
+    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation"/>
     <PackageReference Include="FluentAssertions"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
     <PackageReference Include="SystemTextJson.JsonDiffPatch"/>
