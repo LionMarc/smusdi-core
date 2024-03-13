@@ -24,7 +24,10 @@ public class PolymorphicConverter<T> : JsonConverter<T>
         {
             if (cloned.TokenType == JsonTokenType.StartArray || cloned.TokenType == JsonTokenType.StartObject)
             {
-                cloned.Skip();
+                if (!cloned.TrySkip())
+                {
+                    throw new InvalidOperationException($"Cannot skip token of type {cloned.TokenType}.");
+                }
             }
 
             if (cloned.TokenType != JsonTokenType.PropertyName)
