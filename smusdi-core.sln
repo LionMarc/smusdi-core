@@ -51,7 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{C32D90C3
 		specs\.runsettings = specs\.runsettings
 		specs\appsettings.json = specs\appsettings.json
 		specs\Directory.Build.props = specs\Directory.Build.props
-		specs\specflow.json = specs\specflow.json
+		specs\reqnroll.json = specs\reqnroll.json
 		specs\xunit.runner.json = specs\xunit.runner.json
 	EndProjectSection
 EndProject
@@ -141,7 +141,7 @@ Global
 		{7A1F569F-81C6-41D5-B75F-3C0668CD1AA8} = {FE3DAB11-0EE9-4DFA-8706-E0867AF41942}
 		{B5D6A0DE-CB7D-4AE5-973B-34C3CBA2A4EE} = {EBD4B1BE-BE4A-4D2F-9D94-40D95C879B20}
 		{C32D90C3-140A-4BBE-8A59-4A0A90A9314A} = {BE287E47-6A83-43C2-85CD-BCC63063AA71}
-		{BF377F76-AAED-4CCE-A820-8AD41A12D23C} = {FE3DAB11-0EE9-4DFA-8706-E0867AF41942}
+		{BF377F76-AAED-4CCE-A820-8AD41A12D23C} = {78377929-D731-4FE6-907B-FF312EB2B1D8}
 		{EAFCDA1E-66E8-4BB2-9024-7B15ED3A48B1} = {C11885E1-0B86-4166-8F16-8147AB9BD97D}
 		{377A7924-2370-4203-8F04-8CC6A8438FDF} = {BE287E47-6A83-43C2-85CD-BCC63063AA71}
 	EndGlobalSection

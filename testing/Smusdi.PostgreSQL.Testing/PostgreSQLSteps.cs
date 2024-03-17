@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using Reqnroll;
 using Smusdi.Testing;
-using TechTalk.SpecFlow;
 
 namespace Smusdi.PostgreSQL.Testing;
 

@@ -1,12 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
+using Reqnroll;
 using Smusdi.PostgreSQL.Audit;
 using Smusdi.Testing;
 using Smusdi.Testing.Database;
 using Smusdi.Testing.FluentAssertionsHelpers;
-using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
 namespace Smusdi.PostgreSQL.Testing;
 

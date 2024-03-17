@@ -60,13 +60,6 @@ jobs:
         name: .NET Tests
         path: coverage/test-results.trx
         reporter: dotnet-trx
-    - name: Specflow Living Doc
-      run: specs/generate-specflow-doc.sh
-    - name: Archive specflow doc
-      uses: actions/upload-artifact@v3
-      with:
-        name: specflow-living-doc
-        path: .specflow_results/LivingDoc.html
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:

@@ -1,5 +1,5 @@
-﻿using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
+﻿using Reqnroll;
+using Reqnroll.Assist;
 
 namespace Smusdi.Testing.SpecFlowHelpers;
 

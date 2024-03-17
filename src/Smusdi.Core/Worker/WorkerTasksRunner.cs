@@ -1,4 +1,5 @@
-﻿using ILogger = Serilog.ILogger;
+﻿using Serilog.Context;
+using ILogger = Serilog.ILogger;
 
 namespace Smusdi.Core.Worker;
 
@@ -24,17 +25,20 @@ public sealed class WorkerTasksRunner : BackgroundService
             var workerTasks = scope.ServiceProvider.GetServices<IWorkerTask>();
             foreach (var workerTask in workerTasks)
             {
-                if (stoppingToken.IsCancellationRequested)
+                using (LogContext.PushProperty("WorkerTaskName", workerTask.Name))
                 {
-                    this.logger.Information($"Worker has been cancelled.");
-                    return;
+                    if (stoppingToken.IsCancellationRequested)
+                    {
+                        this.logger.Information("Task has been cancelled.");
+                        return;
+                    }
+
+                    this.logger.Information("Starting task");
+
+                    await workerTask.Execute(stoppingToken);
+
+                    this.logger.Information("Task done.");
                 }
-
-                this.logger.Information($"Starting {workerTask.Name}.");
-
-                await workerTask.Execute(stoppingToken);
-
-                this.logger.Information($"{workerTask.Name} done.");
             }
         }
 

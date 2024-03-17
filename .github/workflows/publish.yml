@@ -52,15 +52,8 @@ jobs:
         run: dotnet pack --no-build -c Release -p:PackageVersion=${{ github.event.release.tag_name }} -o publish
       - name: Publish
         run: dotnet nuget push publish/*.nupkg --api-key ${{ secrets.NUGET_ORG_TOKEN }} --source "https://api.nuget.org/v3/index.json"
-      - name: Specflow Living Doc
-        run: specs/generate-specflow-doc.sh
       - name: Archive packages
         uses: actions/upload-artifact@v3
         with:
           name: nuget-packages
           path: publish/*.nupkg
-      - name: Archive specflow doc
-        uses: actions/upload-artifact@v3
-        with:
-          name: specflow-living-doc
-          path: .specflow_results/LivingDoc.html
