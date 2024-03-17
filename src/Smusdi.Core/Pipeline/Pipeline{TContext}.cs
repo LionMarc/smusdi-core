@@ -33,11 +33,14 @@ public sealed class Pipeline<TContext>
         {
             foreach (var step in this.steps)
             {
-                await this.ProcessStep(step, context);
-                if (context.IsCancelled)
+                using (LogContext.PushProperty(nameof(context.CurrentStep), context.CurrentStep))
                 {
-                    this.logger.Information($"Pipeline has been cancelled by step {context.CurrentStep}.");
-                    break;
+                    await this.ProcessStep(step, context);
+                    if (context.IsCancelled)
+                    {
+                        this.logger.Information("Pipeline has been cancelled.");
+                        break;
+                    }
                 }
             }
 
@@ -45,12 +48,12 @@ public sealed class Pipeline<TContext>
         }
         catch (PipelineCancelledException)
         {
-            this.logger.Information($"Pipeline has been cancelled by step {context.CurrentStep}.");
+            this.logger.Information("Pipeline has been cancelled by step {CurrentStep}.", context.CurrentStep);
             context.State = PipelineState.Cancelled;
         }
         catch (Exception exception)
         {
-            this.logger.Error(exception, $"Unexpected exception: {exception.Message}");
+            this.logger.Error(exception, "Unexpected exception: {ErrorMessage}", exception.Message);
             context.CaughtException = exception;
             if (this.catchAction != null)
             {
@@ -61,7 +64,7 @@ public sealed class Pipeline<TContext>
                 }
                 catch (Exception ex)
                 {
-                    this.logger.Error(ex, $"Unexpected exception when calling the catch action: {ex.Message}");
+                    this.logger.Error(ex, "Unexpected exception when calling the catch action: {ErrorMessage}", ex.Message);
                     context.State = PipelineState.Fatal;
                 }
             }
@@ -81,7 +84,7 @@ public sealed class Pipeline<TContext>
                 }
                 catch (Exception e)
                 {
-                    this.logger.Error(e, $"Exception caught while executing finally action: {e.Message}");
+                    this.logger.Error(e, "Exception caught while executing finally action: {ErrorMessage}", e.Message);
                     context.FinallyException = e;
                     context.State = PipelineState.Fatal;
                 }
@@ -93,7 +96,7 @@ public sealed class Pipeline<TContext>
     {
         using (LogContext.PushProperty("stepName", step.Name))
         {
-            this.logger.Information($"Executing step {step.Name}");
+            this.logger.Information("Executing step");
             context.CurrentStep = step.Name;
             if (this.stepDecorator != null)
             {

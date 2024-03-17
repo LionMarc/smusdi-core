@@ -5,17 +5,11 @@ using Smusdi.Core.Extensibility;
 
 namespace Smusdi.PostgreSQL;
 
-public class DatabaseMigrator<T> : IBeforeRun
+public class DatabaseMigrator<T>(T migrationContext, ILogger logger) : IBeforeRun
     where T : DbContext
 {
-    private readonly T migrationContext;
-    private readonly ILogger logger;
-
-    public DatabaseMigrator(T migrationContext, ILogger logger)
-    {
-        this.migrationContext = migrationContext;
-        this.logger = logger;
-    }
+    private readonly T migrationContext = migrationContext;
+    private readonly ILogger logger = logger;
 
     public async Task Execute()
     {
@@ -24,7 +18,7 @@ public class DatabaseMigrator<T> : IBeforeRun
         {
             this.logger.Information("Database migration is enabled.");
             var connectionString = Regex.Replace(this.migrationContext.Database.GetDbConnection().ConnectionString, ";Password=[^;]+;", ";Password=MASKED;");
-            this.logger.Information($"Migrating database {connectionString}...");
+            this.logger.Information("Migrating database {ConnectionString}...", connectionString);
             await this.migrationContext.Database.MigrateAsync();
         }
         else
