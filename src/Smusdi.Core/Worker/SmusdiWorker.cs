@@ -36,7 +36,7 @@ public class SmusdiWorker
     public virtual void CreateAndInitializeBuider(string[] args)
     {
         var builder = Host.CreateApplicationBuilder(args)
-            .InitConfiguration()
+            .InitConfiguration(args)
             .InitLoggerConfiguration();
 
         builder.Services

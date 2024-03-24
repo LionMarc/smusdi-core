@@ -11,4 +11,10 @@
     <ProjectReference Include="..\..\src\Smusdi.Core\Smusdi.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.smusdi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

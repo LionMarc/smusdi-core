@@ -67,7 +67,7 @@ public class SmusdiService : IDisposable
         };
 
         var builder = WebApplication.CreateBuilder(webApplicationOptions)
-            .InitConfiguration()
+            .InitConfiguration(args)
             .InitLoggerConfiguration();
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(builder.Configuration);

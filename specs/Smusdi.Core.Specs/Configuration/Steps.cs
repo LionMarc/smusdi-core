@@ -1,12 +1,13 @@
-﻿using Reqnroll;
+﻿using Microsoft.Extensions.Configuration;
+using Reqnroll;
 using Smusdi.Testing;
 
 namespace Smusdi.Core.Specs.Configuration;
 
 [Binding]
-public sealed class Steps(SmusdiTestingService smusdiTestingService)
+public sealed class Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
-    private readonly SmusdiTestingService smusdiTestingService = smusdiTestingService;
+    private readonly SmusdiTestingService smusdiTestingService = smusdiServiceTestingSteps.SmusdiTestingService;
 
     [AfterScenario]
     public static void Cleanup()
@@ -53,5 +54,14 @@ public sealed class Steps(SmusdiTestingService smusdiTestingService)
     {
         var read = this.smusdiTestingService.SmusdiService?.WebApplication?.Configuration[p0];
         read.Should().Be(p1);
+    }
+
+    [Then("the configuration property {string} of the section {string} is equal to {string}")]
+    public void ThenTheConfigurationPropertyOfTheSectionIsEqualTo(string propertyName, string sectionName, string value)
+    {
+        var configuration = this.smusdiTestingService.GetRequiredService<IConfiguration>();
+        var section = configuration.GetSection(sectionName);
+        var property = section[propertyName];
+        property.Should().Be(value);
     }
 }
