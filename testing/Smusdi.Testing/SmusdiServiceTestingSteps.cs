@@ -4,43 +4,45 @@ using Smusdi.Core;
 namespace Smusdi.Testing;
 
 [Binding]
-public sealed class SmusdiServiceTestingSteps
+public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTestingService)
 {
-    private readonly SmusdiTestingService smusdiTestingService;
-
-    public SmusdiServiceTestingSteps(SmusdiTestingService smusdiTestingService)
-    {
-        this.smusdiTestingService = smusdiTestingService;
-    }
-
-    public SmusdiTestingService SmusdiTestingService => this.smusdiTestingService;
+    public SmusdiTestingService SmusdiTestingService => smusdiTestingService;
 
     public List<string> Args { get; } = new();
 
     [AfterScenario]
     public void DisposeSmusdiTestingService()
     {
-        this.smusdiTestingService.Dispose();
+        this.SmusdiTestingService.Dispose();
         Environment.SetEnvironmentVariable(SmusdiConstants.SmusdiAppsettingsFolderEnvVar, string.Empty);
+    }
+
+    [Given("the command line arguments")]
+    public void GivenTheCommandLineArguments(DataTable dataTable)
+    {
+        foreach (var row in dataTable.Rows)
+        {
+            this.Args.Add($"--{row["Field"]}={row["Value"]}");
+        }
     }
 
     [Given(@"the service initialized")]
     public void GivenTheServiceInitialized()
     {
         SetEnvironmentIfNotSet();
-        this.smusdiTestingService.Initialize(this.Args.ToArray());
+        this.SmusdiTestingService.Initialize(this.Args.ToArray());
     }
 
     [Given(@"the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
         SetEnvironmentIfNotSet();
-        this.smusdiTestingService.Initialize(this.Args.ToArray());
-        await this.smusdiTestingService.StartAsync();
+        this.SmusdiTestingService.Initialize(this.Args.ToArray());
+        await this.SmusdiTestingService.StartAsync();
     }
 
     [When(@"I start the service")]
-    public Task WhenIStartTheService() => this.smusdiTestingService.StartAsync();
+    public Task WhenIStartTheService() => this.SmusdiTestingService.StartAsync();
 
     private static void SetEnvironmentIfNotSet()
     {
