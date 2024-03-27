@@ -39,7 +39,7 @@ A default *appsettings.json* file can be found in the *samples* folder.
 
 ## Extension Points
 
-The project provides two extension points:
+The project provides the following extension points:
 
 - **IServicesRegistrator** used to register custom services
   ```C#
