@@ -2,9 +2,9 @@
 
 public sealed class ClientOptions
 {
-    public string ClientId { get; set; } = string.Empty;
+    public required string ClientId { get; set; }
 
-    public string ClientSecret { get; set; } = string.Empty;
+    public required string ClientSecret { get; set; }
 
     public string Scopes { get; set; } = string.Empty;
 }

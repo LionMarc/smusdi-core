@@ -10,6 +10,8 @@ public sealed class OauthOptions
 
     public ClientOptions? Client { get; set; }
 
+    public List<NamedClientOptions>? NamedClients { get; set; }
+
     public static OauthOptions? GetOauthOptions(IConfiguration configuration)
     {
         OauthOptions? oauthOptions = null;

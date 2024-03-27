@@ -163,3 +163,48 @@ The extension **GetPostgreSqlSchema** of **IConfiguration** gets the database sc
 - configuration key *smusdi:postgreSqlSchema*;
 - environment varaiable *SMUSDI_SERVICE_NAME*;
 - constant *public*.
+
+## HttpClient and Oauth2
+
+The token is managed by the library **Duende.AccessTokenManagement**.
+
+The configuration is made according to the appsettings section **oauth**.
+
+### Default client
+
+```json
+{
+  "oauth": {
+    "authority": "default_authority_url",
+    "client" : {
+      "clientId" : "identifier_of_the_client_for_the_provider",
+      "clientSecret": "client_password",
+      "scopes": "default requested scopes
+    }
+  }
+}
+```
+
+These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a null *clientName* value.
+
+### Named clients
+
+```json
+{
+  "oauth": {
+    "namedClients": [
+      {
+        "name": "name of the client to be used when registreing HttpClient",
+        "authority": "url of the authority for that client",
+        "client": {
+          "clientId" : "identifier_of_the_client_for_the_provider",
+          "clientSecret": "client_password",
+          "scopes": "default requested scopes
+        }
+      }
+    ]
+  }
+}
+```
+
+These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a *clientName* equal to the name of the configured client.
