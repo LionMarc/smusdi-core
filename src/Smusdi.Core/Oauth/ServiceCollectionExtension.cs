@@ -44,7 +44,7 @@ public static class ServiceCollectionExtension
             return services;
         }
 
-        services.AddDistributedMemoryCache()
+        var builder = services.AddDistributedMemoryCache()
             .AddClientCredentialsTokenManagement()
             .AddClient(SmusdiOptions.ServiceName, client =>
             {
@@ -53,6 +53,20 @@ public static class ServiceCollectionExtension
                 client.ClientSecret = oauthOptions.Client.ClientSecret;
                 client.Scope = oauthOptions.Client.Scopes;
             });
+
+        if (oauthOptions.NamedClients != null)
+        {
+            foreach (var item in oauthOptions.NamedClients)
+            {
+                builder = builder.AddClient(item.Name, client =>
+                {
+                    client.TokenEndpoint = $"{item.Authority}/protocol/openid-connect/token";
+                    client.ClientId = item.Client.ClientId;
+                    client.ClientSecret = item.Client.ClientSecret;
+                    client.Scope = item.Client.Scopes;
+                });
+            }
+        }
 
         return services;
     }
