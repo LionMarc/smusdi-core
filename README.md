@@ -194,7 +194,7 @@ These settings are used by the extension method **HttpClientHelpers.AddHttpClien
   "oauth": {
     "namedClients": [
       {
-        "name": "name of the client to be used when registreing HttpClient",
+        "name": "name of the client to be used when registering HttpClient",
         "authority": "url of the authority for that client",
         "client": {
           "clientId" : "identifier_of_the_client_for_the_provider",
