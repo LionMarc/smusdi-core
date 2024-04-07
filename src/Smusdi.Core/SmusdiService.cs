@@ -87,6 +87,7 @@ public class SmusdiService : IDisposable
         }
 
         builder.Services
+            .AddMemoryCache()
             .AddSingleton<IFileSystem, FileSystem>()
             .AddAllHealthChecks()
             .AddEndpointsApiExplorer()

@@ -1,6 +1,7 @@
 ﻿using System.IO.Abstractions;
 using System.Reflection;
 using System.Text.Json.Nodes;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Smusdi.Core.Info;
 
@@ -8,8 +9,14 @@ public static class WebApplicationExtensions
 {
     public static WebApplication UseInfoEndpoint(this WebApplication webApplication)
     {
-        webApplication.MapGet("/info", (IFileSystem fileSystem) =>
+        webApplication.MapGet("/info", (IFileSystem fileSystem, IMemoryCache memoryCache) =>
         {
+            const string Key = "smusdi_info_key";
+            if (memoryCache.TryGetValue(Key, out var result))
+            {
+                return result;
+            }
+
             var version = Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiServiceVersionEnvVar);
             if (string.IsNullOrWhiteSpace(version))
             {
@@ -32,6 +39,8 @@ public static class WebApplicationExtensions
                     jsonObject.Add(Path.GetFileNameWithoutExtension(info), JsonObject.Parse(fileSystem.File.ReadAllText(info)));
                 }
             }
+
+            memoryCache.Set(Key, jsonObject);
 
             return jsonObject;
         }).ExcludeFromDescription();
