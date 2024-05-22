@@ -12,6 +12,15 @@ Scenario: Setup environment variables from default location
     When I start the service
     Then the environment variable "TEST_ENV" is set to "my_env"
 
+Scenario: Setup environment variable with = in value
+    Given the default .env file
+        """
+        TEST_ENV3=my_env=toto
+        """
+    And the service initialized
+    When I start the service
+    Then the environment variable "TEST_ENV3" is set to "my_env=toto"
+
 Scenario: Setup environment variables from custom location
     Given the environment variable "SMUSDI_ENV_FILE" set to "my_custom_env_file"
     And the env file "my_custom_env_file" with content
