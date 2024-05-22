@@ -49,9 +49,9 @@ public class SmusdiService : IDisposable
             foreach (var line in File.ReadAllLines(envFile))
             {
                 var parts = line.Split('=');
-                if (parts.Length == 2)
+                if (parts.Length >= 2)
                 {
-                    var value = Environment.ExpandEnvironmentVariables(parts[1]);
+                    var value = Environment.ExpandEnvironmentVariables(string.Join('=', parts.Skip(1)));
                     Environment.SetEnvironmentVariable(parts[0], value);
                 }
             }
