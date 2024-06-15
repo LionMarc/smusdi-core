@@ -208,3 +208,30 @@ These settings are used by the extension method **HttpClientHelpers.AddHttpClien
 ```
 
 These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a *clientName* equal to the name of the configured client.
+
+
+## Oauth providers / JWT bearer
+
+The service can validate input token against more than one provider.
+
+Additional providers can be declared in the appsettings file in the *oauth* section.
+
+```json
+"oauth": {
+  "authority": "%SMUSDI_OAUTH_URL%",
+  "scopes": [
+    "scope1",
+    "scope2"
+  ],
+  "additionalAuthorities": [
+    {
+      "name": "PSG",
+      "url": "%PSG_OAUTH_URL%",
+      "audience": "account"
+    }
+  ]
+}
+```
+> Audience for default authority could also be set. The default value is **account** for both default authority and additional authority.
+
+See https://learn.microsoft.com/en-us/aspnet/core/security/authorization/limitingidentitybyscheme?view=aspnetcore-8.0#use-multiple-authentication-schemes for details.

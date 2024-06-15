@@ -5,8 +5,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "SMUSDI_SERVICE_NAME": "smusdi-sample",
-        "SMUSDI_OAUTH_URL": "http://localhost:5200/realms/PSG",
-        "SMUSDI_CUSTOM_INFOS_FOLDER": "infos"
+        "SMUSDI_OAUTH_URL": "http://localhost:5200/realms/SMUSDI",
+        "SMUSDI_CUSTOM_INFOS_FOLDER": "infos",
+        "PSG_OAUTH_URL": "http://localhost:5200/realms/PSG"
       }
     }
   }
