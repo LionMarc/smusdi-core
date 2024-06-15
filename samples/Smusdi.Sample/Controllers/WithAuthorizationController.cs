@@ -9,6 +9,13 @@ namespace Smusdi.Sample.Controllers;
 [Route("v{version:apiVersion}/with-authorization")]
 public class WithAuthorizationController : ControllerBase
 {
+    [HttpGet("with-no-scope")]
+    [Authorize]
+    public ActionResult WithNoScope()
+    {
+        return this.Ok("No scope");
+    }
+
     [HttpGet("requires-scope1")]
     [Authorize("scope1")]
     public ActionResult RequiresScope1()

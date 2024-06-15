@@ -1,9 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Net.Http.Headers;
 
 namespace Smusdi.Core.Oauth;
 
 public static class ServiceCollectionExtension
 {
+    public const string SmusdiDefaultScheme = "smusdi_default";
+    public const string SelectionScheme = "selection";
+
     public static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration configuration)
     {
         var oauthOptions = OauthOptions.GetOauthOptions(configuration);
@@ -12,17 +18,56 @@ public static class ServiceCollectionExtension
             return services;
         }
 
-        services.AddAuthentication(x =>
+        var authenticationBuilder = services.AddAuthentication(x =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = SelectionScheme;
+                x.DefaultChallengeScheme = SelectionScheme;
             })
-           .AddJwtBearer(x =>
-            {
-                x.Audience = "account";
-                x.Authority = oauthOptions.Authority;
-                x.RequireHttpsMetadata = false;
-            });
+           .AddJwtBearer(
+                SmusdiDefaultScheme,
+                x =>
+                {
+                    x.Audience = oauthOptions.Audience;
+                    x.Authority = oauthOptions.Authority;
+                    x.RequireHttpsMetadata = false;
+                });
+
+        foreach (var authority in oauthOptions.AdditionalAuthorities)
+        {
+            authenticationBuilder = authenticationBuilder.AddJwtBearer(
+                authority.Name,
+                x =>
+                {
+                    x.Audience = authority.Audience;
+                    x.Authority = authority.Url;
+                    x.RequireHttpsMetadata = false;
+                });
+        }
+
+        authenticationBuilder.AddPolicyScheme(SelectionScheme, SelectionScheme, options =>
+         {
+             options.ForwardDefaultSelector = context =>
+             {
+                 string? authorization = context.Request.Headers[HeaderNames.Authorization];
+                 if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+                 {
+                     var token = authorization.Substring("Bearer ".Length).Trim();
+                     var jwtHandler = new JwtSecurityTokenHandler();
+                     if (jwtHandler.CanReadToken(token))
+                     {
+                         var issuer = jwtHandler.ReadJwtToken(token).Issuer;
+                         var authority = oauthOptions.AdditionalAuthorities.FirstOrDefault(a => issuer.Equals(a.Url));
+                         if (authority != null)
+                         {
+                             return authority.Name;
+                         }
+                     }
+                 }
+
+                 return SmusdiDefaultScheme;
+             };
+         });
+
         services.AddAuthorization(options =>
             {
                 foreach (var scope in oauthOptions.Scopes ?? Enumerable.Empty<string>())

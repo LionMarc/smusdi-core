@@ -14,38 +14,56 @@ public static class SwaggerGenOptionsExtensions
             return swaggerGenOptions;
         }
 
-        swaggerGenOptions.AddSecurityDefinition(
-            "oauth2",
-            new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.OAuth2,
-                Flows = new OpenApiOAuthFlows
+        var requirement = new OpenApiSecurityRequirement();
+        if (!string.IsNullOrWhiteSpace(oauthOptions.Authority))
+        {
+            swaggerGenOptions.AddSecurityDefinition(
+                "oauth2",
+                GetSecutirySchema(oauthOptions.Authority, oauthOptions.Scopes));
+            requirement.Add(
+                new OpenApiSecurityScheme
                 {
-                    AuthorizationCode = new OpenApiOAuthFlow
+                    Reference = new OpenApiReference
                     {
-                        AuthorizationUrl = new Uri($"{oauthOptions.Authority}/protocol/openid-connect/auth"),
-                        TokenUrl = new Uri($"{oauthOptions.Authority}/protocol/openid-connect/token"),
-                        Scopes = new[] { "openid", "profile", "email" }.Concat(oauthOptions.Scopes ?? Enumerable.Empty<string>())
-                        .ToDictionary(p => p, p => string.Empty),
+                        Id = "oauth2",
+                        Type = ReferenceType.SecurityScheme,
                     },
                 },
-            });
-        swaggerGenOptions.AddSecurityRequirement(
-            new OpenApiSecurityRequirement
-            {
+                []);
+        }
+
+        foreach (var authority in oauthOptions.AdditionalAuthorities)
+        {
+            swaggerGenOptions.AddSecurityDefinition(authority.Name, GetSecutirySchema(authority.Url, oauthOptions.Scopes));
+            requirement.Add(
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Id = "oauth2",
-                                Type = ReferenceType.SecurityScheme,
-                            },
-                        },
-                        new List<string>()
+                        Id = authority.Name,
+                        Type = ReferenceType.SecurityScheme,
                     },
-            });
+                },
+                []);
+        }
+
+        swaggerGenOptions.AddSecurityRequirement(requirement);
 
         return swaggerGenOptions;
     }
+
+    private static OpenApiSecurityScheme GetSecutirySchema(string url, IEnumerable<string>? scopes) => new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri($"{url}/protocol/openid-connect/auth"),
+                TokenUrl = new Uri($"{url}/protocol/openid-connect/token"),
+                Scopes = new[] { "openid", "profile", "email" }.Concat(scopes ?? Enumerable.Empty<string>())
+                        .ToDictionary(p => p, p => string.Empty),
+            },
+        },
+    };
 }

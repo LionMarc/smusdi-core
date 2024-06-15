@@ -6,6 +6,10 @@ public sealed class OauthOptions
 
     public string? Authority { get; set; }
 
+    public string Audience { get; set; } = "account";
+
+    public IEnumerable<OauthAuthority> AdditionalAuthorities { get; set; } = [];
+
     public List<string>? Scopes { get; set; }
 
     public ClientOptions? Client { get; set; }
