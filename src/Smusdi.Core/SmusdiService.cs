@@ -6,7 +6,6 @@ using Smusdi.Core.Compression;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
-using Smusdi.Core.Helpers;
 using Smusdi.Core.Info;
 using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
@@ -38,7 +37,7 @@ public class SmusdiService : IDisposable
 
         await service.ExecuteBeforeRunImplementations();
 
-        service.Run();
+        await service.RunAsync();
     }
 
     public static void ReadEnvFileIfExists()
@@ -216,7 +215,7 @@ public class SmusdiService : IDisposable
     {
         if (disposing && this.WebApplication != null)
         {
-            this.WebApplication?.DisposeAsync().GetAwaiter().GetResult();
+            this.WebApplication.DisposeAsync().GetAwaiter().GetResult();
             this.WebApplication = null;
             this.WebApplicationBuilder = null;
         }
