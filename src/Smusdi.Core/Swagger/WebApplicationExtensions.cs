@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.OpenApi.Models;
 using Smusdi.Core.Oauth;
 
 namespace Smusdi.Core.Swagger;
@@ -27,8 +26,28 @@ public static class WebApplicationExtensions
                     scheme = forwardedScheme;
                 }
 
-                var serverUrl = $"{scheme}://{forwardedHost}/{swaggerOptions.ReverseProxyBasePath ?? string.Empty}";
-                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
+                int? port = null;
+
+                if (swaggerOptions.IncludeForwardedPort)
+                {
+                    port = httpRequest.Host.Port;
+                    if (httpRequest.Headers.TryGetValue("X-Forwarded-Port", out var forwardedPort) && int.TryParse(forwardedPort, out var forwardedPortValue))
+                    {
+                        port = forwardedPortValue;
+                    }
+                }
+
+                var serverUrlBuilder = new StringBuilder();
+                serverUrlBuilder.Append($"{scheme}://{forwardedHost}");
+                if (port.HasValue)
+                {
+                    serverUrlBuilder.Append($"{port.Value}");
+                }
+
+                serverUrlBuilder.Append($"/{swaggerOptions.ReverseProxyBasePath ?? string.Empty}");
+
+                var serverUrl = serverUrlBuilder.ToString();
+                swaggerDoc.Servers = [new() { Url = serverUrl }];
             });
         });
 
