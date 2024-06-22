@@ -12,6 +12,11 @@ public class SwaggerOptions
 
     public string ReverseProxyBasePath { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether or not we must include the port in the built url when behind a revers proxy.
+    /// </summary>
+    public bool IncludeForwardedPort { get; set; } = false;
+
     public bool DisplayClientSecretInput { get; set; } = false;
 
     public static SwaggerOptions GetSwaggerOptions(IConfiguration configuration)
