@@ -85,6 +85,12 @@ label[for=""client_secret""] {
 #client_secret {
     display: none
 }
+label[for=""client_secret_authorizationCode""] {
+    display: none;
+}
+#client_secret_authorizationCode {
+    display: none
+}
 </style>");
                     options.HeadContent = builder.ToString();
                 }
