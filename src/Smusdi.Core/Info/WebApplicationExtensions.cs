@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 namespace Smusdi.Core.Info;
 
@@ -9,10 +10,10 @@ public static class WebApplicationExtensions
 {
     public static WebApplication UseInfoEndpoint(this WebApplication webApplication)
     {
-        webApplication.MapGet("/info", (IFileSystem fileSystem, IMemoryCache memoryCache) =>
+        webApplication.MapGet("/info", (IFileSystem fileSystem, IMemoryCache memoryCache, IOptions<SmusdiOptions> options) =>
         {
             const string Key = "smusdi_info_key";
-            if (memoryCache.TryGetValue(Key, out var result))
+            if (!options.Value.InfoCacheDisabled && memoryCache.TryGetValue(Key, out var result))
             {
                 return result;
             }
@@ -40,7 +41,10 @@ public static class WebApplicationExtensions
                 }
             }
 
-            memoryCache.Set(Key, jsonObject);
+            if (!options.Value.InfoCacheDisabled)
+            {
+                memoryCache.Set(Key, jsonObject);
+            }
 
             return jsonObject;
         }).ExcludeFromDescription();

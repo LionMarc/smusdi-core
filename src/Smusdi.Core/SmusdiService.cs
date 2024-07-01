@@ -86,6 +86,7 @@ public class SmusdiService : IDisposable
         }
 
         builder.Services
+            .Configure<SmusdiOptions>(builder.Configuration.GetSection(SmusdiOptions.SectionName))
             .AddMemoryCache()
             .AddSingleton<IFileSystem, FileSystem>()
             .AddAllHealthChecks()
