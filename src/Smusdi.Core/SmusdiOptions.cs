@@ -4,6 +4,8 @@ namespace Smusdi.Core;
 
 public sealed class SmusdiOptions
 {
+    public const string SectionName = "smusdi";
+
     public const int MaxSizeOf1Giga = 1024 * 1024 * 1024;
 
     public const int MaxSizeOf1Mega = 1024 * 1024;
@@ -50,13 +52,18 @@ public sealed class SmusdiOptions
 
     public bool DisableAutomaticFluentValidation { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether or not a cache is used by the info endpoint.
+    /// </summary>
+    public bool InfoCacheDisabled { get; set; }
+
     public static SmusdiOptions GetSmusdiOptions(IConfiguration configuration)
     {
         SmusdiOptions? smusdiOptions = null;
-        if (configuration.GetSection("smusdi").Exists())
+        if (configuration.GetSection(SectionName).Exists())
         {
             smusdiOptions = new SmusdiOptions();
-            configuration.Bind("smusdi", smusdiOptions);
+            configuration.Bind(SectionName, smusdiOptions);
         }
 
         return smusdiOptions ?? new SmusdiOptions();
