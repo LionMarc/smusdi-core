@@ -156,7 +156,7 @@ The *Smusdi.PostgreSQL.Testing* package creates a new database for each scenario
 
 The name of the created database is a **GUID**. The specflow hook set the environement variable **POSTGRES_DB** to that value after the database is created.
 
-> The *postgres* database os the database used to created the database used in tests. It must exist.
+> The *postgres* database is the database used to create the database used in tests. It must exist.
 
 The extension **GetPostgreSqlSchema** of **IConfiguration** gets the database schema name from the first non null value:
 
