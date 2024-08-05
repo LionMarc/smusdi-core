@@ -93,7 +93,7 @@ public static class ServiceCollectionExtension
             .AddClientCredentialsTokenManagement()
             .AddClient(SmusdiOptions.ServiceName, client =>
             {
-                client.TokenEndpoint = $"{oauthOptions.Authority}/protocol/openid-connect/token";
+                client.TokenEndpoint = oauthOptions.TokenEndpoint ?? $"{oauthOptions.Authority}/protocol/openid-connect/token";
                 client.ClientId = oauthOptions.Client.ClientId;
                 client.ClientSecret = oauthOptions.Client.ClientSecret;
                 client.Scope = oauthOptions.Client.Scopes;
@@ -105,7 +105,7 @@ public static class ServiceCollectionExtension
             {
                 builder = builder.AddClient(item.Name, client =>
                 {
-                    client.TokenEndpoint = $"{item.Authority}/protocol/openid-connect/token";
+                    client.TokenEndpoint = item.TokenEndpoint ?? $"{item.Authority}/protocol/openid-connect/token";
                     client.ClientId = item.Client.ClientId;
                     client.ClientSecret = item.Client.ClientSecret;
                     client.Scope = item.Client.Scopes;
