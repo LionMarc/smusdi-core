@@ -176,6 +176,7 @@ The configuration is made according to the appsettings section **oauth**.
 {
   "oauth": {
     "authority": "default_authority_url",
+    "tokenEndpoint": "default_token_endpoint", // if not set, value = {authority}/protocol/openid-connect/token
     "client" : {
       "clientId" : "identifier_of_the_client_for_the_provider",
       "clientSecret": "client_password",
@@ -196,6 +197,7 @@ These settings are used by the extension method **HttpClientHelpers.AddHttpClien
       {
         "name": "name of the client to be used when registering HttpClient",
         "authority": "url of the authority for that client",
+        "tokenEndpoint": "token_endpoint for that client", // if not set, value = {authority}/protocol/openid-connect/token
         "client": {
           "clientId" : "identifier_of_the_client_for_the_provider",
           "clientSecret": "client_password",
@@ -209,6 +211,7 @@ These settings are used by the extension method **HttpClientHelpers.AddHttpClien
 
 These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a *clientName* equal to the name of the configured client.
 
+> The property *tokenEndPoint* is not required. If not set, it is generated from the authority.
 
 ## Oauth providers / JWT bearer
 

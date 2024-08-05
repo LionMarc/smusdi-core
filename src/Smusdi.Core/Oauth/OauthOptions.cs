@@ -8,6 +8,8 @@ public sealed class OauthOptions
 
     public string Audience { get; set; } = "account";
 
+    public string? TokenEndpoint { get; set; }
+
     public IEnumerable<OauthAuthority> AdditionalAuthorities { get; set; } = [];
 
     public List<string>? Scopes { get; set; }
