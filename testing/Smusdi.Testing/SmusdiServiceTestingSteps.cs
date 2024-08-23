@@ -1,11 +1,15 @@
-﻿using Reqnroll;
+﻿using System.Globalization;
+using Microsoft.Extensions.Time.Testing;
+using Reqnroll;
 using Smusdi.Core;
 
 namespace Smusdi.Testing;
 
 [Binding]
-public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTestingService)
+public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTestingService, ScenarioContext scenarioContext)
 {
+    private readonly ScenarioContext scenarioContext = scenarioContext;
+
     public SmusdiTestingService SmusdiTestingService => smusdiTestingService;
 
     public List<string> Args { get; } = new();
@@ -38,6 +42,15 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
     {
         SetEnvironmentIfNotSet();
         this.SmusdiTestingService.Initialize(this.Args.ToArray());
+
+        var tag = Array.Find(this.scenarioContext.ScenarioInfo.CombinedTags, p => p.StartsWith("withDateTime="));
+        if (tag != null)
+        {
+            var datetime = tag.Split('=')[1];
+            var fakeTimeProvider = this.SmusdiTestingService.GetRequiredService<TimeProvider>() as FakeTimeProvider;
+            fakeTimeProvider?.SetUtcNow(DateTimeOffset.Parse(datetime, CultureInfo.InvariantCulture));
+        }
+
         await this.SmusdiTestingService.StartAsync();
     }
 
