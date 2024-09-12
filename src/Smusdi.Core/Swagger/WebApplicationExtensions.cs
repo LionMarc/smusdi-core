@@ -56,6 +56,11 @@ public static class WebApplicationExtensions
 
         webApplication.UseSwaggerUI(options =>
         {
+            if (!string.IsNullOrWhiteSpace(swaggerOptions.DocumentTitle))
+            {
+                options.DocumentTitle = swaggerOptions.DocumentTitle;
+            }
+
             if (smusdiOptions.NoVersioning != true)
             {
                 options.RoutePrefix = "swagger";

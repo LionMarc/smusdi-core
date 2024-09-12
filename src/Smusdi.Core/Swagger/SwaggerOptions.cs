@@ -2,6 +2,8 @@
 
 public class SwaggerOptions
 {
+    public string? DocumentTitle { get; set; } = null;
+
     public string Title { get; set; } = "Smusdi Service";
 
     public string Description { get; set; } = "Default Smusdi service";
