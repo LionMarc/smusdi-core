@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Reqnroll;
 using Smusdi.Core.Pipeline;
 using Smusdi.Testing;
 
@@ -10,8 +9,8 @@ public sealed class Steps : IDisposable
 {
     private readonly IServiceScope serviceScope;
     private readonly IPipelineBuilder<PipelineTestingContext> pipelineBuilder;
-    private readonly List<string> calledSteps = new();
-    private readonly List<string> decoratorResult = new();
+    private readonly List<string> calledSteps = [];
+    private readonly List<string> decoratorResult = [];
     private bool catchCalled;
     private bool finallyCalled;
     private PipelineContext<PipelineTestingContext>? context;
@@ -24,7 +23,7 @@ public sealed class Steps : IDisposable
     }
 
     [Given(@"the pipeline with the steps")]
-    public void GivenThePipelineWithTheSteps(Table table)
+    public void GivenThePipelineWithTheSteps(DataTable table)
     {
         var steps = table.CreateSet<Step>();
         foreach (var step in steps)
@@ -80,16 +79,29 @@ public sealed class Steps : IDisposable
         });
     }
 
+    [Given("the pipeline with the keyed steps")]
+    public void GivenThePipelineWithTheKeyedSteps(DataTable dataTable)
+    {
+        var steps = dataTable.CreateSet<Step>();
+        foreach (var step in steps)
+        {
+            this.pipelineBuilder.Pipe(step.Name);
+        }
+    }
+
     [When(@"I run the pipeline")]
     public Task WhenIRunThePipeline()
     {
         var pipeline = this.pipelineBuilder.Build();
-        this.context = new PipelineContext<PipelineTestingContext>(new PipelineTestingContext());
+        this.context = new PipelineContext<PipelineTestingContext>(new PipelineTestingContext()
+        {
+            CalledSteps = this.calledSteps,
+        });
         return pipeline.Run(this.context);
     }
 
     [Then(@"the steps have been executed")]
-    public void ThenTheStepsHaveBeenExecuted(Table table)
+    public void ThenTheStepsHaveBeenExecuted(DataTable table)
     {
         var expectedSteps = table.CreateSet<Step>().Select(s => s.Name).ToList();
         this.calledSteps.Count.Should().Be(expectedSteps.Count);
