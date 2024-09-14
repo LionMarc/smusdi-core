@@ -1,7 +1,7 @@
 ﻿Feature: Pipeline execution
 
 Background: 
-     Given the service initialized and started
+    Given the service initialized and started
 
 Scenario: Execute all steps of the pipeline 
     Given the pipeline with the steps
@@ -94,3 +94,16 @@ Scenario: Running a pipeline with a step cancelling the pipeline by calling the 
         | step2 |
     And the pipeline is in state "Cancelled"
     And the finally action has been called
+
+Scenario: Executing a pipeline with stages registered as keyed services
+    Given the pipeline with the keyed steps
+        | Name   |
+        | keyed1 |
+        | keyed2 |
+        | keyed4 |
+    When I run the pipeline
+    Then the steps have been executed
+        | Name  |
+        | keyed1 |
+        | keyed2 |
+        | keyed4 |

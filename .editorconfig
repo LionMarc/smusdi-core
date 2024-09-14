@@ -16,7 +16,7 @@ indent_size = 2
 
 # Specflow files
 [*.{feature}]
-indent_size = 2
+indent_size = 4
 
 # Code files
 [*.{cs,csx,vb,vbx}]
