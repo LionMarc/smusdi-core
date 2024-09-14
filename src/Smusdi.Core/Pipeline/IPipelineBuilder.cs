@@ -18,4 +18,10 @@ public interface IPipelineBuilder<TContext>
     IPipelineBuilder<TContext> AddStepDecorator(Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task> decorator);
 
     Pipeline<TContext> Build();
+
+    /// <summary>
+    /// Reset current instances to be used to build another pipeline.
+    /// </summary>
+    /// <returns>The current instance.</returns>
+    IPipelineBuilder<TContext> Clear();
 }

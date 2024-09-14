@@ -57,4 +57,13 @@ internal sealed class PipelineBuilder<TContext> : IPipelineBuilder<TContext>
         this.stepDecorators.Add(decorator);
         return this;
     }
+
+    public IPipelineBuilder<TContext> Clear()
+    {
+        this.steps.Clear();
+        this.stepDecorators.Clear();
+        this.catchAction = null;
+        this.finallyAction = null;
+        return this;
+    }
 }
