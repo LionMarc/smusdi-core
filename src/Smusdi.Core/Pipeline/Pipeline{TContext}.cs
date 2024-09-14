@@ -9,20 +9,20 @@ public sealed class Pipeline<TContext>
     private readonly IEnumerable<PipelineStep<TContext>> steps;
     private readonly Func<PipelineContext<TContext>, Task>? catchAction;
     private readonly Func<PipelineContext<TContext>, Task>? finallyAction;
-    private readonly Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator;
+    private readonly List<Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>> stepDecorators;
 
     internal Pipeline(
         ILogger logger,
         IEnumerable<PipelineStep<TContext>> steps,
         Func<PipelineContext<TContext>, Task>? catchAction,
         Func<PipelineContext<TContext>, Task>? finallyAction,
-        Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator)
+        IEnumerable<Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>> stepDecorators)
     {
         this.logger = logger;
         this.steps = steps;
         this.catchAction = catchAction;
         this.finallyAction = finallyAction;
-        this.stepDecorator = stepDecorator;
+        this.stepDecorators = stepDecorators.ToList();
     }
 
     public async Task Run(PipelineContext<TContext> context)
@@ -46,9 +46,9 @@ public sealed class Pipeline<TContext>
 
             context.State = context.IsCancelled ? PipelineState.Cancelled : PipelineState.Done;
         }
-        catch (PipelineCancelledException)
+        catch (PipelineCancelledException e)
         {
-            this.logger.Information("Pipeline has been cancelled by step {CurrentStep}.", context.CurrentStep);
+            this.logger.Information(e, "Pipeline has been cancelled by step {CurrentStep}.", context.CurrentStep);
             context.State = PipelineState.Cancelled;
         }
         catch (Exception exception)
@@ -98,9 +98,15 @@ public sealed class Pipeline<TContext>
         {
             this.logger.Information("Executing step");
             context.CurrentStep = step.Name;
-            if (this.stepDecorator != null)
+            if (this.stepDecorators.Count > 0)
             {
-                await this.stepDecorator(step.Action, context);
+                var decoratedStep = new PipelineStepDecorator<TContext>(step.Action, null);
+                for (var index = this.stepDecorators.Count - 1; index >= 0; index--)
+                {
+                    decoratedStep = new PipelineStepDecorator<TContext>(decoratedStep.Process, this.stepDecorators[index]);
+                }
+
+                await decoratedStep.Process(context);
             }
             else
             {

@@ -79,6 +79,16 @@ public sealed class Steps : IDisposable
         });
     }
 
+    [Given("the decorator {string} attached")]
+    public void GivenTheDecoratorAttached(string p0)
+    {
+        this.pipelineBuilder.AddStepDecorator(async (step, context) =>
+        {
+            this.decoratorResult.Add($"{context.CurrentStep}[{p0}]");
+            await step(context);
+        });
+    }
+
     [Given("the pipeline with the keyed steps")]
     public void GivenThePipelineWithTheKeyedSteps(DataTable dataTable)
     {

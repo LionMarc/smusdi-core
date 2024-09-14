@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Serilog;
+﻿using Serilog;
 
 namespace Smusdi.Core.Pipeline;
 
@@ -8,9 +7,9 @@ internal sealed class PipelineBuilder<TContext> : IPipelineBuilder<TContext>
     private readonly ILogger logger;
     private readonly List<PipelineStep<TContext>> steps = [];
     private readonly IServiceProvider serviceProvider;
+    private readonly List<Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>> stepDecorators = [];
     private Func<PipelineContext<TContext>, Task>? catchAction;
     private Func<PipelineContext<TContext>, Task>? finallyAction;
-    private Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task>? stepDecorator;
 
     public PipelineBuilder(ILogger logger, IEnumerable<IPipelineStepProcessor<TContext>> stepProcessors, IServiceProvider serviceProvider)
     {
@@ -25,7 +24,7 @@ internal sealed class PipelineBuilder<TContext> : IPipelineBuilder<TContext>
 
     public Pipeline<TContext> Build()
     {
-        return new Pipeline<TContext>(this.logger, this.steps, this.catchAction, this.finallyAction, this.stepDecorator);
+        return new Pipeline<TContext>(this.logger, this.steps, this.catchAction, this.finallyAction, this.stepDecorators);
     }
 
     public IPipelineBuilder<TContext> Pipe(string name, Func<PipelineContext<TContext>, Task> action)
@@ -55,7 +54,7 @@ internal sealed class PipelineBuilder<TContext> : IPipelineBuilder<TContext>
 
     public IPipelineBuilder<TContext> AddStepDecorator(Func<Func<PipelineContext<TContext>, Task>, PipelineContext<TContext>, Task> decorator)
     {
-        this.stepDecorator = decorator;
+        this.stepDecorators.Add(decorator);
         return this;
     }
 }

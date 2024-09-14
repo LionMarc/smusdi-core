@@ -35,6 +35,24 @@ Scenario: Execute the decorator for each step
     And the finally action has been called
     And the decorator result is "step1-step2-step3"
 
+Scenario: Execute multiple decorators 
+    Given the pipeline with the steps
+        | Name  |
+        | step1 |
+        | step2 |
+        | step3 |
+    And the decorator "decorator1" attached
+    And the decorator "decorator2" attached
+    When I run the pipeline
+    Then the steps have been executed
+        | Name  |
+        | step1 |
+        | step2 |
+        | step3 |
+    And the pipeline is in state "Done"
+    And the finally action has been called
+    And the decorator result is "step1[decorator1]-step1[decorator2]-step2[decorator1]-step2[decorator2]-step3[decorator1]-step3[decorator2]"
+
 Scenario: Running a pipeline with a step throwing an expection and no catch action defined 
     Given the pipeline with the steps
         | Name  | Throw |
