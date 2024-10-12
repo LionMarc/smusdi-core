@@ -1,0 +1,206 @@
+﻿using System.Buffers;
+using System.Text;
+using System.Text.Json;
+
+namespace Smusdi.Json;
+
+/// <summary>
+/// Helper class used to split a root JSON array and return each json item in an output stream.
+/// There is no deserialization.The class takes as input a json string and returns a list of json strings.
+/// Everything is done with <see cref="System.Text.Json.Utf8JsonReader"/> and <see cref="System.Text.Json.Utf8JsonWriter"/>.
+/// </summary>
+public sealed class JsonArraySplitter
+{
+    private readonly Stream inputStream;
+    private byte[] buffer = new byte[1024];
+    private JsonReaderState jsonReaderState = default;
+    private bool isFinalBlock = false;
+
+    public JsonArraySplitter(Stream stream)
+    {
+        this.inputStream = stream;
+        var bytesCount = this.inputStream.Read(this.buffer);
+        if (bytesCount == 0)
+        {
+            throw new JsonArraySplitterException("Nothing to read from input stream.");
+        }
+
+        this.ReadStartArrayToken();
+    }
+
+    public bool ReadNextItem(Stream outputStream)
+    {
+        var utf8JsonReader = this.NewUtf8JsonReader();
+
+        // First search for start of object
+        List<JsonTokenType> notExpectedJsonTypes = [JsonTokenType.True, JsonTokenType.False, JsonTokenType.String, JsonTokenType.Null, JsonTokenType.Number];
+        while (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.EndArray)
+        {
+            this.ReadNextToken(ref utf8JsonReader);
+
+            if (notExpectedJsonTypes.Contains(utf8JsonReader.TokenType))
+            {
+                throw new JsonArraySplitterException("Class must be used to split array of objects only.");
+            }
+        }
+
+        if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
+        {
+            return false;
+        }
+
+        // Maybe, store the writer as class instance inorder to reuse it. Set this class as IDisposable and dispose the writer.
+        using var utf8JsonWriter = new Utf8JsonWriter(outputStream);
+        utf8JsonWriter.WriteStartObject();
+
+        while (utf8JsonReader.TokenType != JsonTokenType.EndObject || utf8JsonReader.CurrentDepth > 1)
+        {
+            var jsonToken = this.ReadNextToken(ref utf8JsonReader);
+            this.WriteReadJsonToken(ref utf8JsonReader, jsonToken, utf8JsonWriter);
+        }
+
+        utf8JsonWriter.Flush();
+
+        this.CacheStateForLaterUse(ref utf8JsonReader);
+
+        return true;
+    }
+
+    private Utf8JsonReader NewUtf8JsonReader() => new(this.buffer, this.isFinalBlock, this.jsonReaderState);
+
+    private void ReadStartArrayToken()
+    {
+        var utf8JsonReader = this.NewUtf8JsonReader();
+        while (utf8JsonReader.TokenType != JsonTokenType.StartArray)
+        {
+            this.ReadNextToken(ref utf8JsonReader);
+            if (utf8JsonReader.TokenType == JsonTokenType.StartObject)
+            {
+                throw new JsonArraySplitterException("Expected a root array, not an object.");
+            }
+        }
+
+        this.CacheStateForLaterUse(ref utf8JsonReader);
+    }
+
+    private string ReadNextToken(ref Utf8JsonReader utf8JsonReader)
+    {
+        var positionBefore = utf8JsonReader.BytesConsumed;
+
+        while (!utf8JsonReader.Read() && !this.isFinalBlock)
+        {
+            this.GetMoreBytesFromStream(ref utf8JsonReader);
+            positionBefore = 0;
+        }
+
+        var positionAfter = utf8JsonReader.BytesConsumed;
+        if (positionAfter < positionBefore)
+        {
+            throw new JsonArraySplitterException($"Unexpected situation: positionBefore={positionBefore}, positionAfter={positionAfter}");
+        }
+
+        switch (utf8JsonReader.TokenType)
+        {
+            case JsonTokenType.StartArray:
+                return "[";
+
+            case JsonTokenType.EndArray:
+                return "]";
+
+            case JsonTokenType.StartObject:
+                return "{";
+
+            case JsonTokenType.EndObject:
+                return "}";
+
+            default:
+                {
+                    ReadOnlySpan<byte> jsonElement = utf8JsonReader.HasValueSequence ?
+                       utf8JsonReader.ValueSequence.ToArray() :
+                       utf8JsonReader.ValueSpan;
+                    if (utf8JsonReader.TokenType == JsonTokenType.String)
+                    {
+                        var tmpBuffer2 = new byte[positionAfter - positionBefore];
+                        var bytes = utf8JsonReader.CopyString(tmpBuffer2);
+                        Array.Resize(ref tmpBuffer2, bytes);
+                        return Encoding.UTF8.GetString(tmpBuffer2);
+                    }
+
+                    return Encoding.UTF8.GetString(jsonElement);
+                }
+        }
+    }
+
+    private void CacheStateForLaterUse(ref Utf8JsonReader utf8JsonReader)
+    {
+        if (utf8JsonReader.BytesConsumed > 0)
+        {
+            ReadOnlySpan<byte> leftover = this.buffer.AsSpan((int)utf8JsonReader.BytesConsumed);
+            leftover.CopyTo(this.buffer);
+            this.inputStream.Read(this.buffer.AsSpan(leftover.Length));
+        }
+
+        this.jsonReaderState = utf8JsonReader.CurrentState;
+    }
+
+    private void GetMoreBytesFromStream(ref Utf8JsonReader reader)
+    {
+        int bytesRead;
+        if (reader.BytesConsumed < this.buffer.Length)
+        {
+            ReadOnlySpan<byte> leftover = this.buffer.AsSpan((int)reader.BytesConsumed);
+
+            if (leftover.Length == this.buffer.Length)
+            {
+                Array.Resize(ref this.buffer, this.buffer.Length * 2);
+            }
+
+            leftover.CopyTo(this.buffer);
+            bytesRead = this.inputStream.Read(this.buffer.AsSpan(leftover.Length));
+        }
+        else
+        {
+            bytesRead = this.inputStream.Read(this.buffer);
+        }
+
+        this.isFinalBlock = bytesRead == 0;
+        this.jsonReaderState = reader.CurrentState;
+        reader = this.NewUtf8JsonReader();
+    }
+
+    private void WriteReadJsonToken(ref Utf8JsonReader utf8JsonReader, string jsonToken, Utf8JsonWriter utf8JsonWriter)
+    {
+        switch (utf8JsonReader.TokenType)
+        {
+            case JsonTokenType.StartObject:
+                utf8JsonWriter.WriteStartObject();
+                break;
+
+            case JsonTokenType.EndObject:
+                utf8JsonWriter.WriteEndObject();
+                utf8JsonWriter.Flush();
+                break;
+
+            case JsonTokenType.StartArray:
+                utf8JsonWriter.WriteStartArray();
+                break;
+
+            case JsonTokenType.EndArray:
+                utf8JsonWriter.WriteEndArray();
+                utf8JsonWriter.Flush();
+                break;
+
+            case JsonTokenType.PropertyName:
+                utf8JsonWriter.WritePropertyName(jsonToken);
+                break;
+
+            case JsonTokenType.String:
+                utf8JsonWriter.WriteStringValue(jsonToken);
+                break;
+
+            case JsonTokenType.Number:
+                utf8JsonWriter.WriteRawValue(jsonToken);
+                break;
+        }
+    }
+}
