@@ -16,8 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  
-  
+
   <ItemGroup Condition="!$(MSBuildProjectFile.Contains('.Specs.')) AND !$(MSBuildProjectFile.Contains('.Testing.'))">
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>$(AssemblyName).Specs</_Parameter1>
@@ -53,4 +52,9 @@
   <ItemGroup Condition="$(MSBuildProjectDirectory.Contains('samples'))">
     <ProjectReference Include="$(MSBuildThisFileDirectory)\src\Smusdi.Core\Smusdi.Core.csproj" />
   </ItemGroup>
+  
+  <!-- implicit using -->
+  <PropertyGroup>
+    <ImplicitUsings>true</ImplicitUsings>
+  </PropertyGroup>
 </Project>
