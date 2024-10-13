@@ -97,3 +97,50 @@ Scenario: Splitting array with a complex object
         | {"type":"Build","name":"first"}                                                                           |
         | {"label":"Second item","price":56.7878,"values":[67.5,78.9],"histo":[{"date":"2024-10-10","price":4.56}]} |
         | {"type":"Publish","name":"Third"}                                                                         |
+
+Scenario: Splitting array with a null property
+    When I split the json array
+        """
+        [
+            {
+                "type": "Build",
+                "name": "first"
+            },
+            {
+                "type": "Test",
+                "name": "second",
+                "description" : {
+                    "type": "unknown",
+                    "target": null
+                }
+            }
+        ]
+        """
+    Then the array items are found
+        | Value                                                                          |
+        | {"type":"Build","name":"first"}                                                |
+        | {"type":"Test","name":"second","description":{"type":"unknown","target":null}} |
+
+Scenario: Splitting array with boolean properties
+    When I split the json array
+        """
+        [
+            {
+                "type": "Build",
+                "name": "first"
+            },
+            {
+                "type": "Test",
+                "name": "second",
+                "description" : {
+                    "type": "unknown",
+                    "isActive": true,
+                    "isDeleted": false
+                }
+            }
+        ]
+        """
+    Then the array items are found
+        | Value                                                                                              |
+        | {"type":"Build","name":"first"}                                                                    |
+        | {"type":"Test","name":"second","description":{"type":"unknown","isActive":true,"isDeleted":false}} |

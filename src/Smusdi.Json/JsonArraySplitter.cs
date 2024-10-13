@@ -199,6 +199,9 @@ public sealed class JsonArraySplitter
                 break;
 
             case JsonTokenType.Number:
+            case JsonTokenType.Null:
+            case JsonTokenType.True:
+            case JsonTokenType.False:
                 utf8JsonWriter.WriteRawValue(jsonToken);
                 break;
         }
