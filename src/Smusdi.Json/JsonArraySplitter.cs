@@ -12,13 +12,15 @@ namespace Smusdi.Json;
 public sealed class JsonArraySplitter
 {
     private readonly Stream inputStream;
+    private readonly int bufferSize;
     private byte[] buffer = new byte[1024];
     private JsonReaderState jsonReaderState = default;
     private bool isFinalBlock = false;
 
-    public JsonArraySplitter(Stream stream)
+    public JsonArraySplitter(Stream stream, int bufferSize = 1024)
     {
         this.inputStream = stream;
+        this.bufferSize = bufferSize;
         var bytesCount = this.inputStream.Read(this.buffer);
         if (bytesCount == 0)
         {
@@ -170,7 +172,6 @@ public sealed class JsonArraySplitter
 
             case JsonTokenType.EndObject:
                 utf8JsonWriter.WriteEndObject();
-                utf8JsonWriter.Flush();
                 break;
 
             case JsonTokenType.StartArray:
@@ -179,7 +180,6 @@ public sealed class JsonArraySplitter
 
             case JsonTokenType.EndArray:
                 utf8JsonWriter.WriteEndArray();
-                utf8JsonWriter.Flush();
                 break;
 
             case JsonTokenType.PropertyName:
@@ -196,6 +196,16 @@ public sealed class JsonArraySplitter
             case JsonTokenType.False:
                 utf8JsonWriter.WriteRawValue(jsonToken);
                 break;
+        }
+
+        this.FlushIfRequired(utf8JsonWriter);
+    }
+
+    private void FlushIfRequired(Utf8JsonWriter utf8JsonWriter)
+    {
+        if (utf8JsonWriter.BytesPending >= this.bufferSize)
+        {
+            utf8JsonWriter.Flush();
         }
     }
 }
