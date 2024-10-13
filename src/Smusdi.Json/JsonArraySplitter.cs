@@ -118,14 +118,6 @@ public sealed class JsonArraySplitter
                     ReadOnlySpan<byte> jsonElement = utf8JsonReader.HasValueSequence ?
                        utf8JsonReader.ValueSequence.ToArray() :
                        utf8JsonReader.ValueSpan;
-                    if (utf8JsonReader.TokenType == JsonTokenType.String)
-                    {
-                        var tmpBuffer2 = new byte[positionAfter - positionBefore];
-                        var bytes = utf8JsonReader.CopyString(tmpBuffer2);
-                        Array.Resize(ref tmpBuffer2, bytes);
-                        return Encoding.UTF8.GetString(tmpBuffer2);
-                    }
-
                     return Encoding.UTF8.GetString(jsonElement);
                 }
         }
@@ -195,7 +187,7 @@ public sealed class JsonArraySplitter
                 break;
 
             case JsonTokenType.String:
-                utf8JsonWriter.WriteStringValue(jsonToken);
+                utf8JsonWriter.WriteRawValue($"\"{jsonToken}\"");
                 break;
 
             case JsonTokenType.Number:
