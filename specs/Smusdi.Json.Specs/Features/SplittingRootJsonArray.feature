@@ -144,3 +144,43 @@ Scenario: Splitting array with boolean properties
         | Value                                                                                              |
         | {"type":"Build","name":"first"}                                                                    |
         | {"type":"Test","name":"second","description":{"type":"unknown","isActive":true,"isDeleted":false}} |
+
+Scenario: Splitting array with date time with timezone offset
+    When I split the json array
+        """
+        [
+            {
+                "type": "Build",
+                "name": "first"
+            },
+            {
+                "type": "Test",
+                "name": "second",
+                "timestamp" : "2024-10-12T04:12:00+02:00"
+            }
+        ]
+        """
+    Then the array items are found
+        | Value                                                                   |
+        | {"type":"Build","name":"first"}                                         |
+        | {"type":"Test","name":"second","timestamp":"2024-10-12T04:12:00+02:00"} |
+
+Scenario: Splitting array with escaped string
+    When I split the json array
+        """
+        [
+            {
+                "type": "Build",
+                "name": "first"
+            },
+            {
+                "type": "Test",
+                "name": "second",
+                "description" : "with escaped \" for testing \u002B"
+            }
+        ]
+        """
+    Then the array items are found
+        | Value                                                                                |
+        | {"type":"Build","name":"first"}                                                      |
+        | {"type":"Test","name":"second","description":"with escaped \\" for testing \\u002B"} |
