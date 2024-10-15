@@ -180,7 +180,7 @@ The configuration is made according to the appsettings section **oauth**.
     "client" : {
       "clientId" : "identifier_of_the_client_for_the_provider",
       "clientSecret": "client_password",
-      "scopes": "default requested scopes
+      "scopes": "default requested scopes"
     }
   }
 }
@@ -201,7 +201,8 @@ These settings are used by the extension method **HttpClientHelpers.AddHttpClien
         "client": {
           "clientId" : "identifier_of_the_client_for_the_provider",
           "clientSecret": "client_password",
-          "scopes": "default requested scopes
+          "scopes": "default requested scopes",
+          "clientCredentialStyle" : "AuthorizationHeader | PostBody | undefined"
         }
       }
     ]
