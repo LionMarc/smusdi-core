@@ -1,4 +1,8 @@
-﻿namespace Smusdi.Core.Oauth;
+﻿using Duende.AccessTokenManagement;
+using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication.OAuth;
+
+namespace Smusdi.Core.Oauth;
 
 public sealed class ClientOptions
 {
@@ -7,4 +11,18 @@ public sealed class ClientOptions
     public required string ClientSecret { get; set; }
 
     public string Scopes { get; set; } = string.Empty;
+
+    public ClientCredentialStyle? ClientCredentialStyle { get; set; } = null;
+
+    public void UpdateClientCredentialsClient(ClientCredentialsClient client)
+    {
+        client.ClientId = this.ClientId;
+        client.ClientSecret = this.ClientSecret;
+        client.Scope = this.Scopes;
+
+        if (this.ClientCredentialStyle != null)
+        {
+            client.ClientCredentialStyle = this.ClientCredentialStyle.Value;
+        }
+    }
 }
