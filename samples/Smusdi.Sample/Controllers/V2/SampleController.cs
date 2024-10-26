@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Smusdi.Core.Helpers;
 
@@ -12,6 +13,7 @@ public class SampleController(TimeProvider timeProvider) : ControllerBase
     private readonly TimeProvider timeProvider = timeProvider;
 
     [HttpGet]
+    [ProducesResponseType<string>(StatusCodes.Status200OK)]
     public IActionResult Get()
     {
         return this.Ok($"Called from 2.0 at {this.timeProvider.GetUtcNow()}");

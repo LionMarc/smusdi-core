@@ -131,7 +131,7 @@ public sealed class JsonArraySplitter
         {
             ReadOnlySpan<byte> leftover = this.buffer.AsSpan((int)utf8JsonReader.BytesConsumed);
             leftover.CopyTo(this.buffer);
-            this.inputStream.Read(this.buffer.AsSpan(leftover.Length));
+            _ = this.inputStream.Read(this.buffer.AsSpan(leftover.Length));
         }
 
         this.jsonReaderState = utf8JsonReader.CurrentState;

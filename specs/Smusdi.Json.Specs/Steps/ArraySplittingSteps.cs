@@ -7,7 +7,7 @@ namespace Smusdi.Json.Specs.Steps;
 [Binding]
 public sealed class ArraySplittingSteps
 {
-    private List<string> jsonArrayItems = [];
+    private readonly List<string> jsonArrayItems = [];
     private Exception? caughtException = null;
 
     [When("I split the json array")]

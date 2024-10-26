@@ -28,12 +28,12 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, 
         this.connectionString = $"server={host};Port={port};Database={db};UserId={user};Password={password};Trust Server Certificate=true;";
         NpgsqlConnection.ClearAllPools();
         using var connection = new NpgsqlConnection(this.connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Creating database {this.databaseName}...");
         command.CommandText = $"CREATE DATABASE \"{this.databaseName}\"";
         await command.ExecuteNonQueryAsync();
-        connection.Close();
+        await connection.CloseAsync();
         this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} created.");
 
         var targetConnectionString = $"server={host};Port={port};Database={this.databaseName};UserId={user};Password={password};Trust Server Certificate=true;";
@@ -46,11 +46,11 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, 
         this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Deleting database {this.databaseName}...");
         NpgsqlConnection.ClearAllPools();
         using var connection = new NpgsqlConnection(this.connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         command.CommandText = $"DROP DATABASE \"{this.databaseName}\"";
         await command.ExecuteNonQueryAsync();
-        connection.Close();
+        await connection.CloseAsync();
         this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} deleted.");
     }
 }
