@@ -16,7 +16,7 @@ public sealed class PostgreSqlSteps(SmusdiServiceTestingSteps steps)
     {
         var connectionString = this.configuration.GetValue<string>(Constants.ConnectionStringSettingsPath);
         using var connection = new NpgsqlConnection(connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         command.CommandText = $"SELECT EXISTS(SELECT FROM pg_tables WHERE tablename='{tableName}')";
         var res = await command.ExecuteScalarAsync();
@@ -28,7 +28,7 @@ public sealed class PostgreSqlSteps(SmusdiServiceTestingSteps steps)
     {
         var connectionString = this.configuration.GetValue<string>(Constants.ConnectionStringSettingsPath);
         using var connection = new NpgsqlConnection(connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         command.CommandText = $"SELECT EXISTS(SELECT FROM pg_tables WHERE tablename='{tableName}')";
         var res = await command.ExecuteScalarAsync();

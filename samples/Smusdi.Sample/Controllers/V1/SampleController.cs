@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Smusdi.Sample.Controllers.V1;
@@ -9,6 +10,7 @@ namespace Smusdi.Sample.Controllers.V1;
 public class SampleController : ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType<string>(StatusCodes.Status200OK)]
     public IActionResult Get()
     {
         return this.Ok("Called");
