@@ -6,6 +6,7 @@ using Smusdi.Core.Compression;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
 using Smusdi.Core.HealthChecks;
+using Smusdi.Core.Helpers;
 using Smusdi.Core.Info;
 using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
@@ -40,26 +41,9 @@ public class SmusdiService : IDisposable
         await service.RunAsync();
     }
 
-    public static void ReadEnvFileIfExists()
-    {
-        var envFile = Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiEnvFilePath) ?? SmusdiConstants.DefaultEnvFile;
-        if (!string.IsNullOrWhiteSpace(envFile) && File.Exists(envFile))
-        {
-            foreach (var line in File.ReadAllLines(envFile))
-            {
-                var parts = line.Split('=');
-                if (parts.Length >= 2)
-                {
-                    var value = Environment.ExpandEnvironmentVariables(string.Join('=', parts.Skip(1)));
-                    Environment.SetEnvironmentVariable(parts[0], value);
-                }
-            }
-        }
-    }
-
     public virtual void CreateAndInitializeBuider(string[] args)
     {
-        ReadEnvFileIfExists();
+        EnvFileHelper.ReadEnvFileIfExists();
         var webApplicationOptions = new WebApplicationOptions
         {
             Args = args,
