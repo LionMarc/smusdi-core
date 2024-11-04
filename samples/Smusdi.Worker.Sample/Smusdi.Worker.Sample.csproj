@@ -13,4 +13,8 @@
     </None>
   </ItemGroup>
 
+  <PropertyGroup>
+    <EnvFilePath>$(MSBuildThisFileDirectory)\\.env</EnvFilePath>
+  </PropertyGroup>
+
 </Project>
