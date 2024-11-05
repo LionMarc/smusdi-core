@@ -13,6 +13,8 @@ internal sealed class LongRunningWorkerTask : IWorkerTask
 
     public string Name => "Long running worker task";
 
+    public int Order => 100;
+
     public async Task Execute(CancellationToken stoppingToken)
     {
         await this.sampleService.Test("scope1");
