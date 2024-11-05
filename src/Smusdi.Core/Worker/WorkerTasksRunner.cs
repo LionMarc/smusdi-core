@@ -23,7 +23,7 @@ public sealed class WorkerTasksRunner : BackgroundService
         using (var scope = this.serviceProvider.CreateScope())
         {
             var workerTasks = scope.ServiceProvider.GetServices<IWorkerTask>();
-            foreach (var workerTask in workerTasks)
+            foreach (var workerTask in workerTasks.OrderBy(t => t.Order))
             {
                 using (LogContext.PushProperty("WorkerTaskName", workerTask.Name))
                 {
