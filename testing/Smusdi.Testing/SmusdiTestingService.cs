@@ -89,4 +89,15 @@ public sealed class SmusdiTestingService : IDisposable
 
         return serviceProvider.GetRequiredService<T>();
     }
+
+    public IEnumerable<T> GetServices<T>()
+    {
+        var serviceProvider = this.SmusdiService?.WebApplication?.Services;
+        if (serviceProvider == null)
+        {
+            return [];
+        }
+
+        return serviceProvider.GetServices<T>();
+    }
 }
