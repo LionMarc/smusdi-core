@@ -14,4 +14,10 @@
     <Folder Include="Features\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\json_with_bom.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

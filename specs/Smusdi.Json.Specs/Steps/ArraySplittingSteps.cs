@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using FluentAssertions;
 using Reqnroll;
 
@@ -13,10 +14,37 @@ public sealed class ArraySplittingSteps
     [When("I split the json array")]
     public void WhenISplitTheJsonArray(string multilineText)
     {
+        using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(multilineText));
+        this.SplitStream(memoryStream);
+    }
+
+    [When("I split json array from file {string}")]
+    public void WhenISplitJsonArrayFromFile(string filePath)
+    {
+        using var stream = File.OpenRead(filePath);
+        this.SplitStream(stream);
+    }
+
+    [Then("a {string} exception is thrown")]
+    public void ThenAExceptionIsThrown(string exceptionType, string exceptionMessage)
+    {
+        this.caughtException.Should().NotBeNull();
+        this.caughtException?.GetType().Name.Should().Be(exceptionType);
+        this.caughtException?.Message.Should().Be(exceptionMessage);
+    }
+
+    [Then("the array items are found")]
+    public void ThenTheArrayItemsAreFound(DataTable dataTable)
+    {
+        var expected = dataTable.CreateSet<ArrayItem>().Select(i => i.Value).ToList();
+        this.jsonArrayItems.Should().BeEquivalentTo(expected);
+    }
+
+    private void SplitStream(Stream stream)
+    {
         try
         {
-            using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(multilineText));
-            var splitter = new JsonArraySplitter(memoryStream);
+            var splitter = new JsonArraySplitter(stream);
             while (true)
             {
                 using var outputStream = new MemoryStream();
@@ -35,21 +63,6 @@ public sealed class ArraySplittingSteps
         {
             this.caughtException = e;
         }
-    }
-
-    [Then("a {string} exception is thrown")]
-    public void ThenAExceptionIsThrown(string exceptionType, string exceptionMessage)
-    {
-        this.caughtException.Should().NotBeNull();
-        this.caughtException?.GetType().Name.Should().Be(exceptionType);
-        this.caughtException?.Message.Should().Be(exceptionMessage);
-    }
-
-    [Then("the array items are found")]
-    public void ThenTheArrayItemsAreFound(DataTable dataTable)
-    {
-        var expected = dataTable.CreateSet<ArrayItem>().Select(i => i.Value).ToList();
-        this.jsonArrayItems.Should().BeEquivalentTo(expected);
     }
 
     private sealed record ArrayItem(string Value);
