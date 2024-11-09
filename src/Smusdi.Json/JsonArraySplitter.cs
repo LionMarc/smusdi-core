@@ -12,21 +12,22 @@ namespace Smusdi.Json;
 public sealed class JsonArraySplitter
 {
     private readonly Stream inputStream;
-    private readonly int bufferSize;
+    private readonly int generatedJsonBufferSize;
     private byte[] buffer = new byte[1024];
     private JsonReaderState jsonReaderState = default;
     private bool isFinalBlock = false;
 
-    public JsonArraySplitter(Stream stream, int bufferSize = 1024)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JsonArraySplitter"/> class.
+    /// </summary>
+    /// <param name="stream">The stream providing the input json array.</param>
+    /// <param name="generatedJsonBufferSize">The size of the in-memory buffer for the generated output.</param>
+    /// <exception cref="JsonArraySplitterException">In case input file is empty.</exception>
+    public JsonArraySplitter(Stream stream, int generatedJsonBufferSize = 1024)
     {
         this.inputStream = stream;
-        this.bufferSize = bufferSize;
-        var bytesCount = this.inputStream.Read(this.buffer);
-        if (bytesCount == 0)
-        {
-            throw new JsonArraySplitterException("Nothing to read from input stream.");
-        }
-
+        this.generatedJsonBufferSize = generatedJsonBufferSize;
+        this.InitializeBuffer();
         this.ReadStartArrayToken();
     }
 
@@ -66,6 +67,27 @@ public sealed class JsonArraySplitter
         this.CacheStateForLaterUse(ref utf8JsonReader);
 
         return true;
+    }
+
+    private void InitializeBuffer()
+    {
+        var bytesCount = this.inputStream.Read(this.buffer);
+        var utf8Bom = Encoding.UTF8.GetPreamble();
+        var leftOver = this.buffer.AsSpan();
+        if (leftOver.StartsWith(utf8Bom))
+        {
+            leftOver = leftOver.Slice(utf8Bom.Length);
+            leftOver.CopyTo(this.buffer);
+            Array.Clear(this.buffer, leftOver.Length, this.buffer.Length - leftOver.Length);
+            var extraBytesCount = this.inputStream.Read(this.buffer.AsSpan(leftOver.Length));
+            bytesCount -= utf8Bom.Length;
+            bytesCount += extraBytesCount;
+        }
+
+        if (bytesCount == 0)
+        {
+            throw new JsonArraySplitterException("Nothing to read from input stream.");
+        }
     }
 
     private Utf8JsonReader NewUtf8JsonReader() => new(this.buffer, this.isFinalBlock, this.jsonReaderState);
@@ -150,6 +172,7 @@ public sealed class JsonArraySplitter
             }
 
             leftover.CopyTo(this.buffer);
+            Array.Clear(this.buffer, leftover.Length, this.buffer.Length - leftover.Length);
             bytesRead = this.inputStream.Read(this.buffer.AsSpan(leftover.Length));
         }
         else
@@ -203,7 +226,7 @@ public sealed class JsonArraySplitter
 
     private void FlushIfRequired(Utf8JsonWriter utf8JsonWriter)
     {
-        if (utf8JsonWriter.BytesPending >= this.bufferSize)
+        if (utf8JsonWriter.BytesPending >= this.generatedJsonBufferSize)
         {
             utf8JsonWriter.Flush();
         }
