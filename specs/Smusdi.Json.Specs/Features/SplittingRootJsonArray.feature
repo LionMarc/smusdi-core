@@ -184,3 +184,59 @@ Scenario: Splitting array with escaped string
         | Value                                                                                |
         | {"type":"Build","name":"first"}                                                      |
         | {"type":"Test","name":"second","description":"with escaped \\" for testing \\u002B"} |
+
+Scenario: Splitting array into a Utf8JsonWriter
+    When I split the json array into a Utf8JsonWriter
+        """
+        [
+            {
+                "type": "Build",
+                "name": "first"
+            },
+            {
+                "label": "Second item",
+                "price": 56.7878,
+                "values": [
+                    67.5,
+                    78.9
+                ],
+                "histo": [
+                    {
+                        "date": "2024-10-10",
+                        "price": 4.56
+                    }
+                ]
+            },
+            {
+                "type": "Publish",
+                "name": "Third"
+            }
+        ]
+        """
+    Then the output json is
+        """
+        [
+            {
+                "type": "Build",
+                "name": "first"
+            },
+            {
+                "label": "Second item",
+                "price": 56.7878,
+                "values": [
+                    67.5,
+                    78.9
+                ],
+                "histo": [
+                    {
+                        "date": "2024-10-10",
+                        "price": 4.56
+                    }
+                ]
+            },
+            {
+                "type": "Publish",
+                "name": "Third"
+            }
+        ]
+        """

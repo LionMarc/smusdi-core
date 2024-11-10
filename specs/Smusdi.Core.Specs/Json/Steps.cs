@@ -1,6 +1,4 @@
 ﻿using System.IO.Abstractions;
-using System.Text.Json.JsonDiffPatch;
-using System.Text.Json.Nodes;
 using Smusdi.Core.Json;
 using Smusdi.Testing;
 
@@ -44,10 +42,7 @@ public class Steps
             new TestStage("second", 2),
         });
 
-        var actual = JsonNode.Parse(this.jsonSerializer.Serialize(this.workflow));
-        var expectedNode = JsonNode.Parse(this.jsonSerializer.Serialize(expected));
-
-        actual.Diff(expectedNode).Should().BeNull();
+        this.jsonSerializer.Serialize(this.workflow).ShouldBeSameJsonAs(this.jsonSerializer.Serialize(expected));
     }
 
     [Then(@"I get a valid list of workflow")]
@@ -100,10 +95,6 @@ public class Steps
     [Then(@"I get the result")]
     public void ThenIGetTheResult(string multilineText)
     {
-        var expected = JsonNode.Parse(multilineText);
-        var serialized = JsonNode.Parse(this.serializedWorkflow!);
-        var diff = serialized.Diff(expected);
-
-        diff.Should().BeNull();
+        (this.serializedWorkflow ?? throw new InvalidOperationException("No serialized workflow")).ShouldBeSameJsonAs(multilineText);
     }
 }

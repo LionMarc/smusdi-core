@@ -76,15 +76,11 @@ public sealed class HttpSteps
     [Then(@"I receive the validation errors")]
     public async Task ThenIReceiveTheValidationErrors(string multilineText)
     {
-        var expected = JsonNode.Parse(multilineText);
         var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
         var received = JsonNode.Parse(receivedContent);
 
-        var receivedErrors = received?["errors"];
-
-        var diff = receivedErrors.Diff(expected);
-
-        diff.Should().BeNull();
+        var receivedErrors = received?["errors"] ?? throw new InvalidOperationException("No errors received.");
+        receivedErrors.ShouldBeSameJsonAs(multilineText);
     }
 
     [Then(@"I receive the problem detail")]
