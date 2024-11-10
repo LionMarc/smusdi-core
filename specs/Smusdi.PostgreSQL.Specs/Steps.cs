@@ -1,7 +1,4 @@
-﻿using System.Text.Json.JsonDiffPatch;
-using System.Text.Json.Nodes;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PostgreSqlMigration;
 using Reqnroll;
 using Smusdi.Core.Json;
@@ -46,11 +43,7 @@ public class Steps
         await this.testingService.Execute(async (MigrationDbContext context) =>
         {
             var stored = await context.Set<JobDao>().ToListAsync();
-            var expectedjobs = JsonNode.Parse(expected);
-            var actual = JsonNode.Parse(this.jsonSerializer.Serialize(stored));
-            var diff = actual.Diff(expectedjobs);
-
-            diff.Should().BeNull();
+            this.jsonSerializer.Serialize(stored).ShouldBeSameJsonAs(expected);
         });
     }
 }

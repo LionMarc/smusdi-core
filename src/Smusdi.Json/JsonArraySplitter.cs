@@ -31,7 +31,31 @@ public sealed class JsonArraySplitter
         this.ReadStartArrayToken();
     }
 
+    public bool ReadNextItem(Utf8JsonWriter utf8JsonWriter)
+    {
+        var utf8JsonReader = this.SearchStartOfObject();
+        if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
+        {
+            return false;
+        }
+
+        return this.WriteNextItem(ref utf8JsonReader, utf8JsonWriter);
+    }
+
     public bool ReadNextItem(Stream outputStream)
+    {
+        var utf8JsonReader = this.SearchStartOfObject();
+        if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
+        {
+            return false;
+        }
+
+        // Maybe, store the writer as class instance inorder to reuse it. Set this class as IDisposable and dispose the writer.
+        using var utf8JsonWriter = new Utf8JsonWriter(outputStream);
+        return this.WriteNextItem(ref utf8JsonReader, utf8JsonWriter);
+    }
+
+    private Utf8JsonReader SearchStartOfObject()
     {
         var utf8JsonReader = this.NewUtf8JsonReader();
 
@@ -47,15 +71,12 @@ public sealed class JsonArraySplitter
             }
         }
 
-        if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
-        {
-            return false;
-        }
+        return utf8JsonReader;
+    }
 
-        // Maybe, store the writer as class instance inorder to reuse it. Set this class as IDisposable and dispose the writer.
-        using var utf8JsonWriter = new Utf8JsonWriter(outputStream);
+    private bool WriteNextItem(ref Utf8JsonReader utf8JsonReader, Utf8JsonWriter utf8JsonWriter)
+    {
         utf8JsonWriter.WriteStartObject();
-
         while (utf8JsonReader.TokenType != JsonTokenType.EndObject || utf8JsonReader.CurrentDepth > 1)
         {
             var jsonToken = this.ReadNextToken(ref utf8JsonReader);
