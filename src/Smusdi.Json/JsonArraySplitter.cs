@@ -92,7 +92,7 @@ public sealed class JsonArraySplitter
 
     private void InitializeBuffer()
     {
-        var bytesCount = this.inputStream.Read(this.buffer);
+        var bytesCount = this.inputStream.ReadBytes(this.buffer, 0, this.buffer.Length);
         var utf8Bom = Encoding.UTF8.GetPreamble();
         var leftOver = this.buffer.AsSpan();
         if (leftOver.StartsWith(utf8Bom))
@@ -100,7 +100,7 @@ public sealed class JsonArraySplitter
             leftOver = leftOver.Slice(utf8Bom.Length);
             leftOver.CopyTo(this.buffer);
             Array.Clear(this.buffer, leftOver.Length, this.buffer.Length - leftOver.Length);
-            var extraBytesCount = this.inputStream.Read(this.buffer.AsSpan(leftOver.Length));
+            var extraBytesCount = this.inputStream.Read(this.buffer, leftOver.Length, this.buffer.Length - leftOver.Length);
             bytesCount -= utf8Bom.Length;
             bytesCount += extraBytesCount;
         }
@@ -183,6 +183,7 @@ public sealed class JsonArraySplitter
     private void GetMoreBytesFromStream(ref Utf8JsonReader reader)
     {
         int bytesRead;
+        int wantedBytes = 0;
         if (reader.BytesConsumed < this.buffer.Length)
         {
             ReadOnlySpan<byte> leftover = this.buffer.AsSpan((int)reader.BytesConsumed);
@@ -193,15 +194,17 @@ public sealed class JsonArraySplitter
             }
 
             leftover.CopyTo(this.buffer);
-            Array.Clear(this.buffer, leftover.Length, this.buffer.Length - leftover.Length);
-            bytesRead = this.inputStream.Read(this.buffer.AsSpan(leftover.Length));
+            wantedBytes = this.buffer.Length - leftover.Length;
+            Array.Clear(this.buffer, leftover.Length, wantedBytes);
+            bytesRead = this.inputStream.ReadBytes(this.buffer, leftover.Length, wantedBytes);
         }
         else
         {
-            bytesRead = this.inputStream.Read(this.buffer);
+            wantedBytes = this.buffer.Length;
+            bytesRead = this.inputStream.ReadBytes(this.buffer, 0, wantedBytes);
         }
 
-        this.isFinalBlock = bytesRead == 0;
+        this.isFinalBlock = bytesRead != wantedBytes;
         this.jsonReaderState = reader.CurrentState;
         reader = this.NewUtf8JsonReader();
     }
