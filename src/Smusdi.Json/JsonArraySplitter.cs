@@ -196,12 +196,12 @@ public sealed class JsonArraySplitter
             leftover.CopyTo(this.buffer);
             wantedBytes = this.buffer.Length - leftover.Length;
             Array.Clear(this.buffer, leftover.Length, wantedBytes);
-            bytesRead = this.inputStream.Read(this.buffer, leftover.Length, wantedBytes);
+            bytesRead = this.inputStream.ReadBytes(this.buffer, leftover.Length, wantedBytes);
         }
         else
         {
             wantedBytes = this.buffer.Length;
-            bytesRead = this.inputStream.Read(this.buffer, 0, wantedBytes);
+            bytesRead = this.inputStream.ReadBytes(this.buffer, 0, wantedBytes);
         }
 
         this.isFinalBlock = bytesRead != wantedBytes;
