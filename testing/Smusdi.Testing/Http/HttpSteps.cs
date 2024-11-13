@@ -97,13 +97,8 @@ public sealed class HttpSteps
     [Then(@"I receive the response")]
     public async Task ThenIReceiveTheResponse(string multilineText)
     {
-        var expected = JsonNode.Parse(multilineText);
         var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
-        var received = JsonNode.Parse(receivedContent);
-
-        var diff = received.Diff(expected);
-
-        diff.Should().BeNull();
+        receivedContent.ShouldBeSameJsonAs(multilineText);
     }
 
     public async Task Send(HttpRequestMessage request)
