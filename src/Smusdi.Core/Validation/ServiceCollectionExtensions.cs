@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Smusdi.Core.Extensibility;
 
 namespace Smusdi.Core.Validation;
@@ -10,14 +9,11 @@ public static class ServiceCollectionExtensions
     {
         ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName;
 
-        if (!smusdiOptions.DisableAutomaticFluentValidation)
-        {
-            services.AddFluentValidationAutoValidation();
-        }
-
-        services
-            .AddFluentValidationClientsideAdapters()
-            .AddValidatorsFromAssemblies(ScrutorHelpers.GetAllReferencedAssembliesWithTypeAssignableTo<IValidator>(smusdiOptions));
+        services.Scan(scan => scan
+            .FromAssembliesOrApplicationDependencies(smusdiOptions)
+            .AddClasses(c => c.AssignableTo<IValidator>().Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
         return services;
     }
