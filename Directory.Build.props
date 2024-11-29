@@ -43,7 +43,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Scrutor"/>
     <PackageReference Include="Serilog.AspNetCore"/>
-    <PackageReference Include="FluentValidation.AspNetCore"/>
+    <PackageReference Include="FluentValidation"/>
     <PackageReference Include="System.IO.Abstractions"/>
     <PackageReference Include="Duende.AccessTokenManagement"/>
     <PackageReference Include="Microsoft.Extensions.Http.Polly"/>

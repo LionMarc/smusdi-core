@@ -50,8 +50,6 @@ public sealed class SmusdiOptions
 
     public int MaxMultipartHeadersSize { get; set; } = MaxSizeOf1Mega;
 
-    public bool DisableAutomaticFluentValidation { get; set; } = false;
-
     /// <summary>
     /// Gets or sets a value indicating whether or not a cache is used by the info endpoint.
     /// </summary>

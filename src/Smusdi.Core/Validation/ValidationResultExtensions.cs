@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Smusdi.Core.Helpers;
+namespace Smusdi.Core.Validation;
 
 public static class ValidationResultExtensions
 {
@@ -14,5 +14,13 @@ public static class ValidationResultExtensions
         }
 
         return modelStateDictionary;
+    }
+
+    public static void CopyToModelState(this ValidationResult result, ModelStateDictionary modelState)
+    {
+        foreach (var error in result.Errors)
+        {
+            modelState.AddModelError(error.PropertyName, error.ErrorMessage);
+        }
     }
 }
