@@ -1,6 +1,5 @@
 ﻿using Duende.AccessTokenManagement;
-using IdentityModel.Client;
-using Microsoft.AspNetCore.Authentication.OAuth;
+using Duende.IdentityModel.Client;
 
 namespace Smusdi.Core.Oauth;
 
