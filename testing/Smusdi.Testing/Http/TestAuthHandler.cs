@@ -4,21 +4,15 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Smusdi.Testing;
+namespace Smusdi.Testing.Http;
 
-public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public class TestAuthHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    ClaimsProvider claimsProvider) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
-    private readonly ClaimsProvider claimsProvider;
-
-    public TestAuthHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options,
-        ILoggerFactory logger,
-        UrlEncoder encoder,
-        ClaimsProvider claimsProvider)
-        : base(options, logger, encoder)
-    {
-        this.claimsProvider = claimsProvider;
-    }
+    private readonly ClaimsProvider claimsProvider = claimsProvider;
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
