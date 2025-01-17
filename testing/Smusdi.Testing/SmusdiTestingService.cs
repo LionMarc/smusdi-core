@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Smusdi.Core;
 using Smusdi.Core.Extensibility;
+using Smusdi.Testing.Http;
 
 namespace Smusdi.Testing;
 

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using System.Text;
-using System.Text.Json.JsonDiffPatch;
 using System.Text.Json.Nodes;
 using FluentAssertions;
 using Reqnroll;
@@ -19,27 +18,6 @@ public sealed class HttpSteps
     }
 
     public HttpResponseMessage? ResponseMessage { get; set; }
-
-    [Given(@"identity with claims")]
-    public void GivenIdentityWithClaims(Table table)
-    {
-        var claimsProvider = this.smusdiTestingService.GetService<ClaimsProvider>();
-        if (claimsProvider == null)
-        {
-            return;
-        }
-
-        foreach (var row in table.Rows)
-        {
-            var appendToExistingClaim = true;
-            if (row.TryGetValue("append", out var append) && !string.IsNullOrWhiteSpace(append))
-            {
-                appendToExistingClaim = bool.Parse(append);
-            }
-
-            claimsProvider.AddClaim(row["Type"], row["Value"], appendToExistingClaim);
-        }
-    }
 
     [When(@"I execute the GET request ""(.*)""")]
     public async Task WhenIExecuteTheGetRequest(string url)

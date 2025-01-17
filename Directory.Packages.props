@@ -41,5 +41,7 @@
     <!-- Quality -->
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.32.0.97167" />
+    <!-- Fix for vulnerabilities -->
+    <PackageVersion Include="System.Text.Json" Version="8.0.5"/>
   </ItemGroup>
 </Project>
