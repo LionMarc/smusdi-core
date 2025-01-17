@@ -34,6 +34,7 @@
     <PackageReference Include="System.IO.Abstractions.TestingHelpers"/>
     <PackageReference Include="RichardSzalay.MockHttp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="System.Text.Json"/>
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectFile) == 'Smusdi.Core.csproj'">
