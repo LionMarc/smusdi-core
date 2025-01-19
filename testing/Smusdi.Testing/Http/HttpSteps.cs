@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using System.Net.Mime;
-using System.Text;
 using System.Text.Json.Nodes;
 using FluentAssertions;
 using Reqnroll;
@@ -8,41 +6,18 @@ using Reqnroll;
 namespace Smusdi.Testing.Http;
 
 [Binding]
-public sealed class HttpSteps
+public sealed class HttpSteps(ApiTesting apiTesting)
 {
-    private readonly SmusdiTestingService smusdiTestingService;
-
-    public HttpSteps(SmusdiServiceTestingSteps steps)
-    {
-        this.smusdiTestingService = steps.SmusdiTestingService;
-    }
-
-    public HttpResponseMessage? ResponseMessage { get; set; }
+    public HttpResponseMessage? ResponseMessage => apiTesting.ResponseMessage;
 
     [When(@"I execute the GET request ""(.*)""")]
-    public async Task WhenIExecuteTheGetRequest(string url)
-    {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        this.ResponseMessage = await this.smusdiTestingService.TestClient.GetAsync(url);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-    }
+    public Task WhenIExecuteTheGetRequest(string url) => apiTesting.Get(url);
 
     [When(@"I execute the DELETE request ""(.*)""")]
-    public async Task WhenIExecuteTheDeleteRequest(string url)
-    {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        this.ResponseMessage = await this.smusdiTestingService.TestClient.DeleteAsync(url);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-    }
+    public Task WhenIExecuteTheDeleteRequest(string url) => apiTesting.Delete(url);
 
     [When(@"I execute the POST request ""(.*)"" with content")]
-    public async Task WhenIExecuteThePOSTRequestWithContent(string url, string content)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json) };
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        this.ResponseMessage = await this.smusdiTestingService.TestClient.SendAsync(request);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-    }
+    public Task WhenIExecuteThePOSTRequestWithContent(string url, string content) => apiTesting.PostString(url, content);
 
     [Then(@"I receive a ""(.*)"" status")]
     public void ThenIReceiveAStatus(string expectedStatus)
@@ -77,10 +52,5 @@ public sealed class HttpSteps
     {
         var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
         receivedContent.ShouldBeSameJsonAs(multilineText);
-    }
-
-    public async Task Send(HttpRequestMessage request)
-    {
-        this.ResponseMessage = await this.smusdiTestingService.TestClient!.SendAsync(request);
     }
 }
