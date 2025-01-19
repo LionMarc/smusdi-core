@@ -17,7 +17,7 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     public Task WhenIExecuteTheDeleteRequest(string url) => apiTesting.Delete(url);
 
     [When(@"I execute the POST request ""(.*)"" with content")]
-    public Task WhenIExecuteThePOSTRequestWithContent(string url, string content) => apiTesting.Post(url, content);
+    public Task WhenIExecuteThePOSTRequestWithContent(string url, string content) => apiTesting.PostString(url, content);
 
     [Then(@"I receive a ""(.*)"" status")]
     public void ThenIReceiveAStatus(string expectedStatus)
