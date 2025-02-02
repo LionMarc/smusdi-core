@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
 
         services.Scan(scan => scan
             .FromAssembliesOrApplicationDependencies(smusdiOptions)
-            .AddClasses(c => c.AssignableTo<IValidator>().Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
+            .AddClasses(c => c.AssignableTo<IValidator>().Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition), false)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
