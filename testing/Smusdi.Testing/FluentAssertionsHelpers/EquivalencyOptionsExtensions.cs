@@ -5,14 +5,14 @@ using Smusdi.Core.Helpers;
 
 namespace Smusdi.Testing.FluentAssertionsHelpers;
 
-public static class EquivalencyAssertionOptionsExtensions
+public static class EquivalencyOptionsExtensions
 {
-    public static EquivalencyAssertionOptions<T> WithStringNullOrEmptyComparison<T>(this EquivalencyAssertionOptions<T> options)
+    public static EquivalencyOptions<T> WithStringNullOrEmptyComparison<T>(this EquivalencyOptions<T> options)
         => options.Using<string>(ctx => (ctx.Subject ?? string.Empty).Should().BeEquivalentTo(ctx.Expectation ?? string.Empty)).WhenTypeIs<string>();
 
-    public static EquivalencyAssertionOptions<T> CheckOnlyTableHeaders<T>(this EquivalencyAssertionOptions<T> options, Table table)
+    public static EquivalencyOptions<T> CheckOnlyTableHeaders<T>(this EquivalencyOptions<T> options, Table table)
        => options.Excluding(a => !table.Header.Contains(a.Name));
 
-    public static EquivalencyAssertionOptions<T> CompareDateTimeAsUtc<T>(this EquivalencyAssertionOptions<T> options)
+    public static EquivalencyOptions<T> CompareDateTimeAsUtc<T>(this EquivalencyOptions<T> options)
        => options.Using<DateTime>(ctx => ctx.Subject.ToUtc().Should().Be(ctx.Expectation.ToUtc())).WhenTypeIs<DateTime>();
 }
