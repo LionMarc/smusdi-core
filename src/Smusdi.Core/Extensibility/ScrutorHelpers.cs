@@ -18,7 +18,7 @@ public static class ScrutorHelpers
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
         collection.Scan(scan => scan
             .FromAssembliesOrApplicationDependencies(smusdiOptions)
-            .AddClasses(c => c.AssignableTo<T>())
+            .AddClasses(c => c.AssignableTo<T>(), false)
             .AsImplementedInterfaces()
             .WithSingletonLifetime());
         return collection.BuildServiceProvider().GetServices<T>();

@@ -8,7 +8,7 @@ public static class WebApplicationExtensions
 
         collection.Scan(scan => scan
             .FromApplicationDependencies()
-            .AddClasses(c => c.AssignableTo<IWebApplicationConfigurator>())
+            .AddClasses(c => c.AssignableTo<IWebApplicationConfigurator>(), false)
             .AsImplementedInterfaces()
             .WithSingletonLifetime());
 
