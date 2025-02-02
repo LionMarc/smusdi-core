@@ -53,7 +53,7 @@ jobs:
       - name: Publish
         run: dotnet nuget push publish/*.nupkg --api-key ${{ secrets.NUGET_ORG_TOKEN }} --source "https://api.nuget.org/v3/index.json"
       - name: Archive packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-packages
           path: publish/*.nupkg
