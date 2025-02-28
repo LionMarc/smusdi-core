@@ -22,20 +22,6 @@
       <_Parameter1>$(AssemblyName).Specs</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Testing.'))">
-    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-  </ItemGroup>
-  <ItemGroup Condition="$(MSBuildProjectFile.Contains('.Testing.'))">
-    <PackageReference Include="Reqnroll"/>
-    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation"/>
-    <PackageReference Include="FluentAssertions"/>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
-    <PackageReference Include="SystemTextJson.JsonDiffPatch"/>
-    <PackageReference Include="System.IO.Abstractions.TestingHelpers"/>
-    <PackageReference Include="RichardSzalay.MockHttp" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    <PackageReference Include="System.Text.Json"/>
-  </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectFile) == 'Smusdi.Core.csproj'">
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
