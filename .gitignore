@@ -38,3 +38,4 @@ packages/
 /coverage
 /samples/Smusdi.Sample/logs/
 /publish/
+/generated-specs/
