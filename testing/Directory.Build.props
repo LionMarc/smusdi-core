@@ -3,7 +3,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing"/>
-    <PackageReference Include="System.Text.Json" />
     <PackageReference Include="Reqnroll"/>
     <PackageReference Include="Reqnroll.Tools.MsBuild.Generation"/>
     <PackageReference Include="FluentAssertions"/>
