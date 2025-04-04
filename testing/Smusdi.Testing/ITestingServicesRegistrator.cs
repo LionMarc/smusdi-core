@@ -1,4 +1,4 @@
-﻿using Smusdi.Core.Extensibility;
+﻿using Smusdi.Extensibility;
 
 namespace Smusdi.Testing;
 

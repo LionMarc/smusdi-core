@@ -1,4 +1,4 @@
-﻿namespace Smusdi.Core.Extensibility;
+﻿namespace Smusdi.Extensibility;
 
 public interface IServicesRegistrator : IBaseServicesRegistrator
 {

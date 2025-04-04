@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Smusdi.Core.Extensibility;
 using Smusdi.Core.Json;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Sample.Controllers.Json;
 

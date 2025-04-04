@@ -1,4 +1,6 @@
-﻿namespace Smusdi.Core.Extensibility;
+﻿using Smusdi.Extensibility;
+
+namespace Smusdi.Core.Extensibility;
 
 public static class WebApplicationExtensions
 {

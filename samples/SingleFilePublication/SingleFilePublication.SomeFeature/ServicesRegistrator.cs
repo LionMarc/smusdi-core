@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 
 namespace SingleFilePublication.SomeFeature;
 

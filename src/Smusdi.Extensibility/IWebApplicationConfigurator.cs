@@ -1,4 +1,6 @@
-﻿namespace Smusdi.Core.Extensibility;
+﻿using Microsoft.AspNetCore.Builder;
+
+namespace Smusdi.Extensibility;
 
 public interface IWebApplicationConfigurator
 {

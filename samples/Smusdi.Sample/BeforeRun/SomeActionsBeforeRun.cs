@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Sample.BeforeRun;
 

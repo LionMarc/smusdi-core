@@ -1,24 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
-    <RootNamespace>Smusdi.Core</RootNamespace>
-    <PackageId>Smusdi.Core</PackageId>
+    <RootNamespace>Smusdi.Extensibility</RootNamespace>
+    <PackageId>Smusdi.Extensibility</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <Authors>LION Marc</Authors>
-    <PackageDescription>Bootstrapper for .NET service.</PackageDescription>
+    <PackageDescription>All extensibility points of smusdi.</PackageDescription>
     <RepositoryUrl>https://github.com/LionMarc/smusdi-core</RepositoryUrl>
     <PackageProjectUrl>https://lionmarc.github.io/smusdi-core/</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Remove="Microsoft.Extensions.Logging" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Smusdi.Extensibility\Smusdi.Extensibility.csproj" />
-  </ItemGroup>
 </Project>

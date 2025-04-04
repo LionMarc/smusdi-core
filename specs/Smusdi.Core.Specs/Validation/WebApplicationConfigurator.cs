@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core.Specs.Validation;
 

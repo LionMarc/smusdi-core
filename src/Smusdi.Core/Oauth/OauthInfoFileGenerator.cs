@@ -1,8 +1,8 @@
 ﻿using System.IO.Abstractions;
 using Serilog;
-using Smusdi.Core.Extensibility;
 using Smusdi.Core.Info;
 using Smusdi.Core.Json;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core.Oauth;
 

@@ -15,6 +15,7 @@ using Smusdi.Core.Oauth;
 using Smusdi.Core.Pipeline;
 using Smusdi.Core.Swagger;
 using Smusdi.Core.Validation;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core;
 

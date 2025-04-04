@@ -75,6 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smusdi.Json", "src\Smusdi.J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Json.Specs", "specs\Smusdi.Json.Specs\Smusdi.Json.Specs.csproj", "{360F0E6B-0C53-4748-AACD-DABC44764694}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Extensibility", "src\Smusdi.Extensibility\Smusdi.Extensibility.csproj", "{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{360F0E6B-0C53-4748-AACD-DABC44764694}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360F0E6B-0C53-4748-AACD-DABC44764694}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{360F0E6B-0C53-4748-AACD-DABC44764694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
