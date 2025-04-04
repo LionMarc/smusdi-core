@@ -1,4 +1,6 @@
-﻿namespace Smusdi.Core.Configuration;
+﻿using Smusdi.Extensibility;
+
+namespace Smusdi.Core.Configuration;
 
 public sealed class EnvironmentVariablesExpanderProvider : ConfigurationProvider, IDisposable
 {

@@ -214,28 +214,40 @@ These settings are used by the extension method **HttpClientHelpers.AddHttpClien
 
 > The property *tokenEndPoint* is not required. If not set, it is generated from the authority.
 
-## Oauth providers / JWT bearer
+## Smusdi.Securit: Oauth providers / JWT bearer
 
 The service can validate input token against more than one provider.
 
 Additional providers can be declared in the appsettings file in the *oauth* section.
 
 ```json
-"oauth": {
-  "authority": "%SMUSDI_OAUTH_URL%",
-  "scopes": [
-    "scope1",
-    "scope2"
-  ],
-  "additionalAuthorities": [
-    {
-      "name": "PSG",
-      "url": "%PSG_OAUTH_URL%",
-      "audience": "account"
-    }
-  ]
-}
+  "Oauth": {
+    "Scopes": [
+      "scope1",
+      "scope2"
+    ],
+    "MainAuthority": {
+      "Name": "Smusdi",
+      "Url": "%SMUSDI_OAUTH_URL%",
+      "RequireHttpsMetadata": false,
+      "Audience": "account"
+    },
+    "AdditionalAuthorities": [
+      {
+        "Name": "PSG",
+        "Url": "%PSG_OAUTH_URL%",
+        "RequireHttpsMetadata": false,
+        "Audience": "account"
+      }
+    ]
+  }
 ```
-> Audience for default authority could also be set. The default value is **account** for both default authority and additional authority.
+> The default Audience value is **account** for both default main authority and additional authority.
+
+> The default RequireHttpsMetadata is true.
+
+The *Name* of the authority is used as authentication scheme. When receiving a token, the scheme is selected based on the issuer set in the token. THe authority to be used is the one whiwh has as *Url* the issuer set in token.
+
+The *Scopes* are used to create default authorization policies bases on token scopes.
 
 See https://learn.microsoft.com/en-us/aspnet/core/security/authorization/limitingidentitybyscheme?view=aspnetcore-8.0#use-multiple-authentication-schemes for details.

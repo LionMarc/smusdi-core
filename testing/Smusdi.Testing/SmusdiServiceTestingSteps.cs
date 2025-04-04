@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Time.Testing;
 using Reqnroll;
 using Smusdi.Core;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Testing;
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Smusdi.Core;
+using Smusdi.Extensibility;
 
 namespace Smusdi.PostgreSQL;
 

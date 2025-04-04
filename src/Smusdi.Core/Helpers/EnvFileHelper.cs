@@ -1,4 +1,6 @@
-﻿namespace Smusdi.Core.Helpers;
+﻿using Smusdi.Extensibility;
+
+namespace Smusdi.Core.Helpers;
 
 public static class EnvFileHelper
 {

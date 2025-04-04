@@ -23,6 +23,8 @@ public class SmusdiService : IDisposable
 {
     public const string CorsPolicy = "MyCorsPolicy";
 
+    private ISecurityConfigurator? securityConfigurator;
+
     public WebApplicationBuilder? WebApplicationBuilder { get; private set; }
 
     public WebApplication? WebApplication { get; private set; }
@@ -55,6 +57,12 @@ public class SmusdiService : IDisposable
             .InitLoggerConfiguration();
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(builder.Configuration);
+
+        // First get all the available configurators
+        this.securityConfigurator = ScrutorHelpers.GetImplementationsOf<ISecurityConfigurator>(builder.Configuration)
+            .FirstOrDefault();
+
+        // Now register all the services.
         if (smusdiOptions.NoVersioning != true)
         {
             builder.Services
@@ -79,9 +87,10 @@ public class SmusdiService : IDisposable
             .AddResponseCompression(smusdiOptions)
             .AddProblemDetails()
             .AddSwagger(builder.Configuration)
-            .AddSecurity(builder.Configuration)
             .AddClientSecurity(builder.Configuration)
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
+
+        this.securityConfigurator?.Add(builder.Services, builder.Configuration);
 
         var mvcBuilder = builder.Services.AddControllers().AddJsonOptions(j => j.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         mvcBuilder.AddParts(smusdiOptions);
@@ -163,7 +172,8 @@ public class SmusdiService : IDisposable
             .UseExceptionHandler()
             .UseStatusCodePages();
 
-        this.WebApplication.UseSecurity(this.WebApplication.Configuration);
+        this.securityConfigurator?.Configure(this.WebApplication, this.WebApplication.Configuration);
+
         this.WebApplication.MapControllers();
         this.WebApplication
             .UseSwagger(this.WebApplication.Configuration)
