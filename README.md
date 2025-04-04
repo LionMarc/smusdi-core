@@ -37,7 +37,7 @@ The bootstrapper uses the following environment variables:
 
 A default *appsettings.json* file can be found in the *samples* folder.
 
-## Extension Points
+## Extension Points => Smusdi.Extensibility.dll
 
 The project provides the following extension points:
 

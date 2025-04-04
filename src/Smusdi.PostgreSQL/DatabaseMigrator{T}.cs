@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 
 namespace Smusdi.PostgreSQL;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 using Smusdi.PostgreSQL;
 
 namespace PostgreSqlMigration;

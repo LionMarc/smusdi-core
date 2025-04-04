@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Sample.BeforeRun;
 

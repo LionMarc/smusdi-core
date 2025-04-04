@@ -8,6 +8,7 @@ using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Oauth;
 using Smusdi.Core.Pipeline;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core.Worker;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Smusdi.Core.Extensibility;
+using Smusdi.Extensibility;
 
 namespace Smusdi.PostgreSQL;
 
