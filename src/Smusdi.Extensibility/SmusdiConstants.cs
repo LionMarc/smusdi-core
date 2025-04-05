@@ -16,8 +16,3 @@ public static class SmusdiConstants
 
     public const string DefaultEnvFile = ".env";
 }
-
-public static class CustomInfoHelpers
-{
-    public static string? GetInfoFolder() => Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiCustomInfoEnvVar);
-}
