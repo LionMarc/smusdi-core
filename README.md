@@ -246,9 +246,12 @@ Additional providers can be declared in the appsettings file in the *oauth* sect
     "AdditionalAuthorities": [
       {
         "Name": "PSG",
-        "Url": "%PSG_OAUTH_URL%",
+        "Url": "%PSG_OAUTH_URL%/protocol/openid-connect/certs",
+        "Issuer": "%PSG_OAUTH_URL%",
         "RequireHttpsMetadata": false,
-        "Audience": "account"
+        "Audience": "account",
+        "Type": "Jwks",
+        "CacheLifespan": "01:00:00"
       }
     ]
   }
@@ -260,5 +263,12 @@ Additional providers can be declared in the appsettings file in the *oauth* sect
 The *Name* of the authority is used as authentication scheme. When receiving a token, the scheme is selected based on the issuer set in the token. THe authority to be used is the one whiwh has as *Url* the issuer set in token.
 
 The *Scopes* are used to create default authorization policies bases on token scopes.
+
+There are 3 types of authorities:
+
+- *Oauth*: all the information are loaded from *{Url}/.well-knwon/openid-configuration*. This is the default if *Type* is not set;
+- *Jwks*: the signing keys are retrieved from *Url* and stored in cache for *CacheLifespan* lifespan;
+- *Custom*: you must register yourself the strategy to be used.
+
 
 See https://learn.microsoft.com/en-us/aspnet/core/security/authorization/limitingidentitybyscheme?view=aspnetcore-8.0#use-multiple-authentication-schemes for details.
