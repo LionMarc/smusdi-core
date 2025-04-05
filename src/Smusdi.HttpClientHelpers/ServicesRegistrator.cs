@@ -1,6 +1,4 @@
-﻿using Duende.AccessTokenManagement;
-using Duende.IdentityModel.Client;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Smusdi.Extensibility;
 
@@ -11,6 +9,11 @@ public sealed class ServicesRegistrator : IServicesRegistrator
     public IServiceCollection Add(IServiceCollection services, IConfiguration configuration)
     {
         var options = HttpClientsOptions.GetHttpClientsOptions(configuration);
+        if (options == null)
+        {
+            return services;
+        }
+
         var builder = services.AddDistributedMemoryCache()
             .AddClientCredentialsTokenManagement()
             .AddClient(HttpClientsOptions.DefaultClientName, client =>
@@ -19,7 +22,7 @@ public sealed class ServicesRegistrator : IServicesRegistrator
                 options.MainClient.UpdateClientCredentialsClient(client);
             });
 
-        foreach (var item in options.NamedClients)
+        foreach (var item in options.NamedClients ?? [])
         {
             builder = builder.AddClient(item.Key, client =>
             {
