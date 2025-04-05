@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,14 +21,17 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
 
         foreach (var authority in oauthOptions.AdditionalAuthorities.Concat([oauthOptions.MainAuthority]))
         {
-            authenticationBuilder = authenticationBuilder.AddJwtBearer(
-                authority.Name,
-                x =>
-                {
-                    x.Audience = authority.Audience;
-                    x.Authority = authority.Url;
-                    x.RequireHttpsMetadata = authority.RequireHttpsMetadata;
-                });
+            authenticationBuilder = authority.AddJwtBearer(authenticationBuilder);
+
+            if (authority.Type == OauthAuthorityType.Jwks)
+            {
+                services.AddOptions<JwtBearerOptions>(authority.Name)
+                    .Configure<IIssuerSigningKeyResolver>((options, issuerSigningKeyResolver) =>
+                    {
+                        options.TokenValidationParameters.IssuerSigningKeyResolver = (token, securityToken, kid, validationParameters) =>
+                            issuerSigningKeyResolver.GetIssuerSigningKeys(authority.Url, kid, authority.CacheLifespan ?? OauthAuthority.DefaultCacheLifespan);
+                    });
+            }
         }
 
         authenticationBuilder.AddPolicyScheme(SecurityConstants.SelectionScheme, SecurityConstants.SelectionScheme, options =>
@@ -42,7 +46,7 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
                     if (jwtHandler.CanReadToken(token))
                     {
                         var issuer = jwtHandler.ReadJwtToken(token).Issuer;
-                        var authority = oauthOptions.AdditionalAuthorities.FirstOrDefault(a => issuer.Equals(a.Url));
+                        var authority = oauthOptions.AdditionalAuthorities.FirstOrDefault(a => issuer.Equals(a.Issuer ?? a.Url));
                         if (authority != null)
                         {
                             return authority.Name;
