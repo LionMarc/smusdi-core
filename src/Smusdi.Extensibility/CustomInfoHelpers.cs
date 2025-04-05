@@ -1,4 +1,4 @@
-﻿namespace Smusdi.Core.Info;
+﻿namespace Smusdi.Extensibility;
 
 public static class CustomInfoHelpers
 {

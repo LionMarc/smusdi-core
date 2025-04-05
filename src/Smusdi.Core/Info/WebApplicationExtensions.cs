@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core.Info;
 

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Smusdi.Security\Smusdi.Security.csproj" />
     <ProjectReference Include="..\PostgreSqlMigration\PostgreSqlMigration.csproj" />
 
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">

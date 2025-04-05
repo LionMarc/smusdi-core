@@ -77,6 +77,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Json.Specs", "specs\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Extensibility", "src\Smusdi.Extensibility\Smusdi.Extensibility.csproj", "{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.Security", "src\Smusdi.Security\Smusdi.Security.csproj", "{F7C34583-E9AC-46EA-B34A-FA8184F7AD4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smusdi.HttpClientHelpers", "src\Smusdi.HttpClientHelpers\Smusdi.HttpClientHelpers.csproj", "{2DA204A6-DC9C-4A99-8D12-22D21D359256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +147,14 @@ Global
 		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA5C578B-31F4-45E9-BD8D-E178C89D66EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7C34583-E9AC-46EA-B34A-FA8184F7AD4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C34583-E9AC-46EA-B34A-FA8184F7AD4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C34583-E9AC-46EA-B34A-FA8184F7AD4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C34583-E9AC-46EA-B34A-FA8184F7AD4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DA204A6-DC9C-4A99-8D12-22D21D359256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DA204A6-DC9C-4A99-8D12-22D21D359256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DA204A6-DC9C-4A99-8D12-22D21D359256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DA204A6-DC9C-4A99-8D12-22D21D359256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

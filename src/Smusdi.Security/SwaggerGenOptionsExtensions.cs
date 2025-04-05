@@ -1,25 +1,23 @@
-﻿using Microsoft.OpenApi.Models;
-using Smusdi.Core.Oauth;
+﻿using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Smusdi.Core.Swagger;
+namespace Smusdi.Security;
 
 public static class SwaggerGenOptionsExtensions
 {
     public static SwaggerGenOptions AddSecurity(this SwaggerGenOptions swaggerGenOptions, IConfiguration configuration)
     {
         var oauthOptions = OauthOptions.GetOauthOptions(configuration);
-        if (oauthOptions == null)
-        {
-            return swaggerGenOptions;
-        }
-
         var requirement = new OpenApiSecurityRequirement();
-        if (!string.IsNullOrWhiteSpace(oauthOptions.Authority))
+        if (!string.IsNullOrWhiteSpace(oauthOptions.MainAuthority?.Url))
         {
             swaggerGenOptions.AddSecurityDefinition(
                 "oauth2",
-                GetSecutirySchema(oauthOptions.Authority, oauthOptions.Scopes));
+                GetSecutirySchema(oauthOptions.MainAuthority.Url, oauthOptions.Scopes));
             requirement.Add(
                 new OpenApiSecurityScheme
                 {
@@ -50,6 +48,39 @@ public static class SwaggerGenOptionsExtensions
         swaggerGenOptions.AddSecurityRequirement(requirement);
 
         return swaggerGenOptions;
+    }
+
+    public static IApplicationBuilder SetupSwaggerUI(this IApplicationBuilder app, OauthOptions oauthOptions)
+    {
+        app.UseSwaggerUI(options =>
+        {
+            options.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { { "nonce", "123456" } });
+            options.OAuthUsePkce();
+
+            // https://github.com/swagger-api/swagger-ui/pull/8268 => client secret is now always visible in ui
+            if (oauthOptions.HideClientSecretInputInSwaggerUi)
+            {
+                var builder = new StringBuilder(options.HeadContent);
+                builder.Append(@"
+<style>
+label[for=""client_secret""] {
+    display: none;
+}
+#client_secret {
+    display: none
+}
+label[for=""client_secret_authorizationCode""] {
+    display: none;
+}
+#client_secret_authorizationCode {
+    display: none
+}
+</style>");
+                options.HeadContent = builder.ToString();
+            }
+        });
+
+        return app;
     }
 
     private static OpenApiSecurityScheme GetSecutirySchema(string url, IEnumerable<string>? scopes) => new OpenApiSecurityScheme

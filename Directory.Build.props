@@ -23,19 +23,6 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <ItemGroup Condition="$(MSBuildProjectFile) == 'Smusdi.Core.csproj'">
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
-    <PackageReference Include="Asp.Versioning.Mvc"/>
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="Scrutor"/>
-    <PackageReference Include="Serilog.AspNetCore"/>
-    <PackageReference Include="FluentValidation"/>
-    <PackageReference Include="System.IO.Abstractions"/>
-    <PackageReference Include="Duende.AccessTokenManagement"/>
-    <PackageReference Include="Microsoft.Extensions.Http.Polly"/>
-  </ItemGroup>
-
   <ItemGroup Condition="$(MSBuildProjectDirectory.Contains('samples'))">
     <ProjectReference Include="$(MSBuildThisFileDirectory)\src\Smusdi.Core\Smusdi.Core.csproj" />
   </ItemGroup>

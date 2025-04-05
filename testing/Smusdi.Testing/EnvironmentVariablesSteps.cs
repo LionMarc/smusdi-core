@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Reqnroll;
 using Smusdi.Core;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Testing;
 

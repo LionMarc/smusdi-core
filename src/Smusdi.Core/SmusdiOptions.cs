@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core;
 
