@@ -19,10 +19,7 @@ public sealed class OauthInfoFileGenerator(IConfiguration configuration, IFileSy
 
         logger.Information("Generating info file for oauth.");
         fileSystem.Directory.CreateDirectory(infoFolder);
-        var oauthInfo = new OauthInfo()
-        {
-            Authority = options.MainAuthority.Url,
-        };
+        var oauthInfo = new OauthInfo(options.MainAuthority.Url);
 
         var outputPath = Path.Combine(infoFolder, "oauth.json");
         if (fileSystem.File.Exists(outputPath))
@@ -36,8 +33,5 @@ public sealed class OauthInfoFileGenerator(IConfiguration configuration, IFileSy
         return Task.CompletedTask;
     }
 
-    private sealed class OauthInfo
-    {
-        public string Authority { get; set; } = string.Empty;
-    }
+    private sealed record OauthInfo(string Authority);
 }

@@ -3,24 +3,13 @@ using ILogger = Serilog.ILogger;
 
 namespace Smusdi.Core.Worker;
 
-public sealed class WorkerTasksRunner : BackgroundService
+public sealed class WorkerTasksRunner(ILogger logger, IServiceProvider serviceProvider, IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
 {
-    private readonly ILogger logger;
-    private readonly IServiceProvider serviceProvider;
-    private readonly IHostApplicationLifetime hostApplicationLifetime;
-
-    public WorkerTasksRunner(ILogger logger, IServiceProvider serviceProvider, IHostApplicationLifetime hostApplicationLifetime)
-    {
-        this.logger = logger;
-        this.serviceProvider = serviceProvider;
-        this.hostApplicationLifetime = hostApplicationLifetime;
-    }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        this.logger.Information("Executing registered tasks...");
+        logger.Information("Executing registered tasks...");
 
-        using (var scope = this.serviceProvider.CreateScope())
+        using (var scope = serviceProvider.CreateScope())
         {
             var workerTasks = scope.ServiceProvider.GetServices<IWorkerTask>();
             foreach (var workerTask in workerTasks.OrderBy(t => t.Order))
@@ -29,20 +18,20 @@ public sealed class WorkerTasksRunner : BackgroundService
                 {
                     if (stoppingToken.IsCancellationRequested)
                     {
-                        this.logger.Information("Task has been cancelled.");
+                        logger.Information("Task has been cancelled.");
                         return;
                     }
 
-                    this.logger.Information("Starting task");
+                    logger.Information("Starting task");
 
                     await workerTask.Execute(stoppingToken);
 
-                    this.logger.Information("Task done.");
+                    logger.Information("Task done.");
                 }
             }
         }
 
-        this.logger.Information("All tasks done.");
-        this.hostApplicationLifetime.StopApplication();
+        logger.Information("All tasks done.");
+        hostApplicationLifetime.StopApplication();
     }
 }
