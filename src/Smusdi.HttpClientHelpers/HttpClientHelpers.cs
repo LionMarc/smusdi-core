@@ -1,4 +1,6 @@
-﻿namespace Smusdi.Core.Helpers;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Smusdi.HttpClientHelpers;
 
 public static class HttpClientHelpers
 {
@@ -11,7 +13,7 @@ public static class HttpClientHelpers
     {
         services
             .AddHttpClient<TClient, TImplementation>(configureClient)
-            .AddClientCredentialsTokenHandler(clientName ?? SmusdiOptions.ServiceName)
+            .AddClientCredentialsTokenHandler(clientName ?? HttpClientsOptions.DefaultClientName)
             .SetHandlerLifetime(TimeSpan.FromMinutes(5))
             .AddPolicyHandler(HttpClientPolicies.GetBasicPolicy());
 

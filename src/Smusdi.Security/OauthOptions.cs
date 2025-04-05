@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Smusdi.Security;
 
@@ -7,8 +6,14 @@ public sealed class OauthOptions
 {
     public const string ConfigurationSection = "oauth";
 
-    public OauthAuthority? MainAuthority { get; set; }
+    /// <summary>
+    /// Gets or sets the main oauth authority used to validate json web tokens in input requests.
+    /// </summary>
+    public required OauthAuthority MainAuthority { get; set; }
 
+    /// <summary>
+    /// Gets or sets the list of additional oauth authorities used to validate json web tokens in input requests.
+    /// </summary>
     public IEnumerable<OauthAuthority> AdditionalAuthorities { get; set; } = [];
 
     /// <summary>
@@ -16,20 +21,11 @@ public sealed class OauthOptions
     /// </summary>
     public List<string>? Scopes { get; set; }
 
-    public static OauthOptions? GetOauthOptions(IConfiguration configuration)
-    {
-        OauthOptions? oauthOptions = null;
-        if (configuration.GetSection(ConfigurationSection).Exists())
-        {
-            oauthOptions = new OauthOptions();
-            configuration.Bind(ConfigurationSection, oauthOptions);
-        }
+    /// <summary>
+    /// Gets or sets a value indicating whether to hide the client secret input in the Swagger UI.
+    /// </summary>
+    public bool HideClientSecretInputInSwaggerUi { get; set; } = true;
 
-        if (string.IsNullOrWhiteSpace(oauthOptions?.MainAuthority?.Url))
-        {
-            return null;
-        }
-
-        return oauthOptions;
-    }
+    public static OauthOptions GetOauthOptions(IConfiguration configuration) => configuration.GetSection(ConfigurationSection).Get<OauthOptions>() ??
+            throw new InvalidOperationException($"Configuration section '{ConfigurationSection}' is missing or invalid.");
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Smusdi.Core.Helpers;
 using Smusdi.Extensibility;
+using Smusdi.HttpClientHelpers;
 
 namespace Smusdi.Worker.Sample;
 

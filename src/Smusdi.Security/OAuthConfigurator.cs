@@ -12,11 +12,6 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
     public IServiceCollection Add(IServiceCollection services, IConfiguration configuration)
     {
         var oauthOptions = OauthOptions.GetOauthOptions(configuration);
-        if (oauthOptions?.MainAuthority == null)
-        {
-            return services;
-        }
-
         var authenticationBuilder = services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = SecurityConstants.SelectionScheme;
@@ -70,6 +65,9 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
             }
         });
 
+        // Secutiry for Swagger
+        services.AddSwaggerGen(options => options.AddSecurity(configuration));
+
         return services;
     }
 
@@ -83,6 +81,8 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.SetupSwaggerUI(oauthOptions);
 
         return app;
     }

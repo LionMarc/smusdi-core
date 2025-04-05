@@ -11,11 +11,6 @@ public sealed class OauthInfoFileGenerator(IConfiguration configuration, IFileSy
     public Task Execute()
     {
         var options = OauthOptions.GetOauthOptions(configuration);
-        if (string.IsNullOrWhiteSpace(options?.MainAuthority?.Url))
-        {
-            return Task.CompletedTask;
-        }
-
         var infoFolder = CustomInfoHelpers.GetInfoFolder();
         if (string.IsNullOrWhiteSpace(infoFolder))
         {

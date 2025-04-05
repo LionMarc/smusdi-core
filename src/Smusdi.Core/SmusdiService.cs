@@ -11,7 +11,6 @@ using Smusdi.Core.Info;
 using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Multipart;
-using Smusdi.Core.Oauth;
 using Smusdi.Core.Pipeline;
 using Smusdi.Core.Swagger;
 using Smusdi.Core.Validation;
@@ -87,7 +86,6 @@ public class SmusdiService : IDisposable
             .AddResponseCompression(smusdiOptions)
             .AddProblemDetails()
             .AddSwagger(builder.Configuration)
-            .AddClientSecurity(builder.Configuration)
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
 
         this.securityConfigurator?.Add(builder.Services, builder.Configuration);

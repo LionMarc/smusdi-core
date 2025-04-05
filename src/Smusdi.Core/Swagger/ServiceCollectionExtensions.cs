@@ -33,8 +33,6 @@ public static class ServiceCollectionExtensions
                 options.SwaggerDoc("v1", openApiInfo);
             }
 
-            options.AddSecurity(configuration);
-
             foreach (var xmlFile in Directory.EnumerateFiles(Environment.CurrentDirectory, "*.xml"))
             {
                 options.IncludeXmlComments(xmlFile);

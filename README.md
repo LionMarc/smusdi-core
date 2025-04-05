@@ -37,7 +37,7 @@ The bootstrapper uses the following environment variables:
 
 A default *appsettings.json* file can be found in the *samples* folder.
 
-## Extension Points => Smusdi.Extensibility.dll
+## Smusdi.Extensibility => Extension Points
 
 The project provides the following extension points:
 
@@ -72,6 +72,14 @@ The project provides the following extension points:
   }
   ```
   The implementations of **IBeforeRun** are registered as *scoped* and executed in a scope. They are only executed when calling the static method *SmusdiService.InitAndRunAsync(args)*, not when calling the method *SmusdiService.InitAndRun(args)*.
+
+- **ISecurityConfigurator** to setup api security
+  ```C#
+  public interface ISecurityConfigurator : IBaseServicesRegistrator
+  {
+      IApplicationBuilder Configure(IApplicationBuilder app, IConfiguration configuration);
+  }
+  ```
 
 > The implementations of these interfaces are automatically executed. There are discovered with [scrutor](https://github.com/khellang/Scrutor).
 
@@ -164,23 +172,23 @@ The extension **GetPostgreSqlSchema** of **IConfiguration** gets the database sc
 - environment varaiable *SMUSDI_SERVICE_NAME*;
 - constant *public*.
 
-## HttpClient and Oauth2
+## Smusdi.HttpClientHelpers => HttpClient and Oauth2
 
 The token is managed by the library **Duende.AccessTokenManagement**.
 
-The configuration is made according to the appsettings section **oauth**.
+The configuration is made according to the appsettings section **HttpClientsOptions**.
 
 ### Default client
 
 ```json
 {
-  "oauth": {
-    "authority": "default_authority_url",
-    "tokenEndpoint": "default_token_endpoint", // if not set, value = {authority}/protocol/openid-connect/token
-    "client" : {
-      "clientId" : "identifier_of_the_client_for_the_provider",
-      "clientSecret": "client_password",
-      "scopes": "default requested scopes"
+  "HttpClientsOptions": {
+    "MainClient": {
+      "TokenEndpoint": "default_token_endpoint", // For standard openid, it is  {authority_url}/protocol/openid-connect/token
+      "ClientId" : "identifier_of_the_client_for_the_provider",
+      "ClientSecret": "client_password",
+      "Scopes": "default requested scopes",
+      "ClientCredentialStyle" : "AuthorizationHeader | PostBody | undefined"
     }
   }
 }
@@ -188,33 +196,36 @@ The configuration is made according to the appsettings section **oauth**.
 
 These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a null *clientName* value.
 
-### Named clients
+### With named clients
 
 ```json
 {
-  "oauth": {
-    "namedClients": [
-      {
-        "name": "name of the client to be used when registering HttpClient",
-        "authority": "url of the authority for that client",
-        "tokenEndpoint": "token_endpoint for that client", // if not set, value = {authority}/protocol/openid-connect/token
-        "client": {
-          "clientId" : "identifier_of_the_client_for_the_provider",
-          "clientSecret": "client_password",
-          "scopes": "default requested scopes",
-          "clientCredentialStyle" : "AuthorizationHeader | PostBody | undefined"
-        }
+  "HttpClientsOptions": {
+    "MainClient": {
+      "TokenEndpoint": "default_token_endpoint", // For standard openid, it is  {authority_url}/protocol/openid-connect/token
+      "ClientId" : "identifier_of_the_client_for_the_provider",
+      "ClientSecret": "client_password",
+      "Scopes": "default requested scopes",
+      "ClientCredentialStyle" : "AuthorizationHeader | PostBody | undefined"
+    },
+    "NamedClients": {
+      "name of the client to be used when registering HttpClient": {
+        "TokenEndpoint": "token_endpoint for that client",
+        "ClientId" : "identifier_of_the_client_for_the_provider",
+        "ClientSecret": "client_password",
+        "Scopes": "default requested scopes",
+        "ClientCredentialStyle" : "AuthorizationHeader | PostBody | undefined"
       }
-    ]
+    }
   }
 }
 ```
 
 These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a *clientName* equal to the name of the configured client.
 
-> The property *tokenEndPoint* is not required. If not set, it is generated from the authority.
+> The *MainClient* property must be always set. If not, the process throws at startup.
 
-## Smusdi.Securit: Oauth providers / JWT bearer
+## Smusdi.Security => Oauth providers / JWT bearer
 
 The service can validate input token against more than one provider.
 

@@ -9,7 +9,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <Authors>LION Marc</Authors>
-    <PackageDescription>Setup authorisation and authentication and client security.</PackageDescription>
+    <PackageDescription>Setup Oauth authorisation and authentication.</PackageDescription>
     <RepositoryUrl>https://github.com/LionMarc/smusdi-core</RepositoryUrl>
     <PackageProjectUrl>https://lionmarc.github.io/smusdi-core/</PackageProjectUrl>
   </PropertyGroup>
@@ -24,8 +24,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="System.IO.Abstractions" />
-    <PackageReference Include="Serilog.AspNetCore"/>
+    <PackageReference Include="Serilog.AspNetCore" />
   </ItemGroup>
 
 </Project>
