@@ -17,7 +17,9 @@ public record OauthAuthority(
     bool RequireHttpsMetadata = true,
     string? Issuer = null,
     OauthAuthorityType Type = OauthAuthorityType.Oauth,
-    TimeSpan? CacheLifespan = null)
+    TimeSpan? CacheLifespan = null,
+    bool ValidateIssuer = true,
+    bool ValidateAudience = true)
 {
     public static readonly TimeSpan DefaultCacheLifespan = TimeSpan.FromHours(12);
 
@@ -33,7 +35,10 @@ public record OauthAuthority(
             x.Audience = this.Audience;
             x.Authority = this.Url;
             x.RequireHttpsMetadata = this.RequireHttpsMetadata;
+
             x.TokenValidationParameters.ValidIssuer = this.Issuer ?? this.Url;
+            x.TokenValidationParameters.ValidateIssuer = this.ValidateIssuer;
+            x.TokenValidationParameters.ValidateAudience = this.ValidateAudience;
 
             if (this.Type == OauthAuthorityType.Jwks)
             {
