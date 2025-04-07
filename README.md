@@ -251,7 +251,9 @@ Additional providers can be declared in the appsettings file in the *oauth* sect
         "RequireHttpsMetadata": false,
         "Audience": "account",
         "Type": "Jwks",
-        "CacheLifespan": "01:00:00"
+        "CacheLifespan": "01:00:00",
+        "ValidateIssuer": true, // By default true. If false, issuer in token is not validated against expected one
+        "ValidateAudience": true // By default true. If false, audience in token is not validated against expected one"
       }
     ]
   }
