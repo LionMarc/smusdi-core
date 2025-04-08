@@ -28,4 +28,7 @@ public sealed class OauthOptions
 
     public static OauthOptions GetOauthOptions(IConfiguration configuration) => configuration.GetSection(ConfigurationSection).Get<OauthOptions>() ??
             throw new InvalidOperationException($"Configuration section '{ConfigurationSection}' is missing or invalid.");
+
+    public ICollection<OauthAuthority> GetAllAuthorities() =>
+        new[] { this.MainAuthority }.Concat(this.AdditionalAuthorities).ToList();
 }

@@ -38,15 +38,30 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
         {
             options.ForwardDefaultSelector = context =>
             {
+                var authorities = oauthOptions.GetAllAuthorities();
                 string? authorization = context.Request.Headers[HeaderNames.Authorization];
-                if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+                if (string.IsNullOrWhiteSpace(authorization))
                 {
-                    var token = authorization["Bearer ".Length..].Trim();
+                    var selected = authorities
+                        .FirstOrDefault(a => !string.IsNullOrWhiteSpace(a.AuthorizationHeader) && context.Request.Headers.ContainsKey(a.AuthorizationHeader));
+                    if (selected != null)
+                    {
+                        return selected.Name;
+                    }
+                }
+                else
+                {
+                    var token = authorization;
+                    if (token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        token = token["Bearer ".Length..].Trim();
+                    }
+
                     var jwtHandler = new JwtSecurityTokenHandler();
                     if (jwtHandler.CanReadToken(token))
                     {
                         var issuer = jwtHandler.ReadJwtToken(token).Issuer;
-                        var authority = oauthOptions.AdditionalAuthorities.FirstOrDefault(a => issuer.Equals(a.Issuer ?? a.Url));
+                        var authority = authorities.FirstOrDefault(a => string.IsNullOrWhiteSpace(a.AuthorizationHeader) && issuer.Equals(a.Issuer ?? a.Url));
                         if (authority != null)
                         {
                             return authority.Name;
