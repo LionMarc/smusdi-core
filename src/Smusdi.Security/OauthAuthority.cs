@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Smusdi.Security;
@@ -19,7 +20,8 @@ public record OauthAuthority(
     OauthAuthorityType Type = OauthAuthorityType.Oauth,
     TimeSpan? CacheLifespan = null,
     bool ValidateIssuer = true,
-    bool ValidateAudience = true)
+    bool ValidateAudience = true,
+    string? AuthorizationHeader = null)
 {
     public static readonly TimeSpan DefaultCacheLifespan = TimeSpan.FromHours(12);
 
@@ -45,6 +47,28 @@ public record OauthAuthority(
                 x.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration()
                 {
                     JwksUri = this.Url,
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.AuthorizationHeader))
+            {
+                x.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var token = context.Request.Headers[this.AuthorizationHeader].FirstOrDefault();
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            if (token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                            {
+                                token = token["Bearer ".Length..].Trim();
+                            }
+
+                            context.Token = token;
+                        }
+
+                        return Task.CompletedTask;
+                    },
                 };
             }
         });
