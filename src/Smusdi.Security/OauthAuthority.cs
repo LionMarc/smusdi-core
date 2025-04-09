@@ -37,6 +37,7 @@ public record OauthAuthority(
             x.Audience = this.Audience;
             x.Authority = this.Url;
             x.RequireHttpsMetadata = this.RequireHttpsMetadata;
+            x.SaveToken = true;
 
             x.TokenValidationParameters.ValidIssuer = this.Issuer ?? this.Url;
             x.TokenValidationParameters.ValidateIssuer = this.ValidateIssuer;
