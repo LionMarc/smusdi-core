@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using Serilog;
 using Smusdi.Extensibility;
 
 namespace Smusdi.Security;
@@ -38,18 +39,23 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
         {
             options.ForwardDefaultSelector = context =>
             {
+                var logger = context.RequestServices.GetRequiredService<ILogger>();
+                logger.Debug("[Security] Selecting authority...");
                 var authorities = oauthOptions.GetAllAuthorities();
-                string? authorization = context.Request.Headers[HeaderNames.Authorization];
-                if (string.IsNullOrWhiteSpace(authorization))
-                {
-                    var selected = authorities
+
+                // Try to check if a custom header is defined and set
+                var selected = authorities
                         .FirstOrDefault(a => !string.IsNullOrWhiteSpace(a.AuthorizationHeader) && context.Request.Headers.ContainsKey(a.AuthorizationHeader));
-                    if (selected != null)
-                    {
-                        return selected.Name;
-                    }
+                if (selected != null)
+                {
+                    var debug = $"[Security] Selecting {selected.Name} with header {selected.AuthorizationHeader}.";
+                    logger.Debug(debug);
+                    return selected.Name;
                 }
-                else
+
+                // If not check the standard header
+                string? authorization = context.Request.Headers[HeaderNames.Authorization];
+                if (!string.IsNullOrWhiteSpace(authorization))
                 {
                     var token = authorization;
                     if (token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
@@ -66,6 +72,10 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
                         {
                             return authority.Name;
                         }
+                    }
+                    else
+                    {
+                        logger.Warning("[Security] Unable to read token. Defaulting to main authority.");
                     }
                 }
 
