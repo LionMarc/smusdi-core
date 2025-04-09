@@ -14,7 +14,7 @@ public sealed class OauthOptions
     /// <summary>
     /// Gets or sets the list of additional oauth authorities used to validate json web tokens in input requests.
     /// </summary>
-    public IEnumerable<OauthAuthority> AdditionalAuthorities { get; set; } = [];
+    public List<OauthAuthority> AdditionalAuthorities { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the list of scopes used to create authorization policies based on scope.
@@ -29,6 +29,5 @@ public sealed class OauthOptions
     public static OauthOptions GetOauthOptions(IConfiguration configuration) => configuration.GetSection(ConfigurationSection).Get<OauthOptions>() ??
             throw new InvalidOperationException($"Configuration section '{ConfigurationSection}' is missing or invalid.");
 
-    public ICollection<OauthAuthority> GetAllAuthorities() =>
-        new[] { this.MainAuthority }.Concat(this.AdditionalAuthorities).ToList();
+    public ICollection<OauthAuthority> GetAllAuthorities() => [this.MainAuthority, .. this.AdditionalAuthorities];
 }

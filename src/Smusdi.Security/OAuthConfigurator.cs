@@ -39,6 +39,12 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
         {
             options.ForwardDefaultSelector = context =>
             {
+                // If no additional authority, return the main authority without checking the token and the headers.
+                if (oauthOptions.AdditionalAuthorities.Count == 0)
+                {
+                    return oauthOptions.MainAuthority.Name;
+                }
+
                 var logger = context.RequestServices.GetRequiredService<ILogger>();
                 logger.Debug("[Security] Selecting authority...");
                 var authorities = oauthOptions.GetAllAuthorities();
