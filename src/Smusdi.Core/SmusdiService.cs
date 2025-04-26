@@ -57,6 +57,8 @@ public class SmusdiService : IDisposable
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(builder.Configuration);
 
+        FluentValidationSetup.SetupGlobal();
+
         // First get all the available configurators
         this.securityConfigurator = ScrutorHelpers.GetImplementationsOf<ISecurityConfigurator>(builder.Configuration)
             .FirstOrDefault();
@@ -99,7 +101,6 @@ public class SmusdiService : IDisposable
             .AllowAnyHeader()));
 
         builder.Services
-            .AddControllersInputValidation(smusdiOptions)
             .AddSingleton(TimeProvider.System)
             .AddScoped(typeof(IPipelineBuilder<>), typeof(PipelineBuilder<>))
             .SetupMultipartMaxSizes(smusdiOptions)
