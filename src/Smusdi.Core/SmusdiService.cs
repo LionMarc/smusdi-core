@@ -74,7 +74,6 @@ public class SmusdiService : IDisposable
                 .AddMvc()
                 .AddApiExplorer(options =>
                 {
-                    options.GroupNameFormat = "'v'VVV";
                     options.SubstituteApiVersionInUrl = true;
                 });
         }

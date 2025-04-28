@@ -7,23 +7,16 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Smusdi.Core.Swagger;
 
-public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider, IConfiguration configuration) : IConfigureOptions<SwaggerGenOptions>
 {
-    private readonly IApiVersionDescriptionProvider provider;
-    private readonly SwaggerOptions swaggerOptions;
-
-    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider, IConfiguration configuration)
-    {
-        this.provider = provider;
-        this.swaggerOptions = SwaggerOptions.GetSwaggerOptions(configuration);
-    }
+    private readonly SwaggerOptions swaggerOptions = SwaggerOptions.GetSwaggerOptions(configuration);
 
     /// <inheritdoc />
     public void Configure(SwaggerGenOptions options)
     {
         // add a swagger document for each discovered API version
         // note: you might choose to skip or document deprecated API versions differently
-        foreach (var description in this.provider.ApiVersionDescriptions)
+        foreach (var description in provider.ApiVersionDescriptions)
         {
             options.SwaggerDoc(description.GroupName, this.CreateInfoForApiVersion(description));
         }
@@ -35,7 +28,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         var info = new OpenApiInfo()
         {
             Title = this.swaggerOptions.Title,
-            Version = description.ApiVersion.ToString(),
+            Version = $"{description.GroupName} - v{description.ApiVersion}",
             Contact = new OpenApiContact()
             {
                 Name = this.swaggerOptions.ContactName,
