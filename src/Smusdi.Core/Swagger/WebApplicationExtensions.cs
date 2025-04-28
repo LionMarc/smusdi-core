@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Smusdi.Extensibility;
 
 namespace Smusdi.Core.Swagger;
 
@@ -51,6 +52,7 @@ public static class WebApplicationExtensions
         });
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
+        var swaggerUIOptionsSetters = webApplication.Services.GetServices<ISwaggerUIOptionsConfigurator>().ToList();
 
         webApplication.UseSwaggerUI(options =>
         {
@@ -70,6 +72,8 @@ public static class WebApplicationExtensions
                     options.SwaggerEndpoint(url, name);
                 }
             }
+
+            swaggerUIOptionsSetters.ForEach(setter => setter.Configure(options, configuration));
         });
 
         return webApplication;

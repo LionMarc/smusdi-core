@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Smusdi.Sample.Controllers.Json;
 
 [ApiController]
-[ApiVersion("1")]
+[ApiVersion(1.0)]
 [Route("v{version:apiVersion}/polymorphic")]
-[ApiExplorerSettings(GroupName = "v1")]
+[ApiExplorerSettings(GroupName = "Json")]
 public class WithPolymormhicDataController : ControllerBase
 {
     private static readonly List<Command> Commands = new List<Command>();

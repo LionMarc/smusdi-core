@@ -117,8 +117,6 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.SetupSwaggerUI(oauthOptions);
-
         return app;
     }
 }
