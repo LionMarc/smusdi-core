@@ -1,5 +1,5 @@
 ﻿using System.IO.Abstractions;
-using FluentAssertions;
+using AwesomeAssertions;
 using Reqnroll;
 
 namespace Smusdi.Testing.FileSystem;
@@ -7,7 +7,7 @@ namespace Smusdi.Testing.FileSystem;
 [Binding]
 public sealed class FileSystemSteps(SmusdiTestingService smusdiTestingService)
 {
-    private readonly IFileSystem fileSystem = smusdiTestingService.GetService<IFileSystem>() ?? throw new NullReferenceException("IFileSystem");
+    private readonly IFileSystem fileSystem = smusdiTestingService.GetRequiredService<IFileSystem>();
 
     [Given(@"the file ""(.*)"" with content")]
     [When(@"I create the file ""(.*)"" with content")]

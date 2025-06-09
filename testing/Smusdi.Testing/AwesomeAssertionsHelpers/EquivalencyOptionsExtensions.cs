@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
-using FluentAssertions.Equivalency;
+﻿using AwesomeAssertions;
+using AwesomeAssertions.Equivalency;
 using Reqnroll;
 using Smusdi.Core.Helpers;
 
-namespace Smusdi.Testing.FluentAssertionsHelpers;
+namespace Smusdi.Testing.AwesomeAssertionsHelpers;
 
 public static class EquivalencyOptionsExtensions
 {

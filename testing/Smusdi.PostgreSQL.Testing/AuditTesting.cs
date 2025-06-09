@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Microsoft.EntityFrameworkCore;
 using Reqnroll;
 using Smusdi.PostgreSQL.Audit;
 using Smusdi.Testing;
+using Smusdi.Testing.AwesomeAssertionsHelpers;
 using Smusdi.Testing.Database;
-using Smusdi.Testing.FluentAssertionsHelpers;
 
 namespace Smusdi.PostgreSQL.Testing;
 

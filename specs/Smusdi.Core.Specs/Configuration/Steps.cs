@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Reqnroll;
+﻿using AwesomeAssertions;
+using Microsoft.Extensions.Configuration;
 using Smusdi.Testing;
 
 namespace Smusdi.Core.Specs.Configuration;
