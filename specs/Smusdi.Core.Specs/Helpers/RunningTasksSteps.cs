@@ -1,4 +1,4 @@
-﻿using Reqnroll;
+﻿using AwesomeAssertions;
 using Smusdi.Core.Helpers;
 
 namespace Smusdi.Core.Specs.Helpers;

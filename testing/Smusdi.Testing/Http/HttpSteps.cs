@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json.Nodes;
-using FluentAssertions;
+using AwesomeAssertions;
 using Reqnroll;
 
 namespace Smusdi.Testing.Http;

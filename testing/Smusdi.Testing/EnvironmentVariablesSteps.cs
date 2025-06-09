@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using FluentAssertions;
+using AwesomeAssertions;
 using Reqnroll;
-using Smusdi.Core;
 using Smusdi.Extensibility;
 
 namespace Smusdi.Testing;

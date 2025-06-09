@@ -5,7 +5,7 @@
     <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing"/>
     <PackageReference Include="Reqnroll"/>
     <PackageReference Include="Reqnroll.Tools.MsBuild.Generation"/>
-    <PackageReference Include="FluentAssertions"/>
+    <PackageReference Include="AwesomeAssertions"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
     <PackageReference Include="SystemTextJson.JsonDiffPatch"/>
     <PackageReference Include="System.IO.Abstractions.TestingHelpers"/>

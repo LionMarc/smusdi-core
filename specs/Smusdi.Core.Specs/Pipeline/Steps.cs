@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AwesomeAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Smusdi.Core.Pipeline;
 using Smusdi.Testing;
 

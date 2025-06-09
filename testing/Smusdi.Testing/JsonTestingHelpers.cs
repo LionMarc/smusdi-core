@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.JsonDiffPatch;
 using System.Text.Json.Nodes;
-using FluentAssertions;
+using AwesomeAssertions;
 
 namespace Smusdi.Testing;
 
