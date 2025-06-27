@@ -1,4 +1,5 @@
-﻿Feature: JsonSerializer
+﻿@arg:use-file-system-mock=true
+Feature: JsonSerializer
 
 Scenario: Deserialization from a stream
     Given the service initialized and started
