@@ -13,6 +13,7 @@ public sealed class Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
     public static void Cleanup()
     {
         Environment.SetEnvironmentVariable("SMUSDI_APPSETTINGS_FOLDER", null);
+        Environment.SetEnvironmentVariable("SMUSDI_SERVICE_NAME", "smusdi");
 
         foreach (var file in new[] { "appsettings.json", "appsettings.myservice.json" })
         {

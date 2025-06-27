@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.Extensions.Time.Testing;
 using Reqnroll;
-using Smusdi.Core;
 using Smusdi.Extensibility;
 
 namespace Smusdi.Testing;
@@ -35,14 +34,14 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
     public void GivenTheServiceInitialized()
     {
         SetEnvironmentIfNotSet();
+        this.SetupCommandLineArguments();
         this.SmusdiTestingService.Initialize(this.Args.ToArray());
     }
 
     [Given(@"the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
-        SetEnvironmentIfNotSet();
-        this.SmusdiTestingService.Initialize(this.Args.ToArray());
+        this.GivenTheServiceInitialized();
 
         var tag = Array.Find(this.scenarioContext.ScenarioInfo.CombinedTags, p => p.StartsWith("withDateTime="));
         if (tag != null)
@@ -63,6 +62,27 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")))
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "SpecFlow");
+        }
+    }
+
+    private void SetupCommandLineArguments()
+    {
+        var args = new Dictionary<string, string>();
+
+        // Tags on scenario can override tags on feature
+        foreach (var tag in this.scenarioContext.ScenarioInfo.CombinedTags.Concat(this.scenarioContext.ScenarioInfo.Tags).Where(t => t.StartsWith("arg:")))
+        {
+            var value = tag.Substring(4);
+            var parts = value.Split('=');
+            if (parts.Length >= 2)
+            {
+                args[parts[0]] = string.Join("=", parts.Skip(1));
+            }
+        }
+
+        foreach (var arg in args)
+        {
+            this.Args.Add($"--{arg.Key}={arg.Value}");
         }
     }
 }
