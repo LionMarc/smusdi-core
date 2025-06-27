@@ -1,4 +1,5 @@
-﻿Feature: CustomInformations
+﻿@arg:use-file-system-mock=true
+Feature: CustomInformations
 
 In order to provide more information specific to some users
 As a developer

@@ -1,4 +1,5 @@
-﻿Feature: InfoDataCaching
+﻿@arg:use-file-system-mock=true
+Feature: InfoDataCaching
 
 By default, data returned by the info endpoint is cached. But sometimes, when json stored in the info folder
 can be updated at runtime, cache must be disabled.

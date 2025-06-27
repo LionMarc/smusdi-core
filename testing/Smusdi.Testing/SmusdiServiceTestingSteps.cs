@@ -12,7 +12,9 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
 
     public SmusdiTestingService SmusdiTestingService => smusdiTestingService;
 
-    public List<string> Args { get; } = new();
+    public List<string> Args { get; } = [];
+
+    public List<Action> BeforeStarting { get; } = [];
 
     [AfterScenario]
     public void DisposeSmusdiTestingService()
@@ -51,6 +53,11 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
             fakeTimeProvider?.SetUtcNow(DateTimeOffset.Parse(datetime, CultureInfo.InvariantCulture));
         }
 
+        foreach (var action in this.BeforeStarting)
+        {
+            action();
+        }
+
         await this.SmusdiTestingService.StartAsync();
     }
 
@@ -74,7 +81,7 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         {
             var value = tag.Substring(4);
             var parts = value.Split('=');
-            if (parts.Length >= 2)
+            if (parts.Length >= 1)
             {
                 args[parts[0]] = string.Join("=", parts.Skip(1));
             }
