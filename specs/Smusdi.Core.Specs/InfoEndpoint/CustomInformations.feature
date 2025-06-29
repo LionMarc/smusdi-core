@@ -10,7 +10,7 @@ I want to be able to add custom informations in the info endpoint
         And the environment variable "ASPNETCORE_ENVIRONMENT" set to "Staging"
         And the environment variable "SMUSDI_SERVICE_VERSION" set to "0.2.3"
         And the environment variable "SMUSDI_CUSTOM_INFOS_FOLDER" set to "K:/custom_infos"
-        Given the service initialized and started
+        And the service initialized and started
         And the file "K:/custom_infos/build.json" with content
         """
         {
