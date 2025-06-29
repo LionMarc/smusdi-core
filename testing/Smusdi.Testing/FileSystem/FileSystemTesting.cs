@@ -14,7 +14,7 @@ public sealed class FileSystemTesting(SmusdiServiceTestingSteps steps, ScenarioC
 
     public string GetFullPath(string path) => this.RootDirectory is not null ? Path.Combine(this.RootDirectory, path) : path;
 
-    [BeforeScenario]
+    [BeforeScenario(Order = SmusdiServiceTestingSteps.ServiceInitializationHookOrder - 1)]
     public void SetupRootDirectory()
     {
         if (scenarioContext.ScenarioInfo.CombinedTags.Contains(Constants.WithRandomFileSystemRootDirectoryTag))
