@@ -33,7 +33,7 @@ packages/
 /coveragereport/
 /results/
 *.feature.cs
-/.specflow_results/
+/.reqnroll_results/
 /samples/SingleFilePublication/publish/
 /coverage
 /samples/Smusdi.Sample/logs/

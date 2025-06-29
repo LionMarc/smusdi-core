@@ -68,7 +68,7 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
     {
         if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")))
         {
-            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "SpecFlow");
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "reqnroll");
         }
     }
 
