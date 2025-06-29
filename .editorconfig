@@ -17,6 +17,7 @@ indent_size = 2
 # Gherkin files
 [*.{feature}]
 indent_size = 4
+indent_style = space
 
 # Code files
 [*.{cs,csx,vb,vbx}]

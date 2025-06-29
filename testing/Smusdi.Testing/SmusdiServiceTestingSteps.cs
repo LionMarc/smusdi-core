@@ -8,6 +8,9 @@ namespace Smusdi.Testing;
 [Binding]
 public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTestingService, ScenarioContext scenarioContext)
 {
+    public const int ServiceInitializationHookOrder = HookAttribute.DefaultOrder - 500;
+    public const string TargetTag = "integration";
+
     private readonly ScenarioContext scenarioContext = scenarioContext;
 
     public SmusdiTestingService SmusdiTestingService => smusdiTestingService;
@@ -15,6 +18,9 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
     public List<string> Args { get; } = [];
 
     public List<Action> BeforeStarting { get; } = [];
+
+    [BeforeScenario(TargetTag, Order = ServiceInitializationHookOrder)]
+    public Task ServiceInitializationAndStart() => this.GivenTheServiceInitializedAndStarted();
 
     [AfterScenario]
     public void DisposeSmusdiTestingService()
