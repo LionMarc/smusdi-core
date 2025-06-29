@@ -154,15 +154,15 @@ Connection string must be defined as
 
 The *Smusdi.PostgreSQL.Testing* package creates a new database for each scenario. To do that, it uses the default values below. These values can be overriden in a *.runsettings* file, for example.
 
-| Variable | Default value in Smusdi.PostgreSQL.Testing |
-| -------- | ------------------------------------------ |
-| POSTGRES_HOST | localhost |
-| POSTGRES_PORT | 5432 |
-| POSTGRES_USER | postgres|
-| POSTGRES_PASSWORD | postgrespw |
-| POSTGRES_DB | postgres|
+| Variable          | Default value in Smusdi.PostgreSQL.Testing |
+| ----------------- | ------------------------------------------ |
+| POSTGRES_HOST     | localhost                                  |
+| POSTGRES_PORT     | 5432                                       |
+| POSTGRES_USER     | postgres                                   |
+| POSTGRES_PASSWORD | postgrespw                                 |
+| POSTGRES_DB       | postgres                                   |
 
-The name of the created database is a **GUID**. The specflow hook set the environement variable **POSTGRES_DB** to that value after the database is created.
+The name of the created database is a **GUID**. The reqnroll hook set the environement variable **POSTGRES_DB** to that value after the database is created.
 
 > The *postgres* database is the database used to create the database used in tests. It must exist.
 

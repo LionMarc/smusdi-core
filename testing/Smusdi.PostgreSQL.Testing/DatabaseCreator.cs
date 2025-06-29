@@ -5,13 +5,13 @@ using Smusdi.Testing;
 namespace Smusdi.PostgreSQL.Testing;
 
 [Binding]
-public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
+public sealed class DatabaseCreator(IReqnrollOutputHelper reqnrollOutputHelper, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
     public const int DatabaseCreatorHookOrder = HookAttribute.DefaultOrder - 1000;
     public const string TargetTag = "postgresql";
 
     private readonly string databaseName = $"smusdi_{Guid.NewGuid()}";
-    private readonly IReqnrollOutputHelper specFlowOutputHelper = specFlowOutputHelper;
+    private readonly IReqnrollOutputHelper reqnrollOutputHelper = reqnrollOutputHelper;
     private readonly SmusdiServiceTestingSteps smusdiServiceTestingSteps = smusdiServiceTestingSteps;
 
     private string? connectionString;
@@ -30,11 +30,11 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, 
         using var connection = new NpgsqlConnection(this.connectionString);
         await connection.OpenAsync();
         using var command = connection.CreateCommand();
-        this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Creating database {this.databaseName}...");
+        this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Creating database {this.databaseName}...");
         command.CommandText = $"CREATE DATABASE \"{this.databaseName}\"";
         await command.ExecuteNonQueryAsync();
         await connection.CloseAsync();
-        this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} created.");
+        this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} created.");
 
         var targetConnectionString = $"server={host};Port={port};Database={this.databaseName};UserId={user};Password={password};Trust Server Certificate=true;";
         this.smusdiServiceTestingSteps.Args.Add($"--{Constants.ConnectionStringSettingsPath}={targetConnectionString}");
@@ -43,7 +43,7 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, 
     [AfterScenario(TargetTag)]
     public async Task DeleteDatabase()
     {
-        this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Deleting database {this.databaseName}...");
+        this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Deleting database {this.databaseName}...");
         NpgsqlConnection.ClearAllPools();
         using var connection = new NpgsqlConnection(this.connectionString);
         await connection.OpenAsync();
@@ -51,6 +51,6 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper specFlowOutputHelper, 
         command.CommandText = $"DROP DATABASE \"{this.databaseName}\"";
         await command.ExecuteNonQueryAsync();
         await connection.CloseAsync();
-        this.specFlowOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} deleted.");
+        this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} deleted.");
     }
 }

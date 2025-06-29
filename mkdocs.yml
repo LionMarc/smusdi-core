@@ -27,4 +27,5 @@ nav:
     - api-versioning.md
     - swagger.md
   - Testing:
+    - testing/overview.md
     - testing/configuration.md

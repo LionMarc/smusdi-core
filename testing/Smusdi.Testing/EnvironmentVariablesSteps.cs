@@ -6,18 +6,12 @@ using Smusdi.Extensibility;
 namespace Smusdi.Testing;
 
 [Binding]
-public sealed class EnvironmentVariablesSteps
+public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutputHelper)
 {
     private readonly HashSet<string> files = new HashSet<string>();
-    private readonly IReqnrollOutputHelper specFlowOutputHelper;
-
-    public EnvironmentVariablesSteps(IReqnrollOutputHelper specFlowOutputHelper) => this.specFlowOutputHelper = specFlowOutputHelper;
 
     [Given(@"the environment variable ""(.*)"" set to ""(.*)""")]
-    public void GivenTheEnvironmentVariableSetTo(string p0, string p1)
-    {
-        Environment.SetEnvironmentVariable(p0, p1);
-    }
+    public void GivenTheEnvironmentVariableSetTo(string p0, string p1) => Environment.SetEnvironmentVariable(p0, p1);
 
     [Given(@"all environment variables starting with ""(.*)"" removed")]
     public void GivenAllEnvironmentVariablesStartingWithRemoved(string startPattern)
@@ -60,7 +54,7 @@ public sealed class EnvironmentVariablesSteps
     {
         foreach (var file in this.files)
         {
-            this.specFlowOutputHelper.WriteLine($"[EnvironmentVariablesSteps] Deleting file {file}");
+            reqnrollOutputHelper.WriteLine($"[EnvironmentVariablesSteps] Deleting file {file}");
             File.Delete(file);
         }
     }

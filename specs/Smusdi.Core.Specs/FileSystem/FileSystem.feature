@@ -1,6 +1,6 @@
 ﻿Feature: FileSystem
 
-This feature is used to tests the specflow steps associated to the file system mock.
+This feature is used to tests the reqnroll steps associated to the file system mock.
 I decide to use [System.IO.Abstractions](https://github.com/TestableIO/System.IO.Abstractions) in services and System.IO.Abastractions.TestingHelpers in tests.
 
 Background: 

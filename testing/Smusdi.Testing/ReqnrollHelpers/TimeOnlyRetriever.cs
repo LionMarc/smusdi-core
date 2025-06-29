@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Reqnroll.Assist.ValueRetrievers;
 
-namespace Smusdi.Testing.SpecFlowHelpers;
+namespace Smusdi.Testing.ReqnrollHelpers;
 
 public sealed class TimeOnlyRetriever : StructRetriever<TimeOnly>
 {

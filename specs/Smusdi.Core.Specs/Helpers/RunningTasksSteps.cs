@@ -6,13 +6,13 @@ namespace Smusdi.Core.Specs.Helpers;
 [Binding]
 public sealed class RunningTasksSteps
 {
-    private readonly IReqnrollOutputHelper specFlowOutputHelper;
+    private readonly IReqnrollOutputHelper reqnrollOutputHelper;
     private readonly List<int> inputs = new();
     private readonly List<string> logs = new();
 
-    public RunningTasksSteps(IReqnrollOutputHelper specFlowOutputHelper)
+    public RunningTasksSteps(IReqnrollOutputHelper reqnrollOutputHelper)
     {
-        this.specFlowOutputHelper = specFlowOutputHelper;
+        this.reqnrollOutputHelper = reqnrollOutputHelper;
     }
 
     [Given(@"a list of (.*) inputs")]
@@ -28,7 +28,7 @@ public sealed class RunningTasksSteps
             {
                 var message = $"Requesting input {i}";
                 this.logs.Add(message);
-                this.specFlowOutputHelper.WriteLine(message);
+                this.reqnrollOutputHelper.WriteLine(message);
                 return i;
             })
             .RunTasks(
@@ -36,11 +36,11 @@ public sealed class RunningTasksSteps
             {
                 var message = $"Starting processing input {i}";
                 this.logs.Add(message);
-                this.specFlowOutputHelper.WriteLine(message);
+                this.reqnrollOutputHelper.WriteLine(message);
                 await Task.Delay((i + 1) * 100);
                 message = $"Processing input {i} done";
                 this.logs.Add(message);
-                this.specFlowOutputHelper.WriteLine(message);
+                this.reqnrollOutputHelper.WriteLine(message);
             },
             p0);
 
