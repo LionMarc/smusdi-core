@@ -176,14 +176,14 @@ Scenario: Splitting array with escaped string
             {
                 "type": "Test",
                 "name": "second",
-                "description" : "with escaped \" for testing \u002B"
+                "description" : "with escaped\" for testing \u002B"
             }
         ]
         """
     Then the array items are found
-        | Value                                                                                |
-        | {"type":"Build","name":"first"}                                                      |
-        | {"type":"Test","name":"second","description":"with escaped \\" for testing \\u002B"} |
+        | Value                                                                               |
+        | {"type":"Build","name":"first"}                                                     |
+        | {"type":"Test","name":"second","description":"with escaped\\" for testing \\u002B"} |
 
 Scenario: Splitting array into a Utf8JsonWriter
     When I split the json array into a Utf8JsonWriter
