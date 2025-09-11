@@ -85,7 +85,17 @@ public class SmusdiService : IDisposable
             .AddAllHealthChecks()
             .AddEndpointsApiExplorer()
             .AddResponseCompression(smusdiOptions)
-            .AddProblemDetails()
+            .AddProblemDetails(options =>
+            {
+                options.CustomizeProblemDetails = context =>
+                {
+                    if (context.Exception is not null)
+                    {
+                        context.ProblemDetails.Detail ??= context.Exception.Message;
+                        context.ProblemDetails.Type = context.Exception.GetType().ToString();
+                    }
+                };
+            })
             .AddSwagger(builder.Configuration)
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
 
