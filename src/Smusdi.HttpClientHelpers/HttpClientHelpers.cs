@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Duende.AccessTokenManagement;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Smusdi.HttpClientHelpers;
 
@@ -13,7 +14,7 @@ public static class HttpClientHelpers
     {
         services
             .AddHttpClient<TClient, TImplementation>(configureClient)
-            .AddClientCredentialsTokenHandler(clientName ?? HttpClientsOptions.DefaultClientName)
+            .AddClientCredentialsTokenHandler(ClientCredentialsClientName.Parse(clientName ?? HttpClientsOptions.DefaultClientName))
             .SetHandlerLifetime(TimeSpan.FromMinutes(5))
             .AddPolicyHandler(HttpClientPolicies.GetBasicPolicy());
 
