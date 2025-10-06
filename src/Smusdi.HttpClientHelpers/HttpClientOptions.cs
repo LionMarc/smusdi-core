@@ -12,9 +12,9 @@ public sealed record HttpClientOptions(
 {
     public void UpdateClientCredentialsClient(ClientCredentialsClient client)
     {
-        client.ClientId = this.ClientId;
-        client.ClientSecret = this.ClientSecret;
-        client.Scope = this.Scopes;
+        client.ClientId = Duende.AccessTokenManagement.ClientId.Parse(this.ClientId);
+        client.ClientSecret = Duende.AccessTokenManagement.ClientSecret.Parse(this.ClientSecret);
+        client.Scope = Scope.Parse(this.Scopes);
 
         if (this.ClientCredentialStyle != null)
         {

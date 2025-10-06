@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Duende.AccessTokenManagement;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Smusdi.Extensibility;
 
@@ -18,7 +19,7 @@ public sealed class ServicesRegistrator : IServicesRegistrator
             .AddClientCredentialsTokenManagement()
             .AddClient(HttpClientsOptions.DefaultClientName, client =>
             {
-                client.TokenEndpoint = options.MainClient.TokenEndpoint;
+                client.TokenEndpoint = new Uri(options.MainClient.TokenEndpoint);
                 options.MainClient.UpdateClientCredentialsClient(client);
             });
 
@@ -26,7 +27,7 @@ public sealed class ServicesRegistrator : IServicesRegistrator
         {
             builder = builder.AddClient(item.Key, client =>
             {
-                client.TokenEndpoint = item.Value.TokenEndpoint;
+                client.TokenEndpoint = new Uri(item.Value.TokenEndpoint);
                 item.Value.UpdateClientCredentialsClient(client);
             });
         }
