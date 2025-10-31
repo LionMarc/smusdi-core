@@ -9,7 +9,7 @@ namespace Smusdi.PostgreSQL.Testing;
 [Binding]
 public sealed class PostgreSqlSteps(SmusdiServiceTestingSteps steps)
 {
-    private readonly IConfiguration configuration = steps.SmusdiTestingService.GetRequiredService<IConfiguration>();
+    private readonly IConfiguration configuration = steps.GetRequiredService<IConfiguration>();
 
     [Then(@"the table ""(.*)"" exists")]
     public async Task ThenTheTableExists(string tableName)

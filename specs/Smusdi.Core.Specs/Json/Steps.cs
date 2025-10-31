@@ -6,20 +6,14 @@ using Smusdi.Testing;
 namespace Smusdi.Core.Specs.Json;
 
 [Binding]
-public class Steps
+public class Steps(SmusdiServiceTestingSteps steps)
 {
-    private readonly IJsonSerializer jsonSerializer;
-    private readonly IFileSystem fileSystem;
+    private readonly IJsonSerializer jsonSerializer = steps.GetService<IJsonSerializer>()!;
+    private readonly IFileSystem fileSystem = steps.GetService<IFileSystem>()!;
     private readonly Dictionary<string, Workflow> workflowByName = new();
     private Workflow? workflow;
     private List<Workflow>? workflows;
     private string? serializedWorkflow;
-
-    public Steps(SmusdiTestingService smusdiTestingService)
-    {
-        this.jsonSerializer = smusdiTestingService.GetService<IJsonSerializer>()!;
-        this.fileSystem = smusdiTestingService.GetService<IFileSystem>()!;
-    }
 
     [When(@"I deserialize the workflow")]
     public void WhenIDeserializeTheWorkflow(string multilineText)

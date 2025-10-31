@@ -6,7 +6,7 @@ namespace Smusdi.Testing.Http;
 
 public sealed class ApiTesting(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
-    private readonly IJsonSerializer jsonSerializer = smusdiServiceTestingSteps.SmusdiTestingService.GetRequiredService<IJsonSerializer>();
+    private readonly IJsonSerializer jsonSerializer = smusdiServiceTestingSteps.GetRequiredService<IJsonSerializer>();
     private readonly List<HttpRequestHeader> headers = [];
 
     public HttpResponseMessage? ResponseMessage { get; set; }

@@ -16,9 +16,9 @@ public sealed class Steps : IDisposable
     private bool finallyCalled;
     private PipelineContext<PipelineTestingContext>? context;
 
-    public Steps(SmusdiTestingService smusdiTestingService)
+    public Steps(SmusdiServiceTestingSteps steps)
     {
-        var provider = smusdiTestingService.GetService<IServiceProvider>()!;
+        var provider = steps.GetService<IServiceProvider>()!;
         this.serviceScope = provider.CreateScope();
         this.pipelineBuilder = this.serviceScope.ServiceProvider.GetService<IPipelineBuilder<PipelineTestingContext>>()!;
     }

@@ -9,18 +9,10 @@ using Smusdi.Testing.Database;
 namespace Smusdi.PostgreSQL.Specs;
 
 [Binding]
-public class Steps
+public class Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
-    private readonly IAuditService auditService;
-    private readonly IJsonSerializer jsonSerializer;
-    private readonly SmusdiTestingService testingService;
-
-    public Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
-    {
-        this.auditService = smusdiServiceTestingSteps.SmusdiTestingService.GetService<IAuditService>() ?? throw new InvalidOperationException($"{nameof(IAuditService)} is not registered.");
-        this.jsonSerializer = smusdiServiceTestingSteps.SmusdiTestingService.GetService<IJsonSerializer>() ?? throw new InvalidOperationException($"{nameof(IJsonSerializer)} is not registered.");
-        this.testingService = smusdiServiceTestingSteps.SmusdiTestingService;
-    }
+    private readonly IAuditService auditService = smusdiServiceTestingSteps.GetRequiredService<IAuditService>();
+    private readonly IJsonSerializer jsonSerializer = smusdiServiceTestingSteps.GetRequiredService<IJsonSerializer>();
 
     [When(@"I register the audit record")]
     public async Task WhenIRegisterTheAuditRecord(string input)
@@ -35,12 +27,12 @@ public class Steps
     }
 
     [When(@"I save the jobs")]
-    public Task WhenISaveTheJobs(Table table) => this.testingService.StoreItemsInDatabase<MigrationDbContext, JobDao>(table);
+    public Task WhenISaveTheJobs(Table table) => smusdiServiceTestingSteps.StoreItemsInDatabase<MigrationDbContext, JobDao>(table);
 
     [Then(@"the jobs are stored")]
     public async Task ThenTheJobsAreStored(string expected)
     {
-        await this.testingService.Execute(async (MigrationDbContext context) =>
+        await smusdiServiceTestingSteps.Execute(async (MigrationDbContext context) =>
         {
             var stored = await context.Set<JobDao>().ToListAsync();
             this.jsonSerializer.Serialize(stored).ShouldBeSameJsonAs(expected);

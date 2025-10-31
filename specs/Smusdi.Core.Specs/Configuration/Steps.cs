@@ -60,7 +60,7 @@ public sealed class Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
     [Then("the configuration property {string} of the section {string} is equal to {string}")]
     public void ThenTheConfigurationPropertyOfTheSectionIsEqualTo(string propertyName, string sectionName, string value)
     {
-        var configuration = this.smusdiTestingService.GetRequiredService<IConfiguration>();
+        var configuration = smusdiServiceTestingSteps.GetRequiredService<IConfiguration>();
         var section = configuration.GetSection(sectionName);
         var property = section[propertyName];
         property.Should().Be(value);
