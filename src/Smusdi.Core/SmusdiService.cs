@@ -1,6 +1,7 @@
 ﻿using System.IO.Abstractions;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.FileProviders;
 using Smusdi.Core.Compression;
 using Smusdi.Core.Configuration;
@@ -138,6 +139,15 @@ public class SmusdiService : IDisposable
         }
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(this.WebApplication.Configuration);
+
+        var fileSystem = this.WebApplication.Services.GetRequiredService<IFileSystem>();
+        var fileName = "urlRewriteRules.txt";
+        if (fileSystem.File.Exists(fileName))
+        {
+            using var reader = fileSystem.File.OpenText(fileName);
+            var options = new RewriteOptions().AddApacheModRewrite(reader);
+            this.WebApplication.UseRewriter(options);
+        }
 
         this.WebApplication
             .UseResponseCompression(smusdiOptions);

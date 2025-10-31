@@ -67,6 +67,7 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         await this.SmusdiTestingService.StartAsync();
     }
 
+    [Given(@"the service started")]
     [When(@"I start the service")]
     public Task WhenIStartTheService() => this.SmusdiTestingService.StartAsync();
 
