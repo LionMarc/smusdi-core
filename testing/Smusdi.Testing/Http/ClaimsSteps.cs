@@ -8,7 +8,7 @@ public sealed class ClaimsSteps(SmusdiServiceTestingSteps steps)
     [Given(@"identity with claims")]
     public void GivenIdentityWithClaims(DataTable dataTable)
     {
-        var claimsProvider = steps.SmusdiTestingService.GetService<ClaimsProvider>();
+        var claimsProvider = steps.GetService<ClaimsProvider>();
         if (claimsProvider == null)
         {
             return;

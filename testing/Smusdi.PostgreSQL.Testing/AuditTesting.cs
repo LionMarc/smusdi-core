@@ -9,16 +9,12 @@ using Smusdi.Testing.Database;
 namespace Smusdi.PostgreSQL.Testing;
 
 [Binding]
-public sealed class AuditTesting
+public sealed class AuditTesting(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
-    private readonly SmusdiTestingService smusdiTestingService;
-
-    public AuditTesting(SmusdiServiceTestingSteps smusdiServiceTestingSteps) => this.smusdiTestingService = smusdiServiceTestingSteps.SmusdiTestingService;
-
     [Then(@"the audit records are registered")]
     public async Task ThenTheAuditRecordsAreRegistered(Table table)
     {
-        await this.smusdiTestingService.Execute<AuditDbContext>(async (AuditDbContext context) =>
+        await smusdiServiceTestingSteps.Execute<AuditDbContext>(async (AuditDbContext context) =>
         {
             var records = await context.Set<AuditRecordDao>().ToListAsync();
             var expected = table.CreateSet<AuditRecordDao>().ToList();

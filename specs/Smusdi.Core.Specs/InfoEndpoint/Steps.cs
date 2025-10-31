@@ -8,7 +8,7 @@ namespace Smusdi.Core.Specs.InfoEndpoint;
 public sealed class Steps(ApiTesting apiTesting, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
     private readonly ApiTesting apiTesting = apiTesting;
-    private readonly IOptions<SmusdiOptions> smusdiOptions = smusdiServiceTestingSteps.SmusdiTestingService.GetRequiredService<IOptions<SmusdiOptions>>();
+    private readonly IOptions<SmusdiOptions> smusdiOptions = smusdiServiceTestingSteps.GetRequiredService<IOptions<SmusdiOptions>>();
 
     [Given("the info cache disabled")]
     public void GivenTheInfoCacheDisabled() => this.smusdiOptions.Value.InfoCacheDisabled = true;
