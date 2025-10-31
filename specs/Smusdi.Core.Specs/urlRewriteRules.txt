@@ -1,0 +1,1 @@
+﻿RewriteRule ^/to_redirect(.*) /target_of_rewrite$1

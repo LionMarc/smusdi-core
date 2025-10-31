@@ -274,3 +274,11 @@ There are 3 types of authorities:
 
 
 See https://learn.microsoft.com/en-us/aspnet/core/security/authorization/limitingidentitybyscheme?view=aspnetcore-8.0#use-multiple-authentication-schemes for details.
+
+## Rewriting urls
+
+See https://learn.microsoft.com/en-us/aspnet/core/fundamentals/url-rewriting?view=aspnetcore-9.0
+
+If a file **urlRewriteRules.txt** is found in the current working directory; it is loaded as url rewriting rules in apache format.
+
+The settings is done as first step of the pipeline.

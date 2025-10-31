@@ -1,6 +1,4 @@
-﻿using Smusdi.Core.Worker;
-
-namespace Smusdi.Worker.Sample;
+﻿namespace Smusdi.Worker.Sample;
 
 internal sealed class SampleService : ISampleService
 {
@@ -14,6 +12,15 @@ internal sealed class SampleService : ISampleService
     public async Task Test(string scope)
     {
         var response = await this.httpClient.GetAsync($"with-authorization/requires-{scope}");
+        if (!response.IsSuccessStatusCode)
+        {
+            // Nothing to do here => test purpose
+        }
+    }
+
+    public async Task TestWithRedirect(string scope)
+    {
+        var response = await this.httpClient.GetAsync($"with-authorization-redirected/requires-{scope}");
         if (!response.IsSuccessStatusCode)
         {
             // Nothing to do here => test purpose

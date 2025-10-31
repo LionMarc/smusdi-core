@@ -1,0 +1,1 @@
+﻿RewriteRule ^/v1/with-authorization-redirected(.*) /v1/with-authorization$1

@@ -17,6 +17,7 @@ internal sealed class LongRunningWorkerTask : IWorkerTask
 
     public async Task Execute(CancellationToken stoppingToken)
     {
+        await this.sampleService.TestWithRedirect("scope1");
         await this.sampleService.Test("scope1");
         await this.sampleService.Test("scope2");
         await Task.Delay(12000, stoppingToken);
