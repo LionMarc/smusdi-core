@@ -140,11 +140,11 @@ public class SmusdiService : IDisposable
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(this.WebApplication.Configuration);
 
-        var fileSystem = this.WebApplication.Services.GetRequiredService<IFileSystem>();
+        // We cannot use here IFileSystem because it is not possible to test it when using file system mock :-(
         var fileName = "urlRewriteRules.txt";
-        if (fileSystem.File.Exists(fileName))
+        if (File.Exists(fileName))
         {
-            using var reader = fileSystem.File.OpenText(fileName);
+            using var reader = File.OpenText(fileName);
             var options = new RewriteOptions().AddApacheModRewrite(reader);
             this.WebApplication.UseRewriter(options);
         }
