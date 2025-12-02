@@ -27,17 +27,19 @@ public class DatabaseMigrator<T>(T migrationContext, ILogger logger) : IBeforeRu
             this.logger.Information("Database migration is disabled.");
         }
     }
+
     /// <summary>
     /// Masks sensitive information (Password, User ID, Username, AccountKey, etc.) in a connection string.
     /// </summary>
-    /// <param name="connectionString">The original connection string</param>
-    /// <returns>The masked connection string, safe for logging</returns>
+    /// <param name="connectionString">The original connection string.</param>
+    /// <returns>The masked connection string, safe for logging.</returns>
     private static string MaskSensitiveInfo(string connectionString)
     {
         if (string.IsNullOrEmpty(connectionString))
         {
             return connectionString;
         }
+
         // Mask common secret fields (add more as needed)
         string[] sensitiveKeys = new[] { "Password", "Pwd", "User Id", "Username", "AccountKey", "Secret" };
         foreach (var key in sensitiveKeys)
@@ -46,6 +48,7 @@ public class DatabaseMigrator<T>(T migrationContext, ILogger logger) : IBeforeRu
             var regex = new Regex($@"(?i)(;{Regex.Escape(key)}=)[^;]*", RegexOptions.Compiled);
             connectionString = regex.Replace(connectionString, $" ;{key}=MASKED");
         }
+
         return connectionString;
     }
 }
