@@ -44,9 +44,11 @@ public sealed class SmusdiTestingService : IDisposable
             builder.Services.AddSingleton<ClaimsProvider>();
         }
 
-        this.TestServer = new TestServer(new CustomWebHostBuilder(this.SmusdiService));
+        this.SmusdiService.Build();
 
         this.SmusdiService.ConfigureWebApplication();
+
+        this.TestServer = this.SmusdiService.WebApplication?.GetTestServer();
     }
 
     public async Task StartAsync()
