@@ -10,7 +10,6 @@ public static class SwaggerGenOptionsExtensions
     public static SwaggerGenOptions AddSecurity(this SwaggerGenOptions swaggerGenOptions, IConfiguration configuration)
     {
         var oauthOptions = OauthOptions.GetOauthOptions(configuration);
-        var requirement = new OpenApiSecurityRequirement();
         if (!string.IsNullOrWhiteSpace(oauthOptions.MainAuthority?.Url))
         {
             swaggerGenOptions.AddSecurityDefinition(
