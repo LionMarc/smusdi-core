@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Smusdi.Security;
@@ -10,40 +10,25 @@ public static class SwaggerGenOptionsExtensions
     public static SwaggerGenOptions AddSecurity(this SwaggerGenOptions swaggerGenOptions, IConfiguration configuration)
     {
         var oauthOptions = OauthOptions.GetOauthOptions(configuration);
-        var requirement = new OpenApiSecurityRequirement();
         if (!string.IsNullOrWhiteSpace(oauthOptions.MainAuthority?.Url))
         {
             swaggerGenOptions.AddSecurityDefinition(
                 "oauth2",
                 GetSecutirySchema(oauthOptions.MainAuthority.Url, oauthOptions.Scopes));
-            requirement.Add(
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Id = "oauth2",
-                        Type = ReferenceType.SecurityScheme,
-                    },
-                },
-                []);
+            swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecuritySchemeReference("oauth2", document)] = [],
+            });
         }
 
         foreach (var authority in oauthOptions.AdditionalAuthorities)
         {
             swaggerGenOptions.AddSecurityDefinition(authority.Name, GetSecutirySchema(authority.Url, oauthOptions.Scopes));
-            requirement.Add(
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Id = authority.Name,
-                        Type = ReferenceType.SecurityScheme,
-                    },
-                },
-                []);
+            swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecuritySchemeReference(authority.Name, document)] = [],
+            });
         }
-
-        swaggerGenOptions.AddSecurityRequirement(requirement);
 
         return swaggerGenOptions;
     }
