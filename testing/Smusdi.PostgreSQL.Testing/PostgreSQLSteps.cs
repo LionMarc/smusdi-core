@@ -6,12 +6,19 @@ using Smusdi.Testing;
 
 namespace Smusdi.PostgreSQL.Testing;
 
+/// <summary>
+/// Reqnroll step definitions for asserting PostgreSQL database state.
+/// </summary>
 [Binding]
 public sealed class PostgreSqlSteps(SmusdiServiceTestingSteps steps)
 {
     private readonly IConfiguration configuration = steps.GetRequiredService<IConfiguration>();
 
-    [Then(@"the table ""(.*)"" exists")]
+    /// <summary>
+    /// Then step: asserts that a table with the specified name exists in the target database.
+    /// </summary>
+    /// <param name="tableName">The name of the table to check.</param>
+    [Then(@"the table {string} exists")]
     public async Task ThenTheTableExists(string tableName)
     {
         var connectionString = this.configuration.GetValue<string>(Constants.ConnectionStringSettingsPath);
@@ -23,7 +30,11 @@ public sealed class PostgreSqlSteps(SmusdiServiceTestingSteps steps)
         res.Should().Be(true);
     }
 
-    [Then(@"the table ""(.*)"" does not exist")]
+    /// <summary>
+    /// Then step: asserts that a table with the specified name does not exist in the target database.
+    /// </summary>
+    /// <param name="tableName">The name of the table that should not exist.</param>
+    [Then(@"the table {string} does not exist")]
     public async Task ThenTheTableDoesNotExist(string tableName)
     {
         var connectionString = this.configuration.GetValue<string>(Constants.ConnectionStringSettingsPath);
