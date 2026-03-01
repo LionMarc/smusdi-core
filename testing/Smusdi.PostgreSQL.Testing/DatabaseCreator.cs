@@ -4,10 +4,21 @@ using Smusdi.Testing;
 
 namespace Smusdi.PostgreSQL.Testing;
 
+/// <summary>
+/// Reqnroll hooks that create and delete a temporary PostgreSQL database for scenarios
+/// tagged with <c>postgresql</c>.
+/// </summary>
 [Binding]
 public sealed class DatabaseCreator(IReqnrollOutputHelper reqnrollOutputHelper, SmusdiServiceTestingSteps smusdiServiceTestingSteps)
 {
+    /// <summary>
+    /// Order used for the <see cref="BeforeScenarioAttribute"/> so database creation happens early.
+    /// </summary>
     public const int DatabaseCreatorHookOrder = HookAttribute.DefaultOrder - 1000;
+
+    /// <summary>
+    /// Target tag for scenarios that require a PostgreSQL temporary database.
+    /// </summary>
     public const string TargetTag = "postgresql";
 
     private readonly string databaseName = $"smusdi_{Guid.NewGuid()}";
@@ -16,6 +27,11 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper reqnrollOutputHelper, 
 
     private string? connectionString;
 
+    /// <summary>
+    /// Before scenario hook that creates a new PostgreSQL database and sets the connection string
+    /// in the test arguments so the application under test uses the temporary database.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     [BeforeScenario(TargetTag, Order = DatabaseCreatorHookOrder)]
     public async Task DatabaseCreation()
     {
@@ -40,6 +56,10 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper reqnrollOutputHelper, 
         this.smusdiServiceTestingSteps.Args.Add($"--{Constants.ConnectionStringSettingsPath}={targetConnectionString}");
     }
 
+    /// <summary>
+    /// After scenario hook that drops the temporary PostgreSQL database created for the scenario.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     [AfterScenario(TargetTag)]
     public async Task DeleteDatabase()
     {

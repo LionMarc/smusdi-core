@@ -8,20 +8,37 @@ namespace Smusdi.Testing;
 [Binding]
 public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTestingService, ScenarioContext scenarioContext)
 {
+    /// <summary>
+    /// Order for the <see cref="BeforeScenarioAttribute"/> so the service initialization
+    /// runs early in the hook pipeline.
+    /// </summary>
     public const int ServiceInitializationHookOrder = HookAttribute.DefaultOrder - 500;
+
     public const string TargetTag = "integration";
 
     private readonly ScenarioContext scenarioContext = scenarioContext;
 
+    /// <summary>
+    /// Gets the test runner service that manages the in-memory Smusdi application.
+    /// </summary>
     public SmusdiTestingService SmusdiTestingService => smusdiTestingService;
 
+    /// <summary>
+    /// Gets the command line arguments that will be passed to the tested application.
+    /// </summary>
     public List<string> Args { get; } = [];
 
+    /// <summary>
+    /// Gets the actions to execute before starting the tested service (can be used by other steps).
+    /// </summary>
     public List<Action> BeforeStarting { get; } = [];
 
     [BeforeScenario(TargetTag, Order = ServiceInitializationHookOrder)]
     public Task ServiceInitializationAndStart() => this.GivenTheServiceInitializedAndStarted();
 
+    /// <summary>
+    /// AfterScenario hook: disposes the test service and resets environment state.
+    /// </summary>
     [AfterScenario]
     public void DisposeSmusdiTestingService()
     {
@@ -29,6 +46,10 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         Environment.SetEnvironmentVariable(SmusdiConstants.SmusdiAppsettingsFolderEnvVar, string.Empty);
     }
 
+    /// <summary>
+    /// Given step: sets the command line arguments used to configure the tested application.
+    /// </summary>
+    /// <param name="dataTable">Table of arguments with columns 'Field' and 'Value'.</param>
     [Given("the command line arguments")]
     public void GivenTheCommandLineArguments(DataTable dataTable)
     {
@@ -38,6 +59,9 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         }
     }
 
+    /// <summary>
+    /// Given step: initializes the Smusdi service (without starting it).
+    /// </summary>
     [Given(@"the service initialized")]
     public void GivenTheServiceInitialized()
     {
@@ -46,6 +70,10 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         this.SmusdiTestingService.Initialize(this.Args.ToArray());
     }
 
+    /// <summary>
+    /// Given step: initializes and starts the Smusdi service for the scenario.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     [Given(@"the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
