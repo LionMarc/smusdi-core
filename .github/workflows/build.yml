@@ -53,8 +53,12 @@ jobs:
       run: dotnet tool restore
     - name: Build
       run: dotnet build -c Release --no-restore
-    - name: Test
-      run: dotnet test -c Release --solution smusdi-core.slnx --config-file specs/testconfig.json --results-directory coverage --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi.]" --report-xunit-trx --report-xunit-trx-filename test-results.trx
+    - name: Test Smusdi.Core.Specs
+      run: dotnet test -c Release --project specs/Smusdi.Core.Specs/Smusdi.Core.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.Core.Specs --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
+    - name: Test Smusdi.Json.Specs
+      run: dotnet test -c Release --project specs/Smusdi.Json.Specs/Smusdi.Json.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.Json.Specs --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
+    - name: Test Smusdi.PostgreSQL.Specs
+      run: dotnet test -c Release --project specs/Smusdi.PostgreSQL.Specs/Smusdi.PostgreSQL.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.PostgreSQL.Specs --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
     - name: Test packing
       run: dotnet pack --no-build -c Release -p:PackageVersion=7.0.0.1 -o publish
     - name: Test Report
@@ -62,7 +66,7 @@ jobs:
       if: success() || failure()
       with:
         name: .NET Tests
-        path: coverage/test-results.trx
+        path: coverage/**/test-results.trx
         reporter: dotnet-trx
     # https://reportgenerator.io/usage
     - name: Aggregate coverage files with ReportGenerator 
