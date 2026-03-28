@@ -1,6 +1,6 @@
 ﻿using System.Net.Mime;
 using System.Text;
-using Smusdi.Core.Json;
+using Smusdi.Json;
 
 namespace Smusdi.Testing.Http;
 

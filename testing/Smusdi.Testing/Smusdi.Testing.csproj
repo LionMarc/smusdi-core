@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Smusdi.Core\Smusdi.Core.csproj" />
+    <ProjectReference Include="..\..\src\Smusdi.Json\Smusdi.Json.csproj" />
   </ItemGroup>
 
 </Project>

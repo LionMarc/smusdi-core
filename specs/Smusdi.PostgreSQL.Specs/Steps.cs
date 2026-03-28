@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PostgreSqlMigration;
 using Reqnroll;
-using Smusdi.Core.Json;
+using Smusdi.Json;
 using Smusdi.PostgreSQL.Audit;
 using Smusdi.Testing;
 using Smusdi.Testing.Database;

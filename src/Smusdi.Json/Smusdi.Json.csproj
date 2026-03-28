@@ -15,6 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Remove="Microsoft.Extensions.Logging"/>
+    <Using Remove="Microsoft.Extensions.Logging" />
   </ItemGroup>
 </Project>

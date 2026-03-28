@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Smusdi.Core.Json;
+namespace Smusdi.Json;
 
 public interface IJsonSerializer
 {
