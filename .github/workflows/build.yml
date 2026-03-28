@@ -54,7 +54,7 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Test
-      run: dotnet test -c Release --solution smusdi-core.slnx --config-file specs/testconfig.json --coverlet --coverlet-output coverage --coverlet-output-format cobertura --report-xunit-trx --report-xunit-trx-filename coverage/test-results.trx
+      run: dotnet test -c Release --solution smusdi-core.slnx --config-file specs/testconfig.json --results-directory coverage --coverlet --coverlet-output-format cobertura --report-xunit-trx --report-xunit-trx-filename test-results.trx
     - name: Test packing
       run: dotnet pack --no-build -c Release -p:PackageVersion=7.0.0.1 -o publish
     - name: Test Report
