@@ -14,7 +14,7 @@ Scenario: Setup environment variables from default location
 
 Scenario: Setup environment variable with = in value
     Given the environment variable "SMUSDI_ENV_FILE" set to "my_custom_env_file1"
-    And the env file "my_custom_env_file" with content
+    And the env file "my_custom_env_file1" with content
         """
         TEST_ENV3=my_env=toto
         """
