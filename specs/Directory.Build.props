@@ -20,10 +20,6 @@
     <PackageReference Include="Reqnroll"/>
     <PackageReference Include="Reqnroll.Tools.MsBuild.Generation"/>
 
-    <PackageReference Include="coverlet.collector">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="coverlet.MTP"/>
   </ItemGroup>
   
