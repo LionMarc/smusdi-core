@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "[dotnet] outdated",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "package",
+                "list",
+                "--outdated"
+            ],
+            "problemMatcher":"$msCompile",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}

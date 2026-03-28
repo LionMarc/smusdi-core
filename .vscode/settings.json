@@ -1,0 +1,9 @@
+{
+    "cucumber.features": [
+        "specs/**/*.feature"
+    ],
+    "cucumber.glue": [
+        "specs/**/*Steps.cs",
+        "testing/**/*Steps.cs"
+    ]
+}

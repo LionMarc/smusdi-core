@@ -1,0 +1,52 @@
+<Solution>
+  <Folder Name="/.build/">
+    <File Path=".config/dotnet-tools.json" />
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="NuGet.Config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/.build/specs/">
+    <File Path="specs/.runsettings" />
+    <File Path="specs/appsettings.json" />
+    <File Path="specs/Directory.Build.props" />
+    <File Path="specs/reqnroll.json" />
+    <File Path="specs/xunit.runner.json" />
+  </Folder>
+  <Folder Name="/.build/testing/">
+    <File Path="testing/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/publish.yml" />
+    <File Path=".github/workflows/publish_doc.yml" />
+  </Folder>
+  <Folder Name="/.samples/">
+    <Project Path="samples/PostgreSqlMigration/PostgreSqlMigration.csproj" />
+    <Project Path="samples/Smusdi.ApiWithNoVersioning/Smusdi.ApiWithNoVersioning.csproj" />
+    <Project Path="samples/Smusdi.Sample/Smusdi.Sample.csproj" />
+    <Project Path="samples/Smusdi.Worker.Sample/Smusdi.Worker.Sample.csproj" />
+  </Folder>
+  <Folder Name="/.samples/single-file-publication/">
+    <File Path="samples/SingleFilePublication/README.md" />
+    <Project Path="samples/SingleFilePublication/SingleFilePublication.Service/SingleFilePublication.Service.csproj" />
+    <Project Path="samples/SingleFilePublication/SingleFilePublication.SomeFeature/SingleFilePublication.SomeFeature.csproj" />
+  </Folder>
+  <Folder Name="/specs/">
+    <Project Path="specs/Smusdi.Core.Specs/Smusdi.Core.Specs.csproj" />
+    <Project Path="specs/Smusdi.Json.Specs/Smusdi.Json.Specs.csproj" />
+    <Project Path="specs/Smusdi.PostgreSQL.Specs/Smusdi.PostgreSQL.Specs.csproj" />
+  </Folder>
+  <Folder Name="/testing/">
+    <Project Path="testing/Smusdi.PostgreSQL.Testing/Smusdi.PostgreSQL.Testing.csproj" />
+    <Project Path="testing/Smusdi.Testing/Smusdi.Testing.csproj" />
+  </Folder>
+  <Project Path="src/Smusdi.Core/Smusdi.Core.csproj" />
+  <Project Path="src/Smusdi.Extensibility/Smusdi.Extensibility.csproj" />
+  <Project Path="src/Smusdi.HttpClientHelpers/Smusdi.HttpClientHelpers.csproj" />
+  <Project Path="src/Smusdi.Json/Smusdi.Json.csproj" />
+  <Project Path="src/Smusdi.PostgreSQL/Smusdi.PostgreSQL.csproj" />
+  <Project Path="src/Smusdi.Security/Smusdi.Security.csproj" />
+</Solution>

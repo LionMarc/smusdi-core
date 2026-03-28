@@ -4,7 +4,8 @@ Background:
     Given all environment variables starting with "TEST_" removed
 
 Scenario: Setup environment variables from default location
-    Given the default .env file
+    Given the environment variable "SMUSDI_ENV_FILE" deleted
+    And the default .env file
         """
         TEST_ENV=my_env
         """
@@ -13,7 +14,8 @@ Scenario: Setup environment variables from default location
     Then the environment variable "TEST_ENV" is set to "my_env"
 
 Scenario: Setup environment variable with = in value
-    Given the default .env file
+    Given the environment variable "SMUSDI_ENV_FILE" set to "my_custom_env_file1"
+    And the env file "my_custom_env_file1" with content
         """
         TEST_ENV3=my_env=toto
         """
