@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Smusdi.Core.Helpers;
-using Smusdi.Core.Json;
+﻿using Smusdi.Json;
 
 namespace Smusdi.PostgreSQL.Audit;
 

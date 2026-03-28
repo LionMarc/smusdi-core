@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Smusdi.Core.Json;
 
-namespace Smusdi.Core.Json;
+namespace Smusdi.Json;
 
 public class PolymorphicConverter<T> : JsonConverter<T>
 {

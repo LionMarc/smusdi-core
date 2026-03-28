@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
 using AwesomeAssertions;
-using Smusdi.Core.Json;
+using Smusdi.Json;
 using Smusdi.Testing;
 
 namespace Smusdi.Core.Specs.Json;
