@@ -4,7 +4,8 @@ Background:
     Given all environment variables starting with "TEST_" removed
 
 Scenario: Setup environment variables from default location
-    Given the default .env file
+    Given the environment variable "SMUSDI_ENV_FILE" deleted
+    And the default .env file
         """
         TEST_ENV=my_env
         """

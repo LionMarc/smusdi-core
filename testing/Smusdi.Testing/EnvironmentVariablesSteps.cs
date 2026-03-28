@@ -8,7 +8,7 @@ namespace Smusdi.Testing;
 [Binding]
 public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutputHelper)
 {
-    private readonly HashSet<string> files = new HashSet<string>();
+    private readonly HashSet<string> files = [];
 
     /// <summary>
     /// Given step: sets the specified environment variable to the provided value.
@@ -16,14 +16,25 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     /// <param name="name">Environment variable name.</param>
     /// <param name="value">Value to set.</param>
     [Given(@"the environment variable {string} set to {string}")]
-    public void GivenTheEnvironmentVariableSetTo(string name, string value) => Environment.SetEnvironmentVariable(name, value);
+    public static void GivenTheEnvironmentVariableSetTo(string name, string value) => Environment.SetEnvironmentVariable(name, value);
+
+    /// <summary>
+    /// Deletes an environment variable with the specified name.
+    /// </summary>
+    /// <param name="name">The name of the environment variable to delete.</param>
+    /// <remarks>
+    /// This step is used in BDD scenarios to set up test conditions by removing environment variables.
+    /// The variable is deleted by setting its value to null.
+    /// </remarks>
+    [Given("the environment variable {string} deleted")]
+    public static void GivenTheEnvironmentVariableDeleted(string name) => Environment.SetEnvironmentVariable(name, null);
 
     /// <summary>
     /// Given step: removes all environment variables whose name starts with the given prefix.
     /// </summary>
     /// <param name="startPattern">The prefix to match environment variable names.</param>
     [Given(@"all environment variables starting with {string} removed")]
-    public void GivenAllEnvironmentVariablesStartingWithRemoved(string startPattern)
+    public static void GivenAllEnvironmentVariablesStartingWithRemoved(string startPattern)
     {
         var variablesToRemove = new List<string>();
         foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
@@ -35,6 +46,18 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
         }
 
         variablesToRemove.ForEach(v => Environment.SetEnvironmentVariable(v, null));
+    }
+
+    /// <summary>
+    /// Then step: asserts that the given environment variable is set to the expected value.
+    /// </summary>
+    /// <param name="name">Variable name.</param>
+    /// <param name="expectedValue">Expected value.</param>
+    [Then(@"the environment variable {string} is set to {string}")]
+    public static void ThenTheEnvironmentVariableIsSetTo(string name, string expectedValue)
+    {
+        var value = Environment.GetEnvironmentVariable(name);
+        value.Should().Be(expectedValue);
     }
 
     /// <summary>
@@ -58,18 +81,6 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     {
         this.files.Add(path);
         File.WriteAllText(path, multilineText);
-    }
-
-    /// <summary>
-    /// Then step: asserts that the given environment variable is set to the expected value.
-    /// </summary>
-    /// <param name="name">Variable name.</param>
-    /// <param name="expectedValue">Expected value.</param>
-    [Then(@"the environment variable {string} is set to {string}")]
-    public void ThenTheEnvironmentVariableIsSetTo(string name, string expectedValue)
-    {
-        var value = Environment.GetEnvironmentVariable(name);
-        value.Should().Be(expectedValue);
     }
 
     /// <summary>
