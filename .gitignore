@@ -39,3 +39,5 @@ packages/
 /samples/Smusdi.Sample/logs/
 /publish/
 /generated-specs/
+samples/Smusdi.Worker.Sample/logs/
+samples/Smusdi.Sample/infos/oauth.json
