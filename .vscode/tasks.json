@@ -14,6 +14,48 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             }
+        },
+        {
+            "label": "build Smusdi.ApiWithNoVersioning",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Smusdi.ApiWithNoVersioning/Smusdi.ApiWithNoVersioning.csproj"
+            ],
+            "group": "build",
+            "presentation": {
+                "panel": "shared"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build Smusdi.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Smusdi.Sample/Smusdi.Sample.csproj"
+            ],
+            "group": "build",
+            "presentation": {
+                "panel": "shared"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build Smusdi.Worker.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Smusdi.Worker.Sample/Smusdi.Worker.Sample.csproj"
+            ],
+            "group": "build",
+            "presentation": {
+                "panel": "shared"
+            },
+            "problemMatcher": "$msCompile"
         }
     ]
 }

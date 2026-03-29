@@ -176,6 +176,16 @@ The extension **GetPostgreSqlSchema** of **IConfiguration** gets the database sc
 
 The token is managed by the library **Duende.AccessTokenManagement**.
 
+The default options set in smusdi are:
+
+```csharp
+  services.AddClientCredentialsTokenManagement(options =>
+    {
+        options.LocalCacheExpiration = null;
+        options.UseCacheAutoTuning = true;
+    })
+```
+
 The configuration is made according to the appsettings section **HttpClientsOptions**.
 
 ### Default client

@@ -1,0 +1,47 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Smusdi.ApiWithNoVersioning",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build Smusdi.ApiWithNoVersioning",
+            "program": "${workspaceFolder}/samples/Smusdi.ApiWithNoVersioning/bin/Debug/net10.0/Smusdi.ApiWithNoVersioning.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Smusdi.ApiWithNoVersioning",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "name": "Launch Smusdi.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build Smusdi.Sample",
+            "program": "${workspaceFolder}/samples/Smusdi.Sample/bin/Debug/net10.0/Smusdi.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Smusdi.Sample",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "name": "Launch Smusdi.Worker.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build Smusdi.Worker.Sample",
+            "program": "${workspaceFolder}/samples/Smusdi.Worker.Sample/bin/Debug/net10.0/Smusdi.Worker.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Smusdi.Worker.Sample",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    ]
+}

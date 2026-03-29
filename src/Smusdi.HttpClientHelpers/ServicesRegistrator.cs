@@ -16,7 +16,11 @@ public sealed class ServicesRegistrator : IServicesRegistrator
         }
 
         var builder = services.AddDistributedMemoryCache()
-            .AddClientCredentialsTokenManagement()
+            .AddClientCredentialsTokenManagement(options =>
+            {
+                options.LocalCacheExpiration = null;
+                options.UseCacheAutoTuning = true;
+            })
             .AddClient(HttpClientsOptions.DefaultClientName, client =>
             {
                 client.TokenEndpoint = new Uri(options.MainClient.TokenEndpoint);

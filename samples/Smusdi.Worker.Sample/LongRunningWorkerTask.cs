@@ -22,5 +22,11 @@ internal sealed class LongRunningWorkerTask : IWorkerTask
         await this.sampleService.Test("scope2");
         await Task.Delay(12000, stoppingToken);
         await this.sampleService.Test("scope1");
+
+        for (var i = 0; i < 500; i++)
+        {
+            await Task.Delay(60000, stoppingToken);
+            await this.sampleService.Test("scope1");
+        }
     }
 }
