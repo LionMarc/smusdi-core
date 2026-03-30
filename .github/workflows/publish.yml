@@ -45,11 +45,11 @@ jobs:
       - name: Restore tools
         run: dotnet tool restore
       - name: Build
-        run: dotnet build -c Release --no-restore -p:Version=${{ github.event.release.tag_name }}
+        run: dotnet build -c Release --no-restore
       - name: Test
         run: dotnet test -c Release --solution smusdi-core.slnx
       - name: Pack
-        run: dotnet pack --no-build -c Release -p:PackageVersion=${{ github.event.release.tag_name }} -o publish
+        run: dotnet pack -c Release -p:PackageVersion=${{ github.event.release.tag_name }} -p:Version=${{ github.event.release.tag_name }} -o publish
       - name: Publish
         run: dotnet nuget push publish/*.nupkg --api-key ${{ secrets.NUGET_ORG_TOKEN }} --source "https://api.nuget.org/v3/index.json"
       - name: Archive packages
