@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
 using Smusdi.Core.Compression;
 using Smusdi.Core.Configuration;
 using Smusdi.Core.Extensibility;
@@ -208,13 +209,16 @@ public class SmusdiService : IDisposable
     {
         if (this.WebApplication != null)
         {
-            using (var scope = this.WebApplication.Services.CreateScope())
+            using var scope = this.WebApplication.Services.CreateScope();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+            var beforeRunImplementations = scope.ServiceProvider.GetServices<IBeforeRun>();
+            var log = $"[BeforeRun] {beforeRunImplementations.Count()} implementations of IBeforeRun found";
+            logger.Information(log);
+            foreach (var beforeRunImplementation in beforeRunImplementations)
             {
-                var beforeRunImplementations = scope.ServiceProvider.GetServices<IBeforeRun>();
-                foreach (var beforeRunImplementation in beforeRunImplementations)
-                {
-                    await beforeRunImplementation.Execute();
-                }
+                log = $"[BeforeRun] Executing {beforeRunImplementation.GetType().AssemblyQualifiedName}";
+                logger.Information(log);
+                await beforeRunImplementation.Execute();
             }
         }
     }
