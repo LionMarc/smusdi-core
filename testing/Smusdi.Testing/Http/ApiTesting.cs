@@ -57,7 +57,7 @@ public sealed class ApiTesting(SmusdiServiceTestingSteps smusdiServiceTestingSte
         {
             request.Headers.Add(header.Name, header.Value);
         });
-        this.ResponseMessage = await (smusdiServiceTestingSteps.SmusdiTestingService.TestClient ?? throw new InvalidOperationException("TestClient ins not intialized")).SendAsync(request);
+        this.ResponseMessage = await (smusdiServiceTestingSteps.SmusdiTestingService.TestClient ?? throw new InvalidOperationException("TestClient is not initialized")).SendAsync(request);
     }
 
     public ApiTesting AddHttpRequestHeader(string name, string? value)
