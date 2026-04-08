@@ -27,7 +27,7 @@
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
     <!-- Tests and testing -->
-    <PackageVersion Include="Microsoft.Testing.Platform" Version="2.1.0" />
+    <PackageVersion Include="Microsoft.Testing.Platform" Version="2.2.1" />
     <PackageVersion Include="Reqnroll" Version="3.3.4" />
     <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="3.3.4" />
     <PackageVersion Include="Reqnroll.xUnit.v3" Version="3.3.4" />
