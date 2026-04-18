@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" VersionOverride="10.0.6" />
     <ProjectReference Include="..\Smusdi.Core\Smusdi.Core.csproj" />
     <ProjectReference Include="..\Smusdi.Json\Smusdi.Json.csproj" />
   </ItemGroup>
