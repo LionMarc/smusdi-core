@@ -39,7 +39,7 @@
     <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.5.0" />
     <PackageVersion Include="JunitXml.TestLogger" Version="8.0.0" />
     <PackageVersion Include="coverlet.collector" Version="8.0.1" />
-    <PackageVersion Include="coverlet.MTP" Version="8.0.1" />
+    <PackageVersion Include="coverlet.MTP" Version="10.0.0" />
     <!-- Quality -->
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.24.0.138807" />

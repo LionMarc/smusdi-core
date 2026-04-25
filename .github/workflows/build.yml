@@ -72,7 +72,7 @@ jobs:
     - name: Aggregate coverage files with ReportGenerator 
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.8
       with:
-        reports: coverage/**/coverage.cobertura.xml
+        reports: coverage/**/coverage.cobertura*.xml
         targetdir: coveragereport
         reporttypes: Cobertura
     - name: Code Coverage Report
