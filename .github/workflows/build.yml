@@ -54,11 +54,11 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Test Smusdi.Core.Specs
-      run: dotnet test -c Release --project specs/Smusdi.Core.Specs/Smusdi.Core.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.Core.Specs --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi.Core]*" --coverlet-exclude "[Smusdi.*.Specs]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
+      run: dotnet test -c Release --project specs/Smusdi.Core.Specs/Smusdi.Core.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.Core.Specs --coverlet --coverlet-output-format cobertura --coverlet-output coverage/Smusdi.Core.Specs/coverage.cobertura.xml --coverlet-include "[Smusdi.Core]*" --coverlet-exclude "[Smusdi.*.Specs]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
     - name: Test Smusdi.Json.Specs
-      run: dotnet test -c Release --project specs/Smusdi.Json.Specs/Smusdi.Json.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.Json.Specs --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi.Json]*" --coverlet-exclude "[Smusdi.*.Specs]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
+      run: dotnet test -c Release --project specs/Smusdi.Json.Specs/Smusdi.Json.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.Json.Specs --coverlet --coverlet-output-format cobertura --coverlet-output coverage/Smusdi.Json.Specs/coverage.cobertura.xml --coverlet-include "[Smusdi.Json]*" --coverlet-exclude "[Smusdi.*.Specs]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
     - name: Test Smusdi.PostgreSQL.Specs
-      run: dotnet test -c Release --project specs/Smusdi.PostgreSQL.Specs/Smusdi.PostgreSQL.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.PostgreSQL.Specs --coverlet --coverlet-output-format cobertura --coverlet-include "[Smusdi.PostgreSQL]*" --coverlet-exclude "[Smusdi.*.Specs]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
+      run: dotnet test -c Release --project specs/Smusdi.PostgreSQL.Specs/Smusdi.PostgreSQL.Specs.csproj --config-file specs/testconfig.json --results-directory coverage/Smusdi.PostgreSQL.Specs --coverlet --coverlet-output-format cobertura --coverlet-output coverage/Smusdi.PostgreSQL.Specs/coverage.cobertura.xml --coverlet-include "[Smusdi.PostgreSQL]*" --coverlet-exclude "[Smusdi.*.Specs]*" --report-xunit-trx --report-xunit-trx-filename test-results.trx
     - name: Test packing
       run: dotnet pack --no-build -c Release -p:PackageVersion=7.0.0.1 -o publish
     - name: Test Report
