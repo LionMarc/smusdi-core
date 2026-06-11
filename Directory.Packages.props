@@ -23,7 +23,7 @@
     <PackageVersion Include="Duende.AccessTokenManagement" Version="4.2.0" />
     <!-- Entity Framework -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
     <!-- Tests and testing -->
