@@ -11,6 +11,9 @@ public sealed class ApiTesting(SmusdiServiceTestingSteps smusdiServiceTestingSte
 
     public HttpResponseMessage? ResponseMessage { get; set; }
 
+    public HttpResponseMessage GetResponseMessageOrThrow()
+        => this.ResponseMessage ?? throw new InvalidOperationException("ResponseMessage is null. Did you forget to call an HTTP method?");
+
     public Task Get(string uri) => this.SendRequest(uri, HttpMethod.Get);
 
     public Task Delete(string uri) => this.SendRequest(uri, HttpMethod.Delete);
