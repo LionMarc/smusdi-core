@@ -42,6 +42,6 @@
     <PackageVersion Include="coverlet.MTP" Version="10.0.1" />
     <!-- Quality -->
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.30.0.144632" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.31.0.145097" />
   </ItemGroup>
 </Project>
