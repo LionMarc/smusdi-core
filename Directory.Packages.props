@@ -15,7 +15,7 @@
     <!-- Input validation -->
     <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <!-- Swagger / OpenAPI -->
-    <PackageVersion Include="Asp.Versioning.Mvc" Version="10.0.1" />
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="10.2.1" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.0.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     <!-- OAuth -->
