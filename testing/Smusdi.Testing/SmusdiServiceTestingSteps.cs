@@ -62,7 +62,7 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
     /// <summary>
     /// Given step: initializes the Smusdi service (without starting it).
     /// </summary>
-    [Given(@"the service initialized")]
+    [Given("the service initialized")]
     public void GivenTheServiceInitialized()
     {
         SetEnvironmentIfNotSet();
@@ -74,7 +74,7 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
     /// Given step: initializes and starts the Smusdi service for the scenario.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [Given(@"the service initialized and started")]
+    [Given("the service initialized and started")]
     public async Task GivenTheServiceInitializedAndStarted()
     {
         this.GivenTheServiceInitialized();
@@ -95,8 +95,8 @@ public sealed class SmusdiServiceTestingSteps(SmusdiTestingService smusdiTesting
         await this.SmusdiTestingService.StartAsync();
     }
 
-    [Given(@"the service started")]
-    [When(@"I start the service")]
+    [Given("the service started")]
+    [When("I start the service")]
     public Task WhenIStartTheService() => this.SmusdiTestingService.StartAsync();
 
     private static void SetEnvironmentIfNotSet()

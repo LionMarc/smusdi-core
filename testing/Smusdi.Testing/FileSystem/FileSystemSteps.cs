@@ -5,9 +5,6 @@ using Reqnroll;
 namespace Smusdi.Testing.FileSystem;
 
 [Binding]
-/// <summary>
-/// Reqnroll steps that operate on the (virtual) file system used during tests.
-/// </summary>
 public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemTesting fileSystemTesting)
 {
     private readonly IFileSystem fileSystem = steps.GetRequiredService<IFileSystem>();
@@ -17,8 +14,8 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// </summary>
     /// <param name="filePath">Relative path (virtual) of the file to write.</param>
     /// <param name="multilineText">File content.</param>
-    [Given(@"the file {string} with content")]
-    [When(@"I create the file {string} with content")]
+    [Given("the file {string} with content")]
+    [When("I create the file {string} with content")]
     public void GivenTheFileWithContent(string filePath, string multilineText)
     {
         var realPath = fileSystemTesting.GetFullPath(filePath);
@@ -36,7 +33,7 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// When step: deletes the specified file.
     /// </summary>
     /// <param name="filePath">Relative path (virtual) of the file to delete.</param>
-    [When(@"I delete the file {string}")]
+    [When("I delete the file {string}")]
     public void WhenIDeleteTheFile(string filePath)
     {
         var realPath = fileSystemTesting.GetFullPath(filePath);
@@ -47,7 +44,7 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// Then step: asserts that the specified file does not exist.
     /// </summary>
     /// <param name="filePath">Relative path (virtual) of the file to check.</param>
-    [Then(@"the file {string} does not exist")]
+    [Then("the file {string} does not exist")]
     public void ThenTheFileDoesNotExist(string filePath)
     {
         var realPath = fileSystemTesting.GetFullPath(filePath);
@@ -58,7 +55,7 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// Then step: asserts that the specified file exists.
     /// </summary>
     /// <param name="filePath">Relative path (virtual) of the file to check.</param>
-    [Then(@"the file {string} exists")]
+    [Then("the file {string} exists")]
     public void ThenTheFileExists(string filePath)
     {
         var realPath = fileSystemTesting.GetFullPath(filePath);
@@ -70,7 +67,7 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// </summary>
     /// <param name="filePath">Relative path (virtual) of the file to check.</param>
     /// <param name="multilineText">Expected file content.</param>
-    [Then(@"the file {string} has content")]
+    [Then("the file {string} has content")]
     public void ThenTheFileHasContent(string filePath, string multilineText)
     {
         var realPath = fileSystemTesting.GetFullPath(filePath);
@@ -85,7 +82,7 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// Then step: asserts that the specified folder is empty.
     /// </summary>
     /// <param name="folderPath">Relative path (virtual) of the folder to check.</param>
-    [Then(@"the folder {string} is empty")]
+    [Then("the folder {string} is empty")]
     public void ThenTheFolderIsEmpty(string folderPath)
     {
         var realPath = fileSystemTesting.GetFullPath(folderPath);
@@ -97,7 +94,7 @@ public sealed class FileSystemSteps(SmusdiServiceTestingSteps steps, FileSystemT
     /// Then step: asserts that the specified folder is not empty.
     /// </summary>
     /// <param name="folderPath">Relative path (virtual) of the folder to check.</param>
-    [Then(@"the folder {string} is not empty")]
+    [Then("the folder {string} is not empty")]
     public void ThenTheFolderIsNotEmpty(string folderPath)
     {
         var realPath = fileSystemTesting.GetFullPath(folderPath);
