@@ -47,7 +47,9 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper reqnrollOutputHelper, 
         await connection.OpenAsync();
         using var command = connection.CreateCommand();
         this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Creating database {this.databaseName}...");
+#pragma warning disable S2077 // SQL queries should not be dynamically formatted
         command.CommandText = $"CREATE DATABASE \"{this.databaseName}\"";
+#pragma warning restore S2077 // SQL queries should not be dynamically formatted
         await command.ExecuteNonQueryAsync();
         await connection.CloseAsync();
         this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} created.");
@@ -68,7 +70,9 @@ public sealed class DatabaseCreator(IReqnrollOutputHelper reqnrollOutputHelper, 
         using var connection = new NpgsqlConnection(this.connectionString);
         await connection.OpenAsync();
         using var command = connection.CreateCommand();
+#pragma warning disable S2077 // SQL queries should not be dynamically formatted
         command.CommandText = $"DROP DATABASE \"{this.databaseName}\"";
+#pragma warning restore S2077 // SQL queries should not be dynamically formatted
         await command.ExecuteNonQueryAsync();
         await connection.CloseAsync();
         this.reqnrollOutputHelper.WriteLine($"[DatabaseCreator] Database {this.databaseName} deleted.");

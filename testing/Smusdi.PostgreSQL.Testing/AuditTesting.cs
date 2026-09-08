@@ -19,7 +19,7 @@ public sealed class AuditTesting(SmusdiServiceTestingSteps smusdiServiceTestingS
     /// </summary>
     /// <param name="table">The expected records represented as a <see cref="DataTable"/>.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [Then(@"the audit records are registered")]
+    [Then("the audit records are registered")]
     public async Task ThenTheAuditRecordsAreRegistered(DataTable table)
     {
         await smusdiServiceTestingSteps.Execute<AuditDbContext>(async context =>

@@ -15,7 +15,7 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     /// </summary>
     /// <param name="name">Environment variable name.</param>
     /// <param name="value">Value to set.</param>
-    [Given(@"the environment variable {string} set to {string}")]
+    [Given("the environment variable {string} set to {string}")]
     public static void GivenTheEnvironmentVariableSetTo(string name, string value) => Environment.SetEnvironmentVariable(name, value);
 
     /// <summary>
@@ -33,7 +33,7 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     /// Given step: removes all environment variables whose name starts with the given prefix.
     /// </summary>
     /// <param name="startPattern">The prefix to match environment variable names.</param>
-    [Given(@"all environment variables starting with {string} removed")]
+    [Given("all environment variables starting with {string} removed")]
     public static void GivenAllEnvironmentVariablesStartingWithRemoved(string startPattern)
     {
         var variablesToRemove = new List<string>();
@@ -53,7 +53,7 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     /// </summary>
     /// <param name="name">Variable name.</param>
     /// <param name="expectedValue">Expected value.</param>
-    [Then(@"the environment variable {string} is set to {string}")]
+    [Then("the environment variable {string} is set to {string}")]
     public static void ThenTheEnvironmentVariableIsSetTo(string name, string expectedValue)
     {
         var value = Environment.GetEnvironmentVariable(name);
@@ -64,7 +64,7 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     /// Given step: writes the default .env file content for the scenario.
     /// </summary>
     /// <param name="multilineText">.env file content.</param>
-    [Given(@"the default \.env file")]
+    [Given("the default .env file")]
     public void GivenTheDefault_EnvFile(string multilineText)
     {
         this.files.Add(SmusdiConstants.DefaultEnvFile);
@@ -76,7 +76,7 @@ public sealed class EnvironmentVariablesSteps(IReqnrollOutputHelper reqnrollOutp
     /// </summary>
     /// <param name="path">Path to the .env file.</param>
     /// <param name="multilineText">File content.</param>
-    [Given(@"the env file {string} with content")]
+    [Given("the env file {string} with content")]
     public void GivenTheEnvFileWithContent(string path, string multilineText)
     {
         this.files.Add(path);

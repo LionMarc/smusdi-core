@@ -18,7 +18,7 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     /// </summary>
     /// <param name="url">The request URL.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [When(@"I execute the GET request {string}")]
+    [When("I execute the GET request {string}")]
     public Task WhenIExecuteTheGetRequest(string url) => apiTesting.Get(url);
 
     /// <summary>
@@ -26,7 +26,7 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     /// </summary>
     /// <param name="url">The request URL.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [When(@"I execute the DELETE request {string}")]
+    [When("I execute the DELETE request {string}")]
     public Task WhenIExecuteTheDeleteRequest(string url) => apiTesting.Delete(url);
 
     /// <summary>
@@ -37,14 +37,14 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     /// <returns>
     /// A <see cref="Task"/> representing the asynchronous operation.
     /// </returns>
-    [When(@"I execute the POST request {string} with content")]
+    [When("I execute the POST request {string} with content")]
     public Task WhenIExecuteThePOSTRequestWithContent(string url, string content) => apiTesting.PostString(url, content);
 
     /// <summary>
     /// Then step: asserts that the received response has the expected HTTP status.
     /// </summary>
     /// <param name="expectedStatus">The expected HTTP status name (e.g. "OK").</param>
-    [Then(@"I receive a {string} status")]
+    [Then("I receive a {string} status")]
     public void ThenIReceiveAStatus(string expectedStatus)
     {
         this.ResponseMessage.Should().NotBeNull();
@@ -58,7 +58,7 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     /// <returns>
     /// A <see cref="Task"/> representing the asynchronous operation.
     /// </returns>
-    [Then(@"I receive the validation errors")]
+    [Then("I receive the validation errors")]
     public async Task ThenIReceiveTheValidationErrors(string multilineText)
     {
         var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
@@ -75,7 +75,7 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     /// <returns>
     /// A <see cref="Task"/> representing the asynchronous operation.
     /// </returns>
-    [Then(@"I receive the problem detail")]
+    [Then("I receive the problem detail")]
     public async Task ThenIReceiveTheProblemDetails(string multilineText)
     {
         var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));
@@ -93,7 +93,7 @@ public sealed class HttpSteps(ApiTesting apiTesting)
     /// <returns>
     /// A <see cref="Task"/> representing the asynchronous operation.
     /// </returns>
-    [Then(@"I receive the response")]
+    [Then("I receive the response")]
     public async Task ThenIReceiveTheResponse(string multilineText)
     {
         var receivedContent = await (this.ResponseMessage?.Content.ReadAsStringAsync() ?? Task.FromResult("{}"));

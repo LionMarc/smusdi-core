@@ -3,9 +3,6 @@
 namespace Smusdi.Testing.Http;
 
 [Binding]
-/// <summary>
-/// Reqnroll steps for configuring claims on the test identity used by the TestAuthHandler.
-/// </summary>
 public sealed class ClaimsSteps(SmusdiServiceTestingSteps steps)
 {
     /// <summary>
@@ -13,7 +10,7 @@ public sealed class ClaimsSteps(SmusdiServiceTestingSteps steps)
     /// <see cref="ClaimsProvider"/> for the current test scenario.
     /// </summary>
     /// <param name="dataTable">A table describing claims to add to the test identity.</param>
-    [Given(@"identity with claims")]
+    [Given("identity with claims")]
     public void GivenIdentityWithClaims(DataTable dataTable)
     {
         var claimsProvider = steps.GetService<ClaimsProvider>();
