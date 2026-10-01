@@ -23,6 +23,7 @@ The bootstrapper uses the following environment variables:
 
 - **SMUSDI_SERVICE_NAME**: the name of the service which will be used for the appsettings files, the logs files...
 - **SMUSDI_APPSETTINGS_FOLDER**: this variable setup the folder in which the service can find the appsettings files. If not set, the appsettings files are supposed to be in the working directory;
+- **SMUSDI_APPSETTINGS_RELOAD_ON_CHANGE**: set to `false` to disable watching appsettings files for changes. Defaults to `true`;
 - **SMUSDI_ENV_FILE**: path of *.env* file used to setup a list of environment variables. If not set, the service try to load variables from file **.env**. If file does exist, the service does nothing.
 
 > The bootstrapper load the following appsettings files:

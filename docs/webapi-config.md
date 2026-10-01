@@ -7,6 +7,7 @@
     - ASPNETCORE_ENVIRONMENT
     - SMUSDI_APPSETTINGS_FOLDER
     - SMUSDI_SERVICE_NAME
+    - SMUSDI_APPSETTINGS_RELOAD_ON_CHANGE
 
 ## Implementation overview
 
@@ -30,6 +31,7 @@ And the *InitConfiguration* extension method:
 So, currently:
 
 - The base path of the json appsettings file is set to the value of the **SMUSDI_APPSETTINGS_FOLDER** environment variable if the target folder exists;
+- Appsettings files are watched for changes by default; set **SMUSDI_APPSETTINGS_RELOAD_ON_CHANGE** to `false` to disable watching;
 - Two appsettings files are added to the list of the configuration providers:
 
     - appsettings.%SMUSDI_SERVICE_NAME%.json

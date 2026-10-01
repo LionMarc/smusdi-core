@@ -1,5 +1,6 @@
 ﻿using AwesomeAssertions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Smusdi.Testing;
 
 namespace Smusdi.Core.Specs.Configuration;
@@ -14,6 +15,7 @@ public sealed class Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
     {
         Environment.SetEnvironmentVariable("SMUSDI_APPSETTINGS_FOLDER", null);
         Environment.SetEnvironmentVariable("SMUSDI_SERVICE_NAME", "smusdi");
+        Environment.SetEnvironmentVariable("SMUSDI_APPSETTINGS_RELOAD_ON_CHANGE", null);
 
         foreach (var file in new[] { "appsettings.json", "appsettings.myservice.json" })
         {
@@ -64,5 +66,18 @@ public sealed class Steps(SmusdiServiceTestingSteps smusdiServiceTestingSteps)
         var section = configuration.GetSection(sectionName);
         var property = section[propertyName];
         property.Should().Be(value);
+    }
+
+    [Then("the appsettings files are not watched")]
+    public void ThenTheAppsettingsFilesAreNotWatched()
+    {
+        var configuration = (ConfigurationManager)this.smusdiTestingService.SmusdiService!.WebApplication!.Configuration;
+        var sources = configuration.Sources
+            .OfType<JsonConfigurationSource>()
+            .Where(source => source.Path is { } path
+                && Path.GetFileName(path).StartsWith("appsettings", StringComparison.OrdinalIgnoreCase));
+
+        sources.Should().NotBeEmpty();
+        sources.Should().OnlyContain(source => !source.ReloadOnChange);
     }
 }
