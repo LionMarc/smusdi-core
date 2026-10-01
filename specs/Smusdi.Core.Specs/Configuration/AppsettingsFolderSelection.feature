@@ -27,3 +27,8 @@ Scenario: Starting the service with variable SMUSDI_APPSETTINGS_FOLDER set to su
     And the service initialized
     When I start the service
     Then the read folder parameter is "sub-folder"
+
+Scenario: Initializing the service with appsettings file watching disabled
+    Given the environment variable "SMUSDI_APPSETTINGS_RELOAD_ON_CHANGE" set to "false"
+    And the service initialized
+    Then the appsettings files are not watched
