@@ -206,6 +206,14 @@ The configuration is made according to the appsettings section **HttpClientsOpti
 ```
 
 These settings are used by the extension method **HttpClientHelpers.AddHttpClientWithClientCredentials** with a null *clientName* value.
+The helper defaults to a five-minute handler lifetime and the basic transient-error retry policy. Both can be overridden:
+
+```csharp
+services.AddHttpClientWithClientCredentials<IMyClient, MyClient>(
+    configureClient,
+    handlerLifetime: TimeSpan.FromMinutes(10),
+    policyHandler: myPolicy);
+```
 
 ### With named clients
 
