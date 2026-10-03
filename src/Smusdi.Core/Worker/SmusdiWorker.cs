@@ -36,7 +36,8 @@ public class SmusdiWorker
     public virtual void CreateAndInitializeBuider(string[] args)
     {
         EnvFileHelper.ReadEnvFileIfExists();
-        var builder = Host.CreateApplicationBuilder(args)
+        var builder = ConfigurationBuilding.CreateBuilderWithAppsettingsReloadSetting(
+                () => Host.CreateApplicationBuilder(args))
             .InitConfiguration(args)
             .InitLoggerConfiguration();
 

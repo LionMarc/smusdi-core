@@ -21,10 +21,6 @@ public static class ConfigurationBuilding
         var reloadAppsettingsOnChange = !bool.TryParse(
             Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiAppsettingsReloadOnChangeEnvVar),
             out var configuredReloadOnChange) || configuredReloadOnChange;
-        var appsettingsSources = configuration.Sources
-            .Select((source, index) => (source, index))
-            .Where(entry => entry.source is FileConfigurationSource fileSource && IsAppsettingsFile(fileSource.Path))
-            .ToArray();
 
         // Cleanup already registered file config sources as the reset of the base path does not affect the sources, the associated provider is not reset!
         foreach (var fileSource in configuration.Sources.OfType<FileConfigurationSource>())
@@ -37,15 +33,6 @@ public static class ConfigurationBuilding
         }
 
         configuration.SetBasePath(GetConfigFilesFolder());
-
-        if (!reloadAppsettingsOnChange)
-        {
-            foreach (var (source, index) in appsettingsSources)
-            {
-                configuration.Sources.RemoveAt(index);
-                configuration.Sources.Insert(index, source);
-            }
-        }
 
         var serviceName = Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiServiceNameEnvVar);
         if (!string.IsNullOrWhiteSpace(serviceName))
@@ -69,6 +56,31 @@ public static class ConfigurationBuilding
     {
         var basePath = Environment.ExpandEnvironmentVariables(Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiAppsettingsFolderEnvVar) ?? string.Empty);
         return Directory.Exists(basePath) ? Path.GetFullPath(basePath) : Directory.GetCurrentDirectory();
+    }
+
+    public static TBuilder CreateBuilderWithAppsettingsReloadSetting<TBuilder>(Func<TBuilder> createBuilder)
+    {
+        var reloadAppsettingsOnChange = !bool.TryParse(
+            Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiAppsettingsReloadOnChangeEnvVar),
+            out var configuredReloadOnChange) || configuredReloadOnChange;
+
+        if (reloadAppsettingsOnChange)
+        {
+            return createBuilder();
+        }
+
+        const string reloadConfigOnChangeEnvironmentVariable = "DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE";
+        var originalValue = Environment.GetEnvironmentVariable(reloadConfigOnChangeEnvironmentVariable);
+        Environment.SetEnvironmentVariable(reloadConfigOnChangeEnvironmentVariable, bool.FalseString);
+
+        try
+        {
+            return createBuilder();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(reloadConfigOnChangeEnvironmentVariable, originalValue);
+        }
     }
 
     private static bool IsAppsettingsFile(string? path) =>
