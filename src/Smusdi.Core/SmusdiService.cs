@@ -53,7 +53,8 @@ public class SmusdiService : IDisposable
             Args = args,
         };
 
-        var builder = WebApplication.CreateBuilder(webApplicationOptions)
+        var builder = ConfigurationBuilding.CreateBuilderWithAppsettingsReloadSetting(
+                () => WebApplication.CreateBuilder(webApplicationOptions))
             .InitConfiguration(args)
             .InitLoggerConfiguration();
 
