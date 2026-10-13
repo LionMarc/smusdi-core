@@ -13,7 +13,7 @@
     <!-- Logging -->
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <!-- Input validation -->
-    <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <PackageVersion Include="FluentValidation" Version="12.2.0" />
     <!-- Swagger / OpenAPI -->
     <PackageVersion Include="Asp.Versioning.Mvc" Version="10.2.1" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
