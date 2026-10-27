@@ -11,7 +11,7 @@ I want to get the service name, version and environment through a REST api
         And the service initialized and started
         When I request the info endpoint
         Then I receive a "OK" status
-        And I receive the response
+        And I receive the info response
         """
         {
             "serviceName":"testing-app",

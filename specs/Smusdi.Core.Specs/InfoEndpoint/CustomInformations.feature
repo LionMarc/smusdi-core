@@ -20,7 +20,7 @@ I want to be able to add custom informations in the info endpoint
         """
         When I request the info endpoint
         Then I receive a "OK" status
-        And I receive the response
+        And I receive the info response
         """
         {
             "serviceName":"testing-app",
