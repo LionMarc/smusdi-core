@@ -30,7 +30,7 @@ Scenario: Calling info with cache disabled
   """
   When I request the info endpoint
   Then I receive a "OK" status
-  And I receive the response
+  And I receive the info response
   """
   {
       "serviceName":"testing-app",
@@ -63,7 +63,7 @@ Scenario: Calling info with cache enabled
   """
   When I request the info endpoint
   Then I receive a "OK" status
-  And I receive the response
+  And I receive the info response
   """
   {
       "serviceName":"testing-app",

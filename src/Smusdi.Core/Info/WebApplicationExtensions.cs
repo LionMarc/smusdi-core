@@ -30,6 +30,7 @@ public static class WebApplicationExtensions
                 { "serviceName", Environment.GetEnvironmentVariable(SmusdiConstants.SmusdiServiceNameEnvVar) },
                 { "serviceVersion", version },
                 { "environment", webApplication.Environment.EnvironmentName },
+                { "dotnetVersion", Environment.Version.ToString() },
             };
 
             var customInfosFolder = CustomInfoHelpers.GetInfoFolder();

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+using System.Text.Json.Nodes;
+using AwesomeAssertions;
+using Microsoft.Extensions.Options;
 using Smusdi.Testing;
 using Smusdi.Testing.Http;
 
@@ -15,6 +17,20 @@ public sealed class Steps(ApiTesting apiTesting, SmusdiServiceTestingSteps smusd
 
     [Given("the info cache enabled")]
     public void GivenTheInfoCacheEnabled() => this.smusdiOptions.Value.InfoCacheDisabled = false;
+
+    [Then("I receive the info response")]
+    public async Task ThenIReceiveTheInfoResponse(string multilineText)
+    {
+        var response = this.apiTesting.GetResponseMessageOrThrow();
+        var receivedContent = await response.Content.ReadAsStringAsync();
+        var received = JsonNode.Parse(receivedContent) ?? throw new InvalidOperationException("Cannot parse received as json.");
+
+        var dotnetVersion = received["dotnetVersion"]?.GetValue<string>()
+            ?? throw new InvalidOperationException("The response does not include dotnetVersion.");
+        dotnetVersion.Should().Be(Environment.Version.ToString());
+        received.AsObject().Remove("dotnetVersion");
+        received.ShouldBeSameJsonAs(multilineText);
+    }
 
     [When(@"I request the info endpoint")]
     [Given("the info endpoint requested")]
