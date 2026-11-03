@@ -1,5 +1,6 @@
 ﻿using System.IO.Abstractions;
 using System.Text.Json.Serialization;
+using Asp.Versioning.OpenApi;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.FileProviders;
@@ -14,7 +15,6 @@ using Smusdi.Core.Json;
 using Smusdi.Core.Logging;
 using Smusdi.Core.Multipart;
 using Smusdi.Core.Pipeline;
-using Smusdi.Core.Swagger;
 using Smusdi.Core.Validation;
 using Smusdi.Extensibility;
 
@@ -78,7 +78,12 @@ public class SmusdiService : IDisposable
                 .AddApiExplorer(options =>
                 {
                     options.SubstituteApiVersionInUrl = true;
-                });
+                })
+                .AddOpenApi();
+        }
+        else
+        {
+            UnversionedOpenApiSetup.AddServices(builder.Services);
         }
 
         builder.Services
@@ -99,7 +104,6 @@ public class SmusdiService : IDisposable
                     }
                 };
             })
-            .AddSwagger(builder.Configuration)
             .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
 
         this.securityConfigurator?.Add(builder.Services, builder.Configuration);
@@ -195,8 +199,16 @@ public class SmusdiService : IDisposable
         this.securityConfigurator?.Configure(this.WebApplication, this.WebApplication.Configuration);
 
         this.WebApplication.MapControllers();
+        if (smusdiOptions.NoVersioning == true)
+        {
+            UnversionedOpenApiSetup.MapEndpoint(this.WebApplication);
+        }
+        else
+        {
+            this.WebApplication.MapOpenApi().WithDocumentPerVersion();
+        }
+
         this.WebApplication
-            .UseSwagger(this.WebApplication.Configuration)
             .UseHealthChecks()
             .UseInfoEndpoint()
             .ApplyCustomConfigurators();

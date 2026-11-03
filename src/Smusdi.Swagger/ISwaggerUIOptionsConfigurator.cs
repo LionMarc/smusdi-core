@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Smusdi.Extensibility;
+namespace Smusdi.Swagger;
 
 public interface ISwaggerUIOptionsConfigurator
 {

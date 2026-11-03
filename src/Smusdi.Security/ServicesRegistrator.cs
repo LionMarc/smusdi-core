@@ -9,7 +9,6 @@ internal sealed class ServicesRegistrator : IServicesRegistrator
     public IServiceCollection Add(IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddSingleton<ISwaggerUIOptionsConfigurator, SwaggerUIOptionsConfigurator>()
             .AddSingleton<IIssuerSigningKeyResolver, IssuerSigningKeyResolver>()
             .AddHttpClient<ISigningKeysLoader, SigningKeysLoader>();
 

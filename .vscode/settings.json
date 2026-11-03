@@ -5,5 +5,6 @@
     "cucumber.glue": [
         "specs/**/*Steps.cs",
         "testing/**/*Steps.cs"
-    ]
+    ],
+    "python.terminal.useEnvFile": true
 }

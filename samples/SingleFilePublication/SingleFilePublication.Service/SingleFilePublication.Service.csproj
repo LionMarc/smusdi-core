@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Smusdi.Swagger\Smusdi.Swagger.csproj" />
     <ProjectReference Include="..\SingleFilePublication.SomeFeature\SingleFilePublication.SomeFeature.csproj" />
   </ItemGroup>
 

@@ -45,6 +45,7 @@
   </Folder>
   <Project Path="src/Smusdi.Core/Smusdi.Core.csproj" />
   <Project Path="src/Smusdi.Extensibility/Smusdi.Extensibility.csproj" />
+  <Project Path="src/Smusdi.Swagger/Smusdi.Swagger.csproj" />
   <Project Path="src/Smusdi.HttpClientHelpers/Smusdi.HttpClientHelpers.csproj" />
   <Project Path="src/Smusdi.Json/Smusdi.Json.csproj" />
   <Project Path="src/Smusdi.PostgreSQL/Smusdi.PostgreSQL.csproj" />

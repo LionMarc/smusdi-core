@@ -1,24 +1,18 @@
 # Swagger settings
 
+Swagger UI is optional. Reference the `Smusdi.Swagger` project/package to enable the UI. The UI displays the native Microsoft OpenAPI documents generated and exposed by Smusdi.Core at `/openapi/{documentName}.json`; Swagger does not generate or serve a separate document.
+
 The swagger ui can be found at **http://<host:port>/swagger/index.html**.
 
 The swagger ui can be configured in the appsettings file:
 ```json
 {
     "swagger": {
-        "Title": "%SMUSDI_SERVICE_NAME%",
-        "description": "%SMUSDI_SERVICE_NAME%",
-        "contactName": "TO_BE_SET",
-        "contactMail": "TO_BE_SET",
-        "reverseProxyBasePath": "api/smusdi-sample"
+        "documentTitle": "%SMUSDI_SERVICE_NAME%"
     }
 }
 ```
 
 | Parameter | Description | Default Value |
 | --------- | ----------- | ------------- |
-| title     | Title of the application | Name of the service|
-| description | Description of the application | Name of the service|
-| contactName | Support contact name | TO_BE_SET|
-| contactMail | Support contact email | TO_BE_SET |
-| reverseProxyBasePath | Use to properly setup the server path in case the service is behind a reverse proxy ||
+| documentTitle | Browser tab title for the Swagger UI | Swagger UI |
