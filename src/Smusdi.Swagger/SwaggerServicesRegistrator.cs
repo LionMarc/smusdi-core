@@ -6,5 +6,5 @@ namespace Smusdi.Swagger;
 
 internal sealed class SwaggerServicesRegistrator : IServicesRegistrator
 {
-    public IServiceCollection Add(IServiceCollection services, IConfiguration configuration) => services.AddSwagger(configuration);
+    public IServiceCollection Add(IServiceCollection services, IConfiguration configuration) => services.AddSwaggerUI();
 }

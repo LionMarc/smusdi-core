@@ -1,4 +1,3 @@
-using System.Text;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -9,49 +8,9 @@ namespace Smusdi.Swagger;
 
 public static class WebApplicationExtensions
 {
-    public static WebApplication UseSwagger(this WebApplication webApplication, IConfiguration configuration)
+    public static WebApplication UseSwaggerUI(this WebApplication webApplication, IConfiguration configuration)
     {
         var swaggerOptions = SwaggerOptions.GetSwaggerOptions(configuration);
-
-        webApplication.UseSwagger(options =>
-        {
-            options.RouteTemplate = "swagger/{documentName}/swagger.json";
-
-            options.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
-            {
-                if (!httpRequest.Headers.TryGetValue("X-Forwarded-Host", out var forwardedHost))
-                {
-                    return;
-                }
-
-                var scheme = httpRequest.Scheme;
-                if (httpRequest.Headers.TryGetValue("X-Forwarded-Proto", out var forwardedScheme))
-                {
-                    scheme = forwardedScheme;
-                }
-
-                int? port = null;
-                if (swaggerOptions.IncludeForwardedPort)
-                {
-                    port = httpRequest.Host.Port;
-                    if (httpRequest.Headers.TryGetValue("X-Forwarded-Port", out var forwardedPort) && int.TryParse(forwardedPort, out var forwardedPortValue))
-                    {
-                        port = forwardedPortValue;
-                    }
-                }
-
-                var serverUrlBuilder = new StringBuilder();
-                serverUrlBuilder.Append($"{scheme}://{forwardedHost}");
-                if (port.HasValue)
-                {
-                    serverUrlBuilder.Append($"{port.Value}");
-                }
-
-                serverUrlBuilder.Append($"/{swaggerOptions.ReverseProxyBasePath}");
-
-                swaggerDoc.Servers = [new() { Url = serverUrlBuilder.ToString() }];
-            });
-        });
 
         var noVersioning = configuration.GetValue<bool?>("smusdi:NoVersioning") == true;
         var swaggerUIOptionsSetters = webApplication.Services.GetServices<ISwaggerUIOptionsConfigurator>().ToList();
@@ -63,13 +22,16 @@ public static class WebApplicationExtensions
                 options.DocumentTitle = swaggerOptions.DocumentTitle;
             }
 
-            if (!noVersioning)
+            if (noVersioning)
             {
-                options.RoutePrefix = "swagger";
+                options.SwaggerEndpoint("../openapi/v1.json", "V1");
+            }
+            else
+            {
                 var descriptions = webApplication.DescribeApiVersions();
                 foreach (var desc in descriptions.Select(d => d.GroupName))
                 {
-                    var url = $"{desc}/swagger.json";
+                    var url = $"../openapi/{desc}.json";
                     var name = desc.ToUpperInvariant();
                     options.SwaggerEndpoint(url, name);
                 }

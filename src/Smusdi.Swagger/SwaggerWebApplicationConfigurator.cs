@@ -5,5 +5,5 @@ namespace Smusdi.Swagger;
 
 internal sealed class SwaggerWebApplicationConfigurator : IWebApplicationConfigurator
 {
-    public WebApplication Configure(WebApplication webApplication) => webApplication.UseSwagger(webApplication.Configuration);
+    public WebApplication Configure(WebApplication webApplication) => webApplication.UseSwaggerUI(webApplication.Configuration);
 }
