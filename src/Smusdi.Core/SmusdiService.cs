@@ -86,6 +86,8 @@ public class SmusdiService : IDisposable
             UnversionedOpenApiSetup.AddServices(builder.Services);
         }
 
+        ReverseProxySetup.ConfigureOpenApi(builder.Services, smusdiOptions.ReverseProxy);
+
         builder.Services
             .Configure<SmusdiOptions>(builder.Configuration.GetSection(SmusdiOptions.SectionName))
             .AddMemoryCache()
@@ -145,6 +147,8 @@ public class SmusdiService : IDisposable
         }
 
         var smusdiOptions = SmusdiOptions.GetSmusdiOptions(this.WebApplication.Configuration);
+
+        ReverseProxySetup.ConfigureMiddleware(this.WebApplication, smusdiOptions.ReverseProxy);
 
         // We cannot use here IFileSystem because it is not possible to test it when using file system mock :-(
         var fileName = "urlRewriteRules.txt";

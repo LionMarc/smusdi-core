@@ -16,4 +16,13 @@ public sealed class Steps(ApiTesting apiTesting)
         document.RootElement.TryGetProperty("openapi", out var openApiVersion).Should().BeTrue();
         openApiVersion.GetString().Should().NotBeNullOrWhiteSpace();
     }
+
+    [Then("the OpenAPI server is {string}")]
+    public async Task ThenTheOpenApiServerIs(string expectedServer)
+    {
+        var responseContent = await apiTesting.GetResponseMessageOrThrow().Content.ReadAsStringAsync();
+        using var document = JsonDocument.Parse(responseContent);
+
+        document.RootElement.GetProperty("servers")[0].GetProperty("url").GetString().Should().Be(expectedServer);
+    }
 }

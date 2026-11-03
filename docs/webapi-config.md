@@ -41,6 +41,25 @@ The *appsetting.json* and *appsettings/%ASPNETCORE_ENVIRONMENT%.json* are shared
 
 - The environment variables founded in the configuration properties are expanded by the provider added by the call to *EnableEnvironmentVariablesExpansion()*.
 
+## Reverse proxy path prefixes
+
+When an ingress or reverse proxy publishes the service under a URL prefix, configure the public URL in the `smusdi` section:
+
+```json
+{
+  "smusdi": {
+    "reverseProxy": {
+      "server": "https://api.example.com",
+      "basePath": "/my-service"
+    }
+  }
+}
+```
+
+`server` is optional and must be an absolute HTTP or HTTPS URL without a query or fragment. `basePath` is optional and is the public path prefix. Smusdi adds the prefix to the request path base and to the native OpenAPI document's `servers` URL. The middleware supports ingress configurations that either preserve the prefix in the forwarded request path or strip it before forwarding.
+
+To use `X-Forwarded-For`, `X-Forwarded-Proto`, and `X-Forwarded-Host`, set `ASPNETCORE_FORWARDEDHEADERS_ENABLED=true`. When enabled, Smusdi accepts these headers from any source; only enable this when the service is reachable exclusively through a trusted proxy that overwrites forwarded headers.
+
 ## Specs
 
 ```gherkin

@@ -15,6 +15,8 @@ public sealed class SmusdiOptions
 
     public bool? NoVersioning { get; set; }
 
+    public ReverseProxyOptions ReverseProxy { get; set; } = new();
+
     /// <summary>
     /// Gets or sets a list of assembly names to allow scanning assemblies when publishing app as single file.
     /// </summary>
