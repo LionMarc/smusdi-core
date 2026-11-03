@@ -26,6 +26,7 @@ nav:
     - webapi-config.md
     - api-versioning.md
     - swagger.md
+    - scalar.md
   - Testing:
     - testing/overview.md
     - testing/configuration.md

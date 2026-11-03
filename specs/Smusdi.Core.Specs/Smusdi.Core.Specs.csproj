@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Smusdi.Core\Smusdi.Core.csproj" />
+    <ProjectReference Include="..\..\src\Smusdi.Scalar\Smusdi.Scalar.csproj" />
   </ItemGroup>
 
   <ItemGroup>

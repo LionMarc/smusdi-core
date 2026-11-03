@@ -25,6 +25,11 @@ public record OauthAuthority(
 {
     public static readonly TimeSpan DefaultCacheLifespan = TimeSpan.FromHours(12);
 
+    /// <summary>
+    /// Gets the OpenID Connect discovery document URL. When not set, Smusdi derives it from supported authority URLs.
+    /// </summary>
+    public string? OpenIdConnectUrl { get; init; }
+
     public virtual AuthenticationBuilder AddJwtBearer(AuthenticationBuilder builder)
     {
         if (this.Type == OauthAuthorityType.Custom)

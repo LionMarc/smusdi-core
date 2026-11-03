@@ -19,3 +19,9 @@ Scenario: Serve OpenAPI behind a path-rewriting reverse proxy
     When I execute the GET request "/my-service/openapi/v1.json"
     Then I receive a "OK" status
     And the OpenAPI server is "https://api.example.com/my-service"
+    When I execute the GET request "/my-service/scalar/v1"
+    Then I receive a "OK" status
+
+Scenario: Serve Scalar API Reference
+    When I execute the GET request "/scalar/v1"
+    Then I receive a "OK" status
