@@ -7,9 +7,10 @@ public static class WebApplicationExtensions
     public static WebApplication ApplyCustomConfigurators(this WebApplication webApplication)
     {
         var collection = new ServiceCollection();
+        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(webApplication.Configuration);
 
         collection.Scan(scan => scan
-            .FromApplicationDependencies()
+            .FromAssembliesOrApplicationDependencies(smusdiOptions)
             .AddClasses(c => c.AssignableTo<IWebApplicationConfigurator>(), false)
             .AsImplementedInterfaces()
             .WithSingletonLifetime());

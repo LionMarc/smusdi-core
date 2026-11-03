@@ -38,6 +38,8 @@ The bootstrapper uses the following environment variables:
 
 A default *appsettings.json* file can be found in the *samples* folder.
 
+Smusdi.Core exposes the native Microsoft OpenAPI document at `/openapi/v1.json`. Swagger UI is optional; reference `Smusdi.Swagger` in an application to enable the Swagger UI and Swashbuckle documents.
+
 ## Smusdi.Extensibility => Extension Points
 
 The project provides the following extension points:

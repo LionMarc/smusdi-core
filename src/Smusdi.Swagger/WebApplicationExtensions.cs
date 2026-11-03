@@ -1,7 +1,11 @@
-﻿using System.Text;
-using Smusdi.Extensibility;
+using System.Text;
+using Asp.Versioning.ApiExplorer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Smusdi.Core.Swagger;
+namespace Smusdi.Swagger;
 
 public static class WebApplicationExtensions
 {
@@ -27,7 +31,6 @@ public static class WebApplicationExtensions
                 }
 
                 int? port = null;
-
                 if (swaggerOptions.IncludeForwardedPort)
                 {
                     port = httpRequest.Host.Port;
@@ -44,14 +47,13 @@ public static class WebApplicationExtensions
                     serverUrlBuilder.Append($"{port.Value}");
                 }
 
-                serverUrlBuilder.Append($"/{swaggerOptions.ReverseProxyBasePath ?? string.Empty}");
+                serverUrlBuilder.Append($"/{swaggerOptions.ReverseProxyBasePath}");
 
-                var serverUrl = serverUrlBuilder.ToString();
-                swaggerDoc.Servers = [new() { Url = serverUrl }];
+                swaggerDoc.Servers = [new() { Url = serverUrlBuilder.ToString() }];
             });
         });
 
-        var smusdiOptions = SmusdiOptions.GetSmusdiOptions(configuration);
+        var noVersioning = configuration.GetValue<bool?>("smusdi:NoVersioning") == true;
         var swaggerUIOptionsSetters = webApplication.Services.GetServices<ISwaggerUIOptionsConfigurator>().ToList();
 
         webApplication.UseSwaggerUI(options =>
@@ -61,7 +63,7 @@ public static class WebApplicationExtensions
                 options.DocumentTitle = swaggerOptions.DocumentTitle;
             }
 
-            if (smusdiOptions.NoVersioning != true)
+            if (!noVersioning)
             {
                 options.RoutePrefix = "swagger";
                 var descriptions = webApplication.DescribeApiVersions();

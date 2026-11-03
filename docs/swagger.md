@@ -1,5 +1,7 @@
 # Swagger settings
 
+Swagger UI is optional. Reference the `Smusdi.Swagger` project/package to enable the Swagger UI and Swashbuckle-generated documents; applications that do not reference it still use the native Microsoft OpenAPI document exposed by Smusdi.Core at `/openapi/v1.json`.
+
 The swagger ui can be found at **http://<host:port>/swagger/index.html**.
 
 The swagger ui can be configured in the appsettings file:

@@ -1,9 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi;
 using Serilog;
 using Smusdi.Extensibility;
 
@@ -100,8 +102,32 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
             }
         });
 
-        // Secutiry for Swagger
-        services.AddSwaggerGen(options => options.AddSecurity(configuration));
+        services.ConfigureAll<OpenApiOptions>(options => options.AddDocumentTransformer((document, _, _) =>
+        {
+            document.Components ??= new OpenApiComponents();
+            document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+            document.Security ??= [];
+
+            if (!string.IsNullOrWhiteSpace(oauthOptions.MainAuthority?.Url))
+            {
+                document.Components.SecuritySchemes["oauth2"] = GetSecuritySchema(oauthOptions.MainAuthority, oauthOptions.Scopes);
+                document.Security.Add(new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference("oauth2", document)] = [],
+                });
+            }
+
+            foreach (var authority in oauthOptions.AdditionalAuthorities)
+            {
+                document.Components.SecuritySchemes[authority.Name] = GetSecuritySchema(authority, oauthOptions.Scopes);
+                document.Security.Add(new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference(authority.Name, document)] = [],
+                });
+            }
+
+            return Task.CompletedTask;
+        }));
 
         return services;
     }
@@ -118,5 +144,30 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
         app.UseAuthorization();
 
         return app;
+    }
+
+    private static OpenApiSecurityScheme GetSecuritySchema(OauthAuthority authority, IEnumerable<string>? scopes)
+    {
+        const string jwksPath = "/protocol/openid-connect/certs";
+        var authorityUrl = authority.Url.TrimEnd('/');
+        if (authority.Type == OauthAuthorityType.Jwks && authorityUrl.EndsWith(jwksPath, StringComparison.OrdinalIgnoreCase))
+        {
+            authorityUrl = authorityUrl[..^jwksPath.Length];
+        }
+
+        return new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.OAuth2,
+            Flows = new OpenApiOAuthFlows
+            {
+                AuthorizationCode = new OpenApiOAuthFlow
+                {
+                    AuthorizationUrl = new Uri($"{authorityUrl}/protocol/openid-connect/auth"),
+                    TokenUrl = new Uri($"{authorityUrl}/protocol/openid-connect/token"),
+                    Scopes = new[] { "openid", "profile", "email" }.Concat(scopes ?? Enumerable.Empty<string>())
+                        .ToDictionary(scope => scope, _ => string.Empty),
+                },
+            },
+        };
     }
 }

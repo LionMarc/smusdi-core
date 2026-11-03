@@ -1,11 +1,13 @@
-﻿using System.Text;
+using System.Text;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Smusdi.Core.Swagger;
+namespace Smusdi.Swagger;
 
 public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider, IConfiguration configuration) : IConfigureOptions<SwaggerGenOptions>
 {
@@ -14,8 +16,6 @@ public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider, IC
     /// <inheritdoc />
     public void Configure(SwaggerGenOptions options)
     {
-        // add a swagger document for each discovered API version
-        // note: you might choose to skip or document deprecated API versions differently
         foreach (var description in provider.ApiVersionDescriptions)
         {
             options.SwaggerDoc(description.GroupName, this.CreateInfoForApiVersion(description));

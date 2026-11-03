@@ -1,8 +1,10 @@
-﻿namespace Smusdi.Core.Swagger;
+using Microsoft.Extensions.Configuration;
+
+namespace Smusdi.Swagger;
 
 public class SwaggerOptions
 {
-    public string? DocumentTitle { get; set; } = null;
+    public string? DocumentTitle { get; set; }
 
     public string Title { get; set; } = "Smusdi Service";
 
@@ -15,15 +17,15 @@ public class SwaggerOptions
     public string ReverseProxyBasePath { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether or not we must include the port in the built url when behind a revers proxy.
+    /// Gets or sets a value indicating whether or not we must include the port in the built url when behind a reverse proxy.
     /// </summary>
-    public bool IncludeForwardedPort { get; set; } = false;
+    public bool IncludeForwardedPort { get; set; }
 
-    public bool DisplayClientSecretInput { get; set; } = false;
+    public bool DisplayClientSecretInput { get; set; }
 
     public static SwaggerOptions GetSwaggerOptions(IConfiguration configuration)
     {
-        SwaggerOptions swaggerOptions = new SwaggerOptions();
+        var swaggerOptions = new SwaggerOptions();
         if (configuration.GetSection("swagger").Exists())
         {
             configuration.Bind("swagger", swaggerOptions);
