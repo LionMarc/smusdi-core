@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Smusdi.Swagger\Smusdi.Swagger.csproj" />
+    <ProjectReference Include="..\..\src\Smusdi.Scalar\Smusdi.Scalar.csproj" />
     <ProjectReference Include="..\..\src\Smusdi.Security\Smusdi.Security.csproj" />
     <ProjectReference Include="..\PostgreSqlMigration\PostgreSqlMigration.csproj" />
 

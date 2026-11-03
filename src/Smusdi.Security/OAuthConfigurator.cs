@@ -115,6 +115,7 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
                 {
                     [new OpenApiSecuritySchemeReference("oauth2", document)] = [],
                 });
+                AddOpenIdConnectSecuritySchema(document, "oauth2", oauthOptions.MainAuthority);
             }
 
             foreach (var authority in oauthOptions.AdditionalAuthorities)
@@ -124,6 +125,7 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
                 {
                     [new OpenApiSecuritySchemeReference(authority.Name, document)] = [],
                 });
+                AddOpenIdConnectSecuritySchema(document, authority.Name, authority);
             }
 
             return Task.CompletedTask;
@@ -169,5 +171,62 @@ public sealed class OAuthConfigurator : ISecurityConfigurator
                 },
             },
         };
+    }
+
+    private static void AddOpenIdConnectSecuritySchema(OpenApiDocument document, string securitySchemeName, OauthAuthority authority)
+    {
+        var metadataUrl = GetOpenIdConnectUrl(authority);
+        if (metadataUrl is null)
+        {
+            return;
+        }
+
+        var openIdConnectSchemeName = $"{securitySchemeName}-openid-connect";
+        var components = document.Components ??= new OpenApiComponents();
+        components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+        components.SecuritySchemes[openIdConnectSchemeName] = new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.OpenIdConnect,
+            OpenIdConnectUrl = metadataUrl,
+        };
+        var securityRequirements = document.Security ??= [];
+        securityRequirements.Add(new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference(openIdConnectSchemeName, document)] = [],
+        });
+    }
+
+    private static Uri? GetOpenIdConnectUrl(OauthAuthority authority)
+    {
+        if (!string.IsNullOrWhiteSpace(authority.OpenIdConnectUrl))
+        {
+            if (Uri.TryCreate(authority.OpenIdConnectUrl, UriKind.Absolute, out var configuredUrl)
+                && (configuredUrl.Scheme == Uri.UriSchemeHttp || configuredUrl.Scheme == Uri.UriSchemeHttps))
+            {
+                return configuredUrl;
+            }
+
+            throw new InvalidOperationException(
+                $"The OpenID Connect URL configured for authority '{authority.Name}' must be an absolute HTTP or HTTPS URL.");
+        }
+
+        if (authority.Type == OauthAuthorityType.Custom)
+        {
+            return null;
+        }
+
+        const string jwksPath = "/protocol/openid-connect/certs";
+        var authorityUrl = authority.Url.TrimEnd('/');
+        if (authority.Type == OauthAuthorityType.Jwks)
+        {
+            if (!authorityUrl.EndsWith(jwksPath, StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            authorityUrl = authorityUrl[..^jwksPath.Length];
+        }
+
+        return new Uri($"{authorityUrl}/.well-known/openid-configuration");
     }
 }
