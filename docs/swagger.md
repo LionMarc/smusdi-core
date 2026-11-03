@@ -4,6 +4,8 @@ Swagger UI is optional. Reference the `Smusdi.Swagger` project/package to enable
 
 The swagger ui can be found at **http://<host:port>/swagger/index.html**.
 
+When [reverse proxy path-prefix configuration](./webapi-config.md#reverse-proxy-path-prefixes) is enabled, the UI and its OpenAPI requests are available under that prefix.
+
 The swagger ui can be configured in the appsettings file:
 ```json
 {
