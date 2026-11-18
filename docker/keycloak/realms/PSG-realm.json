@@ -1,0 +1,54 @@
+{
+  "realm": "PSG",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "smusdi-for-psg",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "U0rbudsyU0ih9dK5dwmQExqGOXtFIgRI",
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "optionalClientScopes": [
+        "scope1",
+        "scope2"
+      ],
+      "protocolMappers": [
+        {
+          "name": "account audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "account",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "scope1",
+      "protocol": "openid-connect",
+      "attributes": {
+        "display.on.consent.screen": "false",
+        "include.in.token.scope": "true"
+      }
+    },
+    {
+      "name": "scope2",
+      "protocol": "openid-connect",
+      "attributes": {
+        "display.on.consent.screen": "false",
+        "include.in.token.scope": "true"
+      }
+    }
+  ]
+}
