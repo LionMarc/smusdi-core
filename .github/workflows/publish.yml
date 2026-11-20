@@ -1,4 +1,7 @@
 name: Publish packages
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 
 on:
   release:
@@ -50,8 +53,14 @@ jobs:
         run: dotnet test -c Release --solution smusdi-core.slnx
       - name: Pack
         run: dotnet pack -c Release -p:PackageVersion=${{ github.event.release.tag_name }} -p:Version=${{ github.event.release.tag_name }} -o publish
+      # Get a short-lived NuGet API key
+      - name: NuGet login
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: ${{ secrets.NUGET_USER }}
       - name: Publish
-        run: dotnet nuget push publish/*.nupkg --api-key ${{ secrets.NUGET_ORG_TOKEN }} --source "https://api.nuget.org/v3/index.json"
+        run: dotnet nuget push publish/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"
       - name: Archive packages
         uses: actions/upload-artifact@v4
         with:
