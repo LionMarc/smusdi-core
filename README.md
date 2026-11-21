@@ -38,7 +38,27 @@ The bootstrapper uses the following environment variables:
 
 A default *appsettings.json* file can be found in the *samples* folder.
 
-Smusdi.Core exposes native Microsoft OpenAPI documents at `/openapi/{documentName}.json`. Interactive documentation UIs are optional: reference `Smusdi.Swagger` to enable Swagger UI or `Smusdi.Scalar` to enable Scalar at `/scalar`.
+## OpenAPI
+
+Smusdi.Core serves native Microsoft OpenAPI documents at `/openapi/{documentName}.json`. Versioned services expose a document per API version; set `smusdi.noVersioning` to `true` to serve the unversioned `v1` document. Swagger UI and Scalar are optional UIs that display these same documents.
+
+Use the `smusdi` settings to configure versioning and public URLs when running behind a reverse proxy:
+
+```json
+{
+  "smusdi": {
+    "noVersioning": true,
+    "reverseProxy": {
+      "server": "https://api.example.com",
+      "basePath": "/my-service"
+    }
+  }
+}
+```
+
+`reverseProxy.server` is an optional public HTTP(S) URL, and `reverseProxy.basePath` is the optional path prefix. Smusdi applies these values to the request path and OpenAPI document's `servers` URL. See [Web API configuration](docs/webapi-config.md#reverse-proxy-path-prefixes) for details.
+
+For UI setup and options, see the [Scalar documentation](docs/scalar.md) and [Swagger UI documentation](docs/swagger.md).
 
 ## Smusdi.Extensibility => Extension Points
 
