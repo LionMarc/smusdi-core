@@ -25,4 +25,16 @@ public sealed class Steps(ApiTesting apiTesting)
 
         document.RootElement.GetProperty("servers")[0].GetProperty("url").GetString().Should().Be(expectedServer);
     }
+
+    [Then("the OpenAPI info contains title {string}, description {string}, and contact email {string}")]
+    public async Task ThenTheOpenApiInfoContains(string expectedTitle, string expectedDescription, string expectedContactEmail)
+    {
+        var responseContent = await apiTesting.GetResponseMessageOrThrow().Content.ReadAsStringAsync();
+        using var document = JsonDocument.Parse(responseContent);
+
+        var info = document.RootElement.GetProperty("info");
+        info.GetProperty("title").GetString().Should().Be(expectedTitle);
+        info.GetProperty("description").GetString().Should().Be(expectedDescription);
+        info.GetProperty("contact").GetProperty("email").GetString().Should().Be(expectedContactEmail);
+    }
 }
