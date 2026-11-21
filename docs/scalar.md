@@ -29,6 +29,18 @@ Each value is optional. Configured values are added to the `info` section of the
 
 When [reverse proxy path-prefix configuration](./webapi-config.md#reverse-proxy-path-prefixes) is enabled, Scalar and its OpenAPI requests are available under the configured prefix.
 
+## Open API Client button
+
+The button that links to Scalar's external API Client is hidden by default. To show it, set `showClientButton` to `true`:
+
+```json
+{
+  "scalar": {
+    "showClientButton": true
+  }
+}
+```
+
 ## Scalar Agent
 
 The Scalar Agent is disabled by default so the API reference does not send API data to Scalar's AI service. To enable it, explicitly set:
