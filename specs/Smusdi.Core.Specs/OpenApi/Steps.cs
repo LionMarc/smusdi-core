@@ -37,4 +37,20 @@ public sealed class Steps(ApiTesting apiTesting)
         info.GetProperty("description").GetString().Should().Be(expectedDescription);
         info.GetProperty("contact").GetProperty("email").GetString().Should().Be(expectedContactEmail);
     }
+
+    [Then("the Scalar API Client button is hidden")]
+    public async Task ThenTheScalarApiClientButtonIsHidden()
+    {
+        var responseContent = await apiTesting.GetResponseMessageOrThrow().Content.ReadAsStringAsync();
+
+        responseContent.Should().Contain("\"hideClientButton\":true");
+    }
+
+    [Then("the Scalar API Client button is shown")]
+    public async Task ThenTheScalarApiClientButtonIsShown()
+    {
+        var responseContent = await apiTesting.GetResponseMessageOrThrow().Content.ReadAsStringAsync();
+
+        responseContent.Should().NotContain("\"hideClientButton\":true");
+    }
 }

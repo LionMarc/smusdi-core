@@ -27,3 +27,10 @@ Scenario: Serve OpenAPI behind a path-rewriting reverse proxy
 Scenario: Serve Scalar API Reference
     When I execute the GET request "/scalar/v1"
     Then I receive a "OK" status
+    And the Scalar API Client button is hidden
+
+@arg:scalar:showClientButton=true
+Scenario: Show Scalar API Client button when configured
+    When I execute the GET request "/scalar/v1"
+    Then I receive a "OK" status
+    And the Scalar API Client button is shown

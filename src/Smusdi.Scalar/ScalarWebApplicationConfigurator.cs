@@ -14,6 +14,11 @@ internal sealed class ScalarWebApplicationConfigurator : IWebApplicationConfigur
 
         webApplication.MapScalarApiReference(options =>
         {
+            if (!scalarOptions.ShowClientButton)
+            {
+                options.HideClientButton();
+            }
+
             if (!scalarOptions.EnableAgent)
             {
                 options.DisableAgent();
