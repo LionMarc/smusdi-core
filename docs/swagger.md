@@ -10,7 +10,10 @@ The swagger ui can be configured in the appsettings file:
 ```json
 {
     "swagger": {
-        "documentTitle": "%SMUSDI_SERVICE_NAME%"
+        "documentTitle": "%SMUSDI_SERVICE_NAME%",
+        "title": "%SMUSDI_SERVICE_NAME%",
+        "description": "API documentation.",
+        "contactEmail": "api@example.com"
     }
 }
 ```
@@ -18,3 +21,6 @@ The swagger ui can be configured in the appsettings file:
 | Parameter | Description | Default Value |
 | --------- | ----------- | ------------- |
 | documentTitle | Browser tab title for the Swagger UI | Swagger UI |
+| title | OpenAPI document title displayed in the UI | Generated from the service assembly and API version, if available |
+| description | OpenAPI document description displayed in the UI | Generated from the service assembly, if available |
+| contactEmail | Contact email included in the OpenAPI document | Not set |
