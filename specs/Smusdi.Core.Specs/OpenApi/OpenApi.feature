@@ -8,6 +8,7 @@ Scenario: Serve OpenAPI without enabling Swagger UI
     When I execute the GET request "/openapi/v1.json"
     Then I receive a "OK" status
     And the response is an OpenAPI document
+    And the OpenAPI info contains title "Smusdi test API", description "OpenAPI metadata integration test.", and contact email "api@example.com"
     When I execute the GET request "/swagger/index.html"
     Then I receive a "NotFound" status
 

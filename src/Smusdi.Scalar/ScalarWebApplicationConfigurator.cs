@@ -1,4 +1,3 @@
-using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Scalar.AspNetCore;
@@ -11,11 +10,11 @@ internal sealed class ScalarWebApplicationConfigurator : IWebApplicationConfigur
     public WebApplication Configure(WebApplication webApplication)
     {
         var noVersioning = webApplication.Configuration.GetValue<bool?>("smusdi:NoVersioning") == true;
-        var enableAgent = webApplication.Configuration.GetValue<bool?>("scalar:enableAgent") == true;
+        var scalarOptions = ScalarOptions.GetScalarOptions(webApplication.Configuration);
 
         webApplication.MapScalarApiReference(options =>
         {
-            if (!enableAgent)
+            if (!scalarOptions.EnableAgent)
             {
                 options.DisableAgent();
             }
