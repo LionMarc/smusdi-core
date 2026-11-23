@@ -10,6 +10,8 @@ public sealed class ScalarOptions
 
     public bool ShowClientButton { get; set; }
 
+    public string? DocumentTitle { get; set; }
+
     public string? Title { get; set; }
 
     public string? Description { get; set; }

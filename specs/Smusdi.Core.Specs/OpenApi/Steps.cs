@@ -46,6 +46,14 @@ public sealed class Steps(ApiTesting apiTesting)
         responseContent.Should().Contain("\"hideClientButton\":true");
     }
 
+    [Then("the Scalar browser tab title is {string}")]
+    public async Task ThenTheScalarBrowserTabTitleIs(string expectedTitle)
+    {
+        var responseContent = await apiTesting.GetResponseMessageOrThrow().Content.ReadAsStringAsync();
+
+        responseContent.Should().Contain($"<title>{expectedTitle}</title>");
+    }
+
     [Then("the Scalar API Client button is shown")]
     public async Task ThenTheScalarApiClientButtonIsShown()
     {

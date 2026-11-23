@@ -13,11 +13,12 @@ For example, to use Scalar in an application:
 dotnet add package Smusdi.Scalar
 ```
 
-The OpenAPI document title, description, and contact email shown in Scalar can be set in `appsettings.json`:
+The browser tab title and the OpenAPI document title, description, and contact email shown in Scalar can be set in `appsettings.json`:
 
 ```json
 {
   "scalar": {
+    "documentTitle": "My API docs",
     "title": "My API",
     "description": "Description of the API.",
     "contactEmail": "api@example.com"
@@ -25,7 +26,7 @@ The OpenAPI document title, description, and contact email shown in Scalar can b
 }
 ```
 
-Each value is optional. Configured values are added to the `info` section of the OpenAPI document.
+Each value is optional. `documentTitle` sets the browser tab title. The other configured values are added to the `info` section of the OpenAPI document.
 
 When [reverse proxy path-prefix configuration](./webapi-config.md#reverse-proxy-path-prefixes) is enabled, Scalar and its OpenAPI requests are available under the configured prefix.
 
