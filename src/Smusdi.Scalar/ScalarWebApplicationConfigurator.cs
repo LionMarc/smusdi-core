@@ -14,6 +14,11 @@ internal sealed class ScalarWebApplicationConfigurator : IWebApplicationConfigur
 
         webApplication.MapScalarApiReference(options =>
         {
+            if (!string.IsNullOrWhiteSpace(scalarOptions.DocumentTitle))
+            {
+                options.WithTitle(scalarOptions.DocumentTitle);
+            }
+
             if (!scalarOptions.ShowClientButton)
             {
                 options.HideClientButton();

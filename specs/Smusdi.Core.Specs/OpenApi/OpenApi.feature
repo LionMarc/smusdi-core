@@ -24,9 +24,11 @@ Scenario: Serve OpenAPI behind a path-rewriting reverse proxy
     When I execute the GET request "/my-service/scalar/v1"
     Then I receive a "OK" status
 
+@arg:scalar:documentTitle=Smusdi-Scalar-Docs
 Scenario: Serve Scalar API Reference
     When I execute the GET request "/scalar/v1"
     Then I receive a "OK" status
+    And the Scalar browser tab title is "Smusdi-Scalar-Docs"
     And the Scalar API Client button is hidden
 
 @arg:scalar:showClientButton=true
