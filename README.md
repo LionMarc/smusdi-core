@@ -7,6 +7,8 @@
 
 This project provides utility libraries for .NET services.
 
+The repository targets .NET 11 and requires the .NET 11 SDK to build and test.
+
 ## Smusdi.Core
 
 Bootstrapper for .NET services.
